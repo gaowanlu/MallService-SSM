@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <!-- 自动扫描包，让指定包下的注解生效,由IOC容器统一管理 -->
+    <context:component-scan base-package="site.linkway.core.controller"/>
+    <!-- 让Spring MVC不处理静态资源 -->
+    <mvc:default-servlet-handler />
+    <!--
+    支持mvc注解驱动
+        在spring中一般采用@RequestMapping注解来完成映射关系
+        要想使@RequestMapping注解生效
+        必须向上下文中注册DefaultAnnotationHandlerMapping
+        和一个AnnotationMethodHandlerAdapter实例
+        这两个实例分别在类级别和方法级别处理。
+        而annotation-driven配置帮助我们自动完成上述两个实例的注入。
+     -->
+    <mvc:annotation-driven />
+
+    <bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
+    <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>
+    <!--视图解析器:DispatcherServlet给他的ModelAndView-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" id="InternalResourceViewResolver">
+        <!--前缀-->
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <!--后缀-->
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--Handler-->
+<!--    <bean id="/apis/hello" class=""/>-->
+
+<!--    拦截器-->
+    <!--关于拦截器的配置-->
+<!--    <mvc:interceptors>-->
+<!--        <mvc:interceptor>-->
+<!--            &lt;!&ndash;/** 包括路径及其子路径&ndash;&gt;-->
+<!--            &lt;!&ndash;/admin/* 拦截的是/admin/add等等这种 , /admin/add/user不会被拦截&ndash;&gt;-->
+<!--            &lt;!&ndash;/admin/** 拦截的是/admin/下的所有&ndash;&gt;-->
+<!--&lt;!&ndash;            <mvc:mapping path="/apis/**"/>&ndash;&gt;-->
+<!--            &lt;!&ndash;bean配置的就是拦截器&ndash;&gt;-->
+<!--&lt;!&ndash;            <bean class="site.linkway.core.filter.ApiInterceptor"/>&ndash;&gt;-->
+<!--        </mvc:interceptor>-->
+<!--    </mvc:interceptors>-->
+</beans>

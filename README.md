@@ -1,2 +1,2 @@
-# MallService-SSM
-spring、springMVC、mybatis商城后端服务
+# MallService
+> Spring、SpringMVC、Mybatis 商城服务
