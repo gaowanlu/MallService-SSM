@@ -35,36 +35,4 @@ public class SampleController {
         System.out.println(good.toString());
         return "CONSOLE PRINT OVER";
     }
-    @RequestMapping(value = "/add",produces = "application/json;charset=utf-8")
-    @ResponseBody
-    public String add(String name,double price,String profile) throws Exception{
-        SamplePo add=new SamplePo();
-        add.setName(name);
-        add.setPrice(price);
-        add.setProfile(profile);
-        long good=goodService.add(add);
-        System.out.println("INSERT:\n"+add.toString());
-        return "CONSOLE PRINT OVER";
-    }
-    @RequestMapping(value = "/updateById",produces = "application/json;charset=utf-8")
-    @ResponseBody
-    public String updateById(int id,String name,double price,String profile) throws Exception{
-        SamplePo good=new SamplePo();
-        good.setId(id);
-        good.setName(name);
-        good.setPrice(price);
-        good.setProfile(profile);
-        long line=goodService.updateById(good);
-        System.out.println("UPDATE:\n"+good.toString());
-        return "CONSOLE PRINT OVER";
-    }
-    @RequestMapping(value = "/deleteById",produces = "application/json;charset=utf-8")
-    @ResponseBody
-    public String deleteById(int id) throws Exception{
-        SamplePo good=new SamplePo();
-        good.setId(id);
-        long line=goodService.deleteById(good);
-        System.out.println(good.toString());
-        return "CONSOLE PRINT OVER";
-    }
 }
