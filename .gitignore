@@ -24,5 +24,6 @@ hs_err_pid*
 
 target/
 out/
-#src/main/resources/database.properties
+src/main/resources/database.properties
+src/main/java/site/linkway/utils/EmailUtils.java
 
