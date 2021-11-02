@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class EmailUtils {
     public static String HOST="SMTP.qq.com";
-    public static String USERNAME="";
+    public static String USERNAME="gwl946@qq.com";
     public static String PASSWORD="pqfpabgchcgwdiii";
     public static final SmtpServer smtpServer= MailServer.create()
     .ssl(true)
