@@ -33,5 +33,7 @@
     <bean id="SampleServiceImpl" class="site.linkway.core.service.SampleServiceImpl">
         <property name="goodsMapper" ref="SampleMapper"/>
     </bean>
-
+    <bean id="IdentitySecurityServiceImpl" class="site.linkway.core.service.IdentitySecurityServiceImpl">
+<!--        <property name="goodsMapper" ref="SampleMapper"/>-->
+    </bean>
 </beans>
