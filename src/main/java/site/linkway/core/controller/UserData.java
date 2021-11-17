@@ -28,11 +28,21 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.InputStream;
 
+/*用户个人信息
+*
+* 获得个人信息
+* /apis/getMyData
+* 更新性别或者昵称
+* /apis/updateMyData?sex={}&name={}
+* 更新头像
+* /apis/updateHeadImg    表单文件属性 "file":file
+* */
 @Controller
 @RequestMapping("/apis")
 public class UserData {
     static Logger logger= Logger.getLogger(UserData.class);
     private ObjectMapper mapper = new ObjectMapper();
+
     @Autowired
     @Qualifier("UserDataServiceImpl")
     private UserDataService userDataService;
@@ -76,7 +86,7 @@ public class UserData {
     @RequestMapping(value = "/updateHeadImg",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String updateHeadImg(@NonNull HttpSession httpSession,
-                                @RequestParam("file") CommonsMultipartFile file
+                                @NonNull @RequestParam("file") CommonsMultipartFile file
                                 ) throws IOException {
         StatusResult statusResult=new StatusResult();
         //获得用户邮箱
@@ -96,7 +106,5 @@ public class UserData {
         is.close();
         return mapper.writeValueAsString(statusResult);
     }
-
-
 
 }
