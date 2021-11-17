@@ -18,7 +18,7 @@ CREATE TABLE img(
 	#UUID
 	imgId VARCHAR(32) NOT NULL unique primary key,
     imgType VARCHAR(20) NOT NULL CHECK(NOT(imgType="")),
-    imgSize long default NULL,
+    imgSize int unsigned default NULL,
     img mediumblob NOT NULL
 );
 
