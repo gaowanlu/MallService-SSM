@@ -12,8 +12,8 @@
   │  │          │  ├─entity  （实体类）  
   │  │          │  │  ├─bo    
   │  │          │  │  ├─po  （mybatis）    
-  │  │          │  │  └─vo  （视图层实体类）  
-  │  │          │  ├─filter  （过滤器）  
+  │  │          │  │  └─vo  （视图层实体类(JSON)）  
+  │  │          │  ├─filter  （拦截器）  
   │  │          │  ├─mapper  （mapper类）  
   │  │          │  └─service （服务类）  
   │  │          └─utils  （常用工具类）  
@@ -23,10 +23,7 @@
   │  │  └─sql   (数据库初始化SQL)   
   │  └─webapp  （前端项目）  
   │      └─WEB-INF  
-  └─test  
-      └─java  
-          └─site  
-              └─linkway  
+
 
 ## 相关技术  
 > Spring、SpringMVC、Mybatis 、MySQL  
@@ -48,5 +45,33 @@
 > /apis/updateMyData?sex={}&name={}  
 > * 更新头像  
 > /apis/updateHeadImg    表单文件属性 "file":file  
+
+### 购物车
+> * 添加购物车条项  
+>  /apis/addCart?goodId={}&num={}  
+> * 删除购物车条项  
+>  /apis/deleteCart?cartId={}  
+> * 获得购物车全部条项  
+>  /apis/getMyCarts  
+
+### 收货地址  
+> * 获得全部存储在平台的收货地址  
+>  /apis/getMyAddress  
+> * 删除地址  
+>  /apis/deleteAddress?addressId={}  
+> * 添加地址  
+>  /apis/addAddress?phone={}&name={}&address={}  
+
+### 图片分发  
+> * 获得指定图片  
+> /apis/img?imgId={}  
+
+
+### 待办事项
+> Admin  （管理端）
+> CommentSystem   （评论系统）
+> Order  (用户自我订单的操作)   
+> ProductBrowsing   (商品浏览相关)
+> Search (商品搜索)
  
 
