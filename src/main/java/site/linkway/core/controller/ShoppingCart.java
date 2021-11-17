@@ -18,14 +18,14 @@ import javax.servlet.http.HttpSession;
 
 /*购物车模块
 * 添加购物车条项
-* /apis/addCart?goodId={}&num={}
+* /api/addCart?goodId={}&num={}
 * 删除购物车条项
-* /apis/deleteCart?cartId={}
+* /api/deleteCart?cartId={}
 * 获得购物车全部条项
-* /apis/getMyCarts
+* /api/getMyCarts
 * */
 @Controller
-@RequestMapping("/apis")
+@RequestMapping("/api")
 public class ShoppingCart {
     static Logger logger= Logger.getLogger(ShoppingCart.class);
     private ObjectMapper mapper = new ObjectMapper();

@@ -36,41 +36,41 @@
 
 ### 身份安全
 > * 登录
-> /IdentitySecurity/login?id={email}&password={password}  
+> /identitySecurity/login?id={email}&password={password}  
 > * 注册账号  
-> /IdentitySecurity/register?password={}&emailCode={}  
+> /identitySecurity/register?password={}&emailCode={}  
 > * 发送验证码  
-> /IdentitySecurity/sendEmailCode?email={}  
+> /identitySecurity/sendEmailCode?email={}  
 > * 修改密码  
-> /IdentitySecurity/changePassword?newPassword={}&emailCode={}  
+> /identitySecurity/changePassword?newPassword={}&emailCode={}  
 
 ### 个人信息  
 > * 获得个人信息  
-> /apis/getMyData  
+> /api/getMyData  
 > * 更新性别或者昵称  
-> /apis/updateMyData?sex={}&name={}  
+> /api/updateMyData?sex={}&name={}  
 > * 更新头像  
-> /apis/updateHeadImg    表单文件属性 "file":file  
+> /api/updateHeadImg    表单文件属性 "file":file  
 
 ### 购物车
 > * 添加购物车条项  
->  /apis/addCart?goodId={}&num={}  
+>  /api/addCart?goodId={}&num={}  
 > * 删除购物车条项  
->  /apis/deleteCart?cartId={}  
+>  /api/deleteCart?cartId={}  
 > * 获得购物车全部条项  
->  /apis/getMyCarts  
+>  /api/getMyCarts  
 
 ### 收货地址  
 > * 获得全部存储在平台的收货地址  
->  /apis/getMyAddress  
+>  /api/getMyAddress  
 > * 删除地址  
->  /apis/deleteAddress?addressId={}  
+>  /api/deleteAddress?addressId={}  
 > * 添加地址  
->  /apis/addAddress?phone={}&name={}&address={}  
+>  /api/addAddress?phone={}&name={}&address={}  
 
 ### 图片分发  
-> * 获得指定图片  
-> /imgapi?imgId={}  
+> * 获得指定图片 
+> /imgApi?imgId={} 
 
 
 ### 待办事项

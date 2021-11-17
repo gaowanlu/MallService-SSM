@@ -36,6 +36,7 @@
         <property name="goodsMapper" ref="SampleMapper"/>
     </bean>
     <bean id="IdentitySecurityServiceImpl" class="site.linkway.core.service.IdentitySecurityServiceImpl">
+        <property name="userMapper" ref="UserMapper"/>
     </bean>
     <bean id="UserDataServiceImpl" class="site.linkway.core.service.UserDataServiceImpl">
     </bean>

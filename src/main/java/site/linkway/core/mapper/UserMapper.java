@@ -7,5 +7,6 @@ public interface UserMapper {
     public int insert(User user);
     public int update(User user);
     public int delete(User user);
-    public User select(User user);
+    public User select(User user);//by email
+    public User selectByEmailAndPassword(User user);
 }

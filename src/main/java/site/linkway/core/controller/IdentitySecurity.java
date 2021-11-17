@@ -20,23 +20,22 @@ import javax.servlet.http.HttpSession;
 
 /*身份安全模块*/
 /* 登录
-* /IdentitySecurity/login?id={email}&password={password}
+* /identitySecurity/login?id={email}&password={password}
 *  注册账号
-* /IdentitySecurity/register?password={}&emailCode={}
+* /identitySecurity/register?password={}&emailCode={}
 *  发送验证码
-* /IdentitySecurity/sendEmailCode?email={}
+* /identitySecurity/sendEmailCode?email={}
 *  修改密码
-* /IdentitySecurity/changePassword?newPassword={}&emailCode={}
+* /identitySecurity/changePassword?newPassword={}&emailCode={}
 * */
 @Controller
-@RequestMapping(value = "/IdentitySecurity")
+@RequestMapping(value = "/identitySecurity")
 public class IdentitySecurity {
     static Logger logger= Logger.getLogger(IdentitySecurity.class);
     private ObjectMapper mapper = new ObjectMapper();
     @Autowired
     @Qualifier("IdentitySecurityServiceImpl")
     private IdentitySecurityService identitySecurityService;
-
 
     /*登录*/
     @RequestMapping(value = "/login",produces = "application/json;charset=utf-8")

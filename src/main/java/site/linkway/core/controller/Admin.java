@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 * 用户余额管理
 * */
 @Controller
-@RequestMapping(value = "/Admin")
+@RequestMapping(value = "/api/admin")
 public class Admin {
+
 }

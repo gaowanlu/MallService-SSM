@@ -3,5 +3,21 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.linkway.core.mapper.UserMapper">
-
+    <update id="insert" parameterType="site.linkway.core.entity.po.User">
+        INSERT INTO user (userId,password,name,sex,headImgId,money,email)
+        VALUES (#{userId},#{password},#{name},#{sex},#{headImgId},#{money},#{email})
+    </update>
+    <update id="update" parameterType="site.linkway.core.entity.po.User">
+        UPDATE user SET password =#{password},name =#{name},sex=#{sex},headImgId=#{headImgId},money=#{money}
+        WHERE email=#{email}
+    </update>
+    <update id="delete" parameterType="site.linkway.core.entity.po.SamplePo">
+        DELETE FROM user WHERE email = #{email}
+    </update>
+    <select id="select" parameterType="site.linkway.core.entity.po.User" resultType="site.linkway.core.entity.po.User">
+        SELECT * FROM user WHERE email=#{email}
+    </select>
+    <select id="selectByEmailAndPassword" parameterType="site.linkway.core.entity.po.User" resultType="site.linkway.core.entity.po.User">
+        SELECT * FROM user WHERE email=#{email} and password=#{password}
+    </select>
 </mapper>

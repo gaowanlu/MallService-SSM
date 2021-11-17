@@ -31,14 +31,14 @@ import java.io.InputStream;
 /*用户个人信息
 *
 * 获得个人信息
-* /apis/getMyData
+* /api/getMyData
 * 更新性别或者昵称
-* /apis/updateMyData?sex={}&name={}
+* /api/updateMyData?sex={}&name={}
 * 更新头像
-* /apis/updateHeadImg    表单文件属性 "file":file
+* /api/updateHeadImg    表单文件属性 "file":file
 * */
 @Controller
-@RequestMapping("/apis")
+@RequestMapping("/api")
 public class UserData {
     static Logger logger= Logger.getLogger(UserData.class);
     private ObjectMapper mapper = new ObjectMapper();

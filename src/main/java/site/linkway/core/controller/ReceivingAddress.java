@@ -17,14 +17,14 @@ import javax.servlet.http.HttpSession;
 
 /*用户收货地址
  * 获得全部存储在平台的收货地址
- * /apis/getMyAddress
+ * /api/getMyAddress
  * 删除地址
- * /apis/deleteAddress?addressId={}
+ * /api/deleteAddress?addressId={}
  * 添加地址
- * /apis/addAddress?phone={}&name={}&address={}
+ * /api/addAddress?phone={}&name={}&address={}
  */
 @Controller
-@RequestMapping("/apis")
+@RequestMapping("/api")
 public class ReceivingAddress {
     static Logger logger= Logger.getLogger(ReceivingAddress.class);
     private ObjectMapper mapper = new ObjectMapper();

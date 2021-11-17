@@ -23,7 +23,7 @@ import java.util.Map;
 
 /*图片分发模块
 * 获得图片
-* /imgapi?imgId={}
+* /imgApi?imgId={}
 * */
 @Controller
 public class ImageDistribution {
@@ -35,7 +35,7 @@ public class ImageDistribution {
     private ImageService imageService;
 
     /*获取图像*/
-    @RequestMapping(value = "/imgapi",produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/imgApi",produces = "application/json;charset=utf-8")
     public void img(@NonNull String imgId,
                     @NonNull HttpServletResponse httpServletResponse
                     ) throws Exception {

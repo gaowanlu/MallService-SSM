@@ -50,4 +50,7 @@
     <bean id="SampleMapper" class="site.linkway.core.mapper.SampleMapperImpl">
         <property name="sqlSessionFactory" ref="sqlSessionFactory" />
     </bean>
+    <bean id="UserMapper" class="site.linkway.core.mapper.UserMapperImpl">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
 </beans>

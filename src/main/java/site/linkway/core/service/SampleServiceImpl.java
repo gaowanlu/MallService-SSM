@@ -11,6 +11,7 @@ public class SampleServiceImpl implements SampleService {
     public void setGoodsMapper(SampleMapper goodsMapper) {
         this.goodsMapper = goodsMapper;
     }
+
     @Override
     public List<SamplePo> selectAll() {
         return goodsMapper.selectAll();
