@@ -93,8 +93,11 @@ create TABLE fComment(
     goodId VARCHAR(32) NOT NULL,
     content VARCHAR(20) NOT NULL,
     time datetime NOT NULL,
+    userId VARCHAR(32) NOT NULL,
     index(goodId),
-	foreign key(goodId) references good(goodId) ON UPDATE cascade ON delete cascade
+	foreign key(goodId) references good(goodId) ON UPDATE cascade ON delete cascade,
+    index(userId),
+	foreign key(userId) references user(userId) ON UPDATE cascade ON delete cascade
 );
 #子评论表
 create TABLE sComment(
@@ -102,8 +105,11 @@ create TABLE sComment(
     fCommentId VARCHAR(32) NOT NULL,
     content VARCHAR(20) NOT NULL,
     time datetime NOT NULL,
+	userId VARCHAR(32) NOT NULL,
     index(fCommentId),
-	foreign key(fCommentId) references fComment(fCommentId) ON UPDATE cascade ON delete cascade
+	foreign key(fCommentId) references fComment(fCommentId) ON UPDATE cascade ON delete cascade,
+	index(userId),
+	foreign key(userId) references user(userId) ON UPDATE cascade ON delete cascade
 );
 #管理员表
 create TABLE admin(

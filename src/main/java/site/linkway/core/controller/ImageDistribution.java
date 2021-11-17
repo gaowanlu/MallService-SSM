@@ -23,10 +23,9 @@ import java.util.Map;
 
 /*图片分发模块
 * 获得图片
-* /apis/img?imgId={}
+* /imgapi?imgId={}
 * */
 @Controller
-@RequestMapping("/apis")
 public class ImageDistribution {
     static Logger logger= Logger.getLogger(ImageDistribution.class);
     private ObjectMapper mapper = new ObjectMapper();
@@ -36,7 +35,7 @@ public class ImageDistribution {
     private ImageService imageService;
 
     /*获取图像*/
-    @RequestMapping(value = "/img",produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/imgapi",produces = "application/json;charset=utf-8")
     public void img(@NonNull String imgId,
                     @NonNull HttpServletResponse httpServletResponse
                     ) throws Exception {

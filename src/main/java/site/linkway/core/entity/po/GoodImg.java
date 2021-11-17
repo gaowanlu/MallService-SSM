@@ -1,5 +1,6 @@
 package site.linkway.core.entity.po;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,10 +8,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-//购物车条项
-public class Cart {
-    public String cartId;
-    public String goodId;
-    public String userId;
-    public int num;
+//商品展示图
+public class GoodImg {
+    public String goodImgId;// varchar(32) PK
+    public String imgId;// varchar(32)
+    public String goodId;// varchar(32)
 }

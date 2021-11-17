@@ -28,6 +28,12 @@
 ## 相关技术  
 > Spring、SpringMVC、Mybatis 、MySQL  
 ## API  
+> /apis/** 为登陆后操作 其余可在未登录状态下访问  
+> 返回JSON规范 
+>> /apis/** 返回均含有 status(int) 与 result(boolean) 属性   
+>> status:200(处理正常) 400(身份错误)  
+>> result:false(操作失败)  true(操作成功)
+
 ### 身份安全
 > * 登录
 > /IdentitySecurity/login?id={email}&password={password}  
@@ -64,14 +70,14 @@
 
 ### 图片分发  
 > * 获得指定图片  
-> /apis/img?imgId={}  
+> /imgapi?imgId={}  
 
 
 ### 待办事项
-> Admin  （管理端）
-> CommentSystem   （评论系统）
-> Order  (用户自我订单的操作)   
-> ProductBrowsing   (商品浏览相关)
-> Search (商品搜索)
+> Admin  （管理端）   
+> CommentSystem   （评论系统）   
+> Order  (用户自我订单的操作)      
+> ProductBrowsing   (商品浏览相关)    
+> Search (商品搜索)    
  
 
