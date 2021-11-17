@@ -39,14 +39,14 @@
 
 <!--    拦截器-->
     <!--关于拦截器的配置-->
-<!--    <mvc:interceptors>-->
-<!--        <mvc:interceptor>-->
-<!--            &lt;!&ndash;/** 包括路径及其子路径&ndash;&gt;-->
-<!--            &lt;!&ndash;/admin/* 拦截的是/admin/add等等这种 , /admin/add/user不会被拦截&ndash;&gt;-->
-<!--            &lt;!&ndash;/admin/** 拦截的是/admin/下的所有&ndash;&gt;-->
-<!--&lt;!&ndash;            <mvc:mapping path="/apis/**"/>&ndash;&gt;-->
-<!--            &lt;!&ndash;bean配置的就是拦截器&ndash;&gt;-->
-<!--&lt;!&ndash;            <bean class="site.linkway.core.filter.ApiInterceptor"/>&ndash;&gt;-->
-<!--        </mvc:interceptor>-->
-<!--    </mvc:interceptors>-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!--/** 包括路径及其子路径-->
+            <!--/admin/* 拦截的是/admin/add等等这种 , /admin/add/user不会被拦截-->
+            <!--/admin/** 拦截的是/admin/下的所有-->
+            <mvc:mapping path="/apis/**"/>
+<!--            bean配置的就是拦截器-->
+            <bean class="site.linkway.core.filter.ApiInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>
