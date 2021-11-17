@@ -7,11 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-//用户收货地址
-public class Address {
-    public String addressId;
+//管理员
+public class Admin {
+    public String adminId;
     public String userId;
-    public String phone;
-    public String address;
-    public String name;
 }

@@ -13,6 +13,17 @@
 <!--    Mapper Files-->
     <mappers>
         <mapper resource="mapper/SampleMapper.xml"/>
+        <mapper resource="mapper/AddressMapper.xml"/>
+        <mapper resource="mapper/AdminMapper.xml"/>
+        <mapper resource="mapper/CartMapper.xml"/>
+        <mapper resource="mapper/FCommentMapper.xml"/>
+        <mapper resource="mapper/GoodImgMapper.xml"/>
+        <mapper resource="mapper/GoodMapper.xml"/>
+        <mapper resource="mapper/GoodTypeMapper.xml"/>
+        <mapper resource="mapper/ImgMapper.xml"/>
+        <mapper resource="mapper/OrderMapper.xml"/>
+        <mapper resource="mapper/SCommentMapper.xml"/>
+        <mapper resource="mapper/UserMapper.xml"/>
     </mappers>
 </configuration>
 

@@ -70,14 +70,14 @@
 
 ### 图片分发  
 > * 获得指定图片  
-> /apis/img?imgId={}  
+> /imgapi?imgId={}  
 
 
 ### 待办事项
-> Admin  （管理端）
-> CommentSystem   （评论系统）
-> Order  (用户自我订单的操作)   
-> ProductBrowsing   (商品浏览相关)
-> Search (商品搜索)
+> Admin  （管理端）   
+> CommentSystem   （评论系统）   
+> Order  (用户自我订单的操作)      
+> ProductBrowsing   (商品浏览相关)    
+> Search (商品搜索)    
  
 

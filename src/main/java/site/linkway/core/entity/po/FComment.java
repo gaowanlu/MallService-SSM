@@ -4,14 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-//用户收货地址
-public class Address {
-    public String addressId;
+//商品父评论条项
+public class FComment {
+    public String fCommentId;
+    public String goodId;
+    public String Content;
+    public Date time;
     public String userId;
-    public String phone;
-    public String address;
-    public String name;
 }

@@ -29,6 +29,8 @@
             <tx:method name="*" propagation="REQUIRED"/>
         </tx:attributes>
     </tx:advice>
+
+
 <!--    服务类装配-->
     <bean id="SampleServiceImpl" class="site.linkway.core.service.SampleServiceImpl">
         <property name="goodsMapper" ref="SampleMapper"/>

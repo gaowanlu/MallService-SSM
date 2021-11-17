@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-//购物车条项
-public class Cart {
-    public String cartId;
-    public String goodId;
-    public String userId;
-    public int num;
+public class Img {
+    public String imgId;// varchar(32) PK
+    public String imgType;// varchar(20)
+    public int imgSize;// int UN
+    public byte[] img;// mediumblob
 }
