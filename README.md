@@ -40,5 +40,13 @@
 > /IdentitySecurity/sendEmailCode?email={}  
 > * 修改密码  
 > /IdentitySecurity/changePassword?newPassword={}&emailCode={}  
+
+### 个人信息  
+> * 获得个人信息  
+> /apis/getMyData  
+> * 更新性别或者昵称  
+> /apis/updateMyData?sex={}&name={}  
+> * 更新头像  
+> /apis/updateHeadImg    表单文件属性 "file":file  
  
 
