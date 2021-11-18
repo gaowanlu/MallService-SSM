@@ -8,8 +8,11 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import site.linkway.core.entity.bo.TestRequestBody;
 import site.linkway.core.entity.vo.StatusResult;
 import site.linkway.core.service.IdentitySecurityService;
 
@@ -38,9 +41,12 @@ public class IdentitySecurity {
     private IdentitySecurityService identitySecurityService;
 
     /*登录*/
-    @RequestMapping(value = "/login",produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/login",
+                    method = {RequestMethod. POST },//,RequestMethod. GET
+                    produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String login(@NonNull String id, @NonNull String password,
+    public String login(@NonNull String id,
+                        @NonNull String password,
                         HttpServletRequest httpServletRequest,
                         HttpServletResponse httpServletResponse) throws JsonProcessingException {
         /*seesion判断 是否存在id 判断是否为登录状态*/
@@ -64,11 +70,15 @@ public class IdentitySecurity {
     }
 
     /*注册账号*/
-    @RequestMapping(value = "/register",produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/register",
+                    method = {RequestMethod. POST },
+                    produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String register(@NonNull String password,
-                            @NonNull String emailCode,
-                            @NonNull HttpSession httpSession) throws JsonProcessingException {
+    public String register(HttpServletRequest httpServletRequest,
+                           @NonNull  String password,
+                           @NonNull  String emailCode,
+                           @NonNull HttpSession httpSession) throws JsonProcessingException {
+        //从session获得此链接曾验证的邮箱与对应的验证码
         String sessionAttributeEmail=(String)httpSession.getAttribute("email");
         String sessionAttributeEmailCode=(String)httpSession.getAttribute("emailCode");
         StatusResult statusResult=new StatusResult();
@@ -86,10 +96,13 @@ public class IdentitySecurity {
     }
 
     /*邮箱验证码身份验证::根据邮箱发送验证码*/
-    @RequestMapping(value = "/sendEmailCode",produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/sendEmailCode",
+                    method = {RequestMethod. POST },
+                    produces = "application/json;charset=utf-8")
     @ResponseBody
     public String sendEmailCode(@NonNull String email,
-                                 @NonNull HttpSession httpSession) throws JsonProcessingException {
+                                HttpServletRequest httpServletRequest,
+                                @NonNull HttpSession httpSession) throws JsonProcessingException {
         StatusResult statusResult=new StatusResult();
         /*发送验证码 并将邮箱与验证码存进session*/
         String emailCode=identitySecurityService.sendEmailCode(email);
@@ -99,11 +112,14 @@ public class IdentitySecurity {
     }
 
     /*修改密码*/
-    @RequestMapping(value = "/changePassword",produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/changePassword",
+                    method = {RequestMethod. POST },
+                    produces = "application/json;charset=utf-8")
     @ResponseBody
     public String changePassword(@NonNull String emailCode,
-                                  @NonNull String newPassword,
-                                  @NonNull HttpSession httpSession) throws JsonProcessingException {
+                                 @NonNull String newPassword,
+                                 HttpServletRequest httpServletRequest,
+                                 @NonNull HttpSession httpSession) throws JsonProcessingException {
         String sessionAttributeEmail=(String)httpSession.getAttribute("email");
         String sessionAttributeEmailCode=(String)httpSession.getAttribute("emailCode");
         StatusResult statusResult=new StatusResult();
@@ -118,5 +134,14 @@ public class IdentitySecurity {
             httpSession.removeAttribute("emailCode");
         }
         return mapper.writeValueAsString(statusResult);
+    }
+
+    @RequestMapping(value="/testRequestBody",
+                    method = {RequestMethod. POST },
+                    produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String testRequestBody(@RequestBody TestRequestBody testRequestBody) throws JsonProcessingException {
+        System.out.println(testRequestBody);
+        return mapper.writeValueAsString(testRequestBody);
     }
 }

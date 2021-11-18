@@ -22,7 +22,8 @@
         这两个实例分别在类级别和方法级别处理。
         而annotation-driven配置帮助我们自动完成上述两个实例的注入。
      -->
-    <mvc:annotation-driven />
+    <bean id = "conversionService" class = "org.springframework.format.support.FormattingConversionServiceFactoryBean"></bean>
+    <mvc:annotation-driven conversion-service="conversionService"/>
 
     <bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
     <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>
@@ -34,8 +35,9 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <!--Handler-->
-<!--    <bean id="/apis/hello" class=""/>-->
+
+
+
 
 <!--    拦截器-->
     <!--关于拦截器的配置-->
