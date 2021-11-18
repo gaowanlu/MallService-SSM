@@ -94,6 +94,7 @@ create TABLE fComment(
     content VARCHAR(20) NOT NULL,
     time datetime NOT NULL,
     userId VARCHAR(32) NOT NULL,
+    rate int unsigned NOT NULL check(rate in (0,1,2,3,4,5)),
     index(goodId),
 	foreign key(goodId) references good(goodId) ON UPDATE cascade ON delete cascade,
     index(userId),

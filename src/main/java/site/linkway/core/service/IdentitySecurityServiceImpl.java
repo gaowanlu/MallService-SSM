@@ -1,6 +1,8 @@
 package site.linkway.core.service;
 
 import jodd.mail.EmailAddress;
+import org.springframework.context.annotation.ImportResource;
+import org.springframework.stereotype.Service;
 import site.linkway.core.entity.po.User;
 import site.linkway.core.mapper.SampleMapper;
 import site.linkway.core.mapper.UserMapper;
@@ -8,8 +10,11 @@ import site.linkway.utils.EmailUtils;
 import site.linkway.utils.RandomString;
 import site.linkway.utils.UUIDUtils;
 
+@Service("IdentitySecurityServiceImpl")
 public class IdentitySecurityServiceImpl implements IdentitySecurityService{
+
     private UserMapper userMapper;
+
     public void setUserMapper(UserMapper userMapper) {
         this.userMapper = userMapper;
     }
