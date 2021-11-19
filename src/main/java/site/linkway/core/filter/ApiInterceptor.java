@@ -29,7 +29,7 @@ public class ApiInterceptor implements HandlerInterceptor {
         //检测id与cookie值是否匹配,匹配则放行，不匹配则拒绝通过
         HttpSession httpSession=httpServletRequest.getSession();
         if(httpSession==null){
-            statusResult.setStatus(400);
+            httpServletResponse.setStatus(403);
             statusResult.setResult(false);
             PrintWriter pw=httpServletResponse.getWriter();
             pw.write(mapper.writeValueAsString(statusResult));
@@ -38,7 +38,7 @@ public class ApiInterceptor implements HandlerInterceptor {
         //获取id，即邮箱
         String email=(String)httpSession.getAttribute("id");
         if(email==null||email.equals("")){
-            statusResult.setStatus(400);
+            httpServletResponse.setStatus(400);
             statusResult.setResult(false);
             PrintWriter pw=httpServletResponse.getWriter();
             pw.write(mapper.writeValueAsString(statusResult));

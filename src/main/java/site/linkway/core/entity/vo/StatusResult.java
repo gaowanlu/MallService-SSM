@@ -9,10 +9,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 public class StatusResult {
-    int status;
     boolean result;
     public StatusResult(){
-        this.status=200;
         this.result=true;
     }
 }

@@ -11,7 +11,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class CartList {
-    public int status=200;
     public boolean result=true;
     public List<Cart> carts;
     public CartList(){

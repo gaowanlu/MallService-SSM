@@ -59,6 +59,7 @@ public class IdentitySecurity {
             } else {
                 //身份验证失败
                 statusResult.setResult(false);
+                httpServletResponse.setStatus(403);
             }
         }
         return mapper.writeValueAsString(statusResult);
