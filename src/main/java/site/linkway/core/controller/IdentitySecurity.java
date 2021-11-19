@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import site.linkway.core.entity.vo.ErrorResult;
 import site.linkway.core.entity.vo.StatusResult;
 import site.linkway.core.service.IdentitySecurityService;
 
@@ -62,13 +63,13 @@ public class IdentitySecurity {
             if (identitySecurityService.checkIdPassword(id, password)) {
                 //身份验证成功
                 httpSession.setAttribute("id", id);
+                return mapper.writeValueAsString(statusResult);
             } else {
                 //身份验证失败
-                statusResult.setResult(false);
                 httpServletResponse.setStatus(403);
+                return mapper.writeValueAsString(new ErrorResult("用户名或密码错误"));
             }
         }
-        return mapper.writeValueAsString(statusResult);
     }
 
     /*注册账号*/
