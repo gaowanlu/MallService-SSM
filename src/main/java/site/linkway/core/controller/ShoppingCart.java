@@ -7,8 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import site.linkway.core.entity.vo.CartList;
 import site.linkway.core.entity.vo.StatusResult;
 import site.linkway.core.service.ShoppingCartService;
@@ -35,7 +34,7 @@ public class ShoppingCart {
     private ShoppingCartService shoppingCartService;
 
     /*新增购物车条项*/
-    @RequestMapping(value = "/addCart",produces = "application/json;charset=utf-8")
+    @PostMapping(value = "/cart",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String addCart(@NonNull String goodId,
                           @NonNull int num,
@@ -48,7 +47,7 @@ public class ShoppingCart {
     }
 
     /*删除购物车条项 同时返回现有条项*/
-    @RequestMapping(value = "/deleteCart",produces = "application/json;charset=utf-8")
+    @DeleteMapping(value = "/cart/{cartId}",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String addCart(@NonNull String cartId,
                           @NonNull HttpSession httpSession) throws JsonProcessingException {
@@ -62,7 +61,7 @@ public class ShoppingCart {
     }
 
     /*获取购物车全部条项*/
-    @RequestMapping(value = "/getMyCarts",produces = "application/json;charset=utf-8")
+    @GetMapping(value = "/cart",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String addCart(@NonNull HttpSession httpSession) throws JsonProcessingException {
         CartList cartList=new CartList();

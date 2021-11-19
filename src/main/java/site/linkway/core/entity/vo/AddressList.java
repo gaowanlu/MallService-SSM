@@ -12,7 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddressList {
-    int status=200;
     boolean result=true;
     public List<Address> addresses=new ArrayList<>();
 }
