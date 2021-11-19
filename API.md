@@ -58,6 +58,8 @@ breaks: false
 #### 获得个人信息
 `GET /api/myData`
 
+返回 `PersonalData` （[数据类型](#数据类型)）
+
 #### 更新性别或者昵称
 `PUT /api/myData`
 
@@ -80,8 +82,12 @@ breaks: false
 #### 删除购物车条项
 `DELETE /api/delete/{cartId}`
 
+删除后，返回现有 `CartList`
+
 #### 获得购物车全部条项
 `GET /cart`
+
+返回现有 `CartList`
 
 
 
@@ -114,3 +120,29 @@ breaks: false
 #### Order  (用户自我订单的操作)
 #### ProductBrowsing   (商品浏览相关)
 #### Search (商品搜索)
+
+
+## 数据类型
+
+```typescript
+interface PersonalData {
+    userId: string;
+    name: string;
+    sex: string;
+    headImgId: string;
+    money: number;
+    email: string;
+}
+
+interface Cart {
+    cartId: string;
+    goodId: string;
+    userId: string;
+    num: number;
+}
+
+interface CartList {
+    result: boolean;
+    carts: Cart[];
+}
+```
