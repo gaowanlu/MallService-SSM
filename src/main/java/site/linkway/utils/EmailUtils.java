@@ -25,7 +25,7 @@ public class EmailUtils {
                             .to(user)
                             .subject(subject)
                             .htmlMessage(
-                                    "<div style=\"width:100%;display:flex;justifyContent:center;flex-wrap:wrap;background-color:#24292f;padding:10px;\">" +
+                                    "<div style=\"background-color:#24292f;padding:10px;\">" +
                                             "<div style=\"width:100%;color:#fafafa;\"><h1>来自Mall的邮箱验证</h1></div>"+
                                             "<div style=\"width:100%;color:#fafafa;\"><h3>"+"尊敬的用户:您好!"+"</h3></div>"+
                                             "<div style=\"width:100%;color:#fafafa;\"><h3>"+"您正在进行-"+process+"-操作</h3></div>"+
