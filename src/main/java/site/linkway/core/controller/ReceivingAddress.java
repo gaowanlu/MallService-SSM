@@ -7,8 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import site.linkway.core.entity.vo.AddressList;
 import site.linkway.core.service.ReceivingAddressService;
 import site.linkway.core.service.UserDataService;
@@ -34,7 +33,7 @@ public class ReceivingAddress {
     private ReceivingAddressService receivingAddressService;
 
     /*添加新收货地址*/
-    @RequestMapping(value = "/addAddress",produces = "application/json;charset=utf-8")
+    @PostMapping(value = "/addresses",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String addAddress(@NonNull String phone,
                              @NonNull String name,
@@ -48,7 +47,7 @@ public class ReceivingAddress {
     }
 
     /*删除收货地址*/
-    @RequestMapping(value = "/deleteAddress",produces = "application/json;charset=utf-8")
+    @DeleteMapping(value = "/addresses/{addressId}",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String deleteAddress(@NonNull String addressId,
                                 @NonNull HttpSession httpSession) throws JsonProcessingException {
@@ -60,7 +59,7 @@ public class ReceivingAddress {
     }
 
     /*获得自己存储的收货地址*/
-    @RequestMapping(value = "/getMyAddress",produces = "application/json;charset=utf-8")
+    @GetMapping(value = "/addresses",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String getMyAddress(@NonNull HttpSession httpSession) throws JsonProcessingException {
         String email=(String)httpSession.getAttribute("id");

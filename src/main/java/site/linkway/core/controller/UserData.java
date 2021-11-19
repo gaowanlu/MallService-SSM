@@ -15,9 +15,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import site.linkway.core.entity.po.User;
 import site.linkway.core.entity.vo.PersonalData;
@@ -50,7 +48,7 @@ public class UserData {
     /*已经登陆的用户获得自己的个人信息
     * id name sex headImgId money email
     * */
-    @RequestMapping(value = "/getMyData",produces = "application/json;charset=utf-8")
+    @GetMapping(value = "/myData",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String getSelfData(@NonNull HttpSession httpSession)
             throws JsonProcessingException {
@@ -70,7 +68,7 @@ public class UserData {
     /*用户更新信息
     * 已经登陆的用户更新name sex
     * */
-    @RequestMapping(value = "/updateMyData",produces = "application/json;charset=utf-8")
+    @PutMapping(value = "/myData",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String updateMyData(@NonNull HttpSession httpSession,
                                String name,
@@ -83,7 +81,7 @@ public class UserData {
     }
 
     /*更新头像*/
-    @RequestMapping(value = "/updateHeadImg",produces = "application/json;charset=utf-8")
+    @PutMapping(value = "/myHeadImg",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String updateHeadImg(@NonNull HttpSession httpSession,
                                 @NonNull @RequestParam("file") CommonsMultipartFile file
