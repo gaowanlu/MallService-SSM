@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PersonalData {
-    public int status=200;
     public String userId;
     public String name;
     public String sex;
