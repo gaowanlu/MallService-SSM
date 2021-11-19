@@ -4,13 +4,13 @@ breaks: false
 
 # MallService API 文档
 
-
+（最新版本/草稿见[此处](https://md.yuuza.net/8db-waSeSdW1NnyYmYZeYw)）
 
 ## 返回 JSON 规范
 
 操作成功时：
 
-```json
+```jsonc
 {
     "result": true,
     // ...其它信息...
@@ -20,7 +20,7 @@ breaks: false
 操作失败时：
 
 
-```json
+```jsonc
 {
     "result": false,
     "message": "（错误消息）"
