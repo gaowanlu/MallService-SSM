@@ -33,17 +33,23 @@ import javax.servlet.http.HttpSession;
 @RequestMapping(value = "/identitySecurity")
 public class IdentitySecurity {
     static Logger logger = Logger.getLogger(IdentitySecurity.class);
+
     private ObjectMapper mapper = new ObjectMapper();
     @Autowired
     @Qualifier("IdentitySecurityServiceImpl")
     private IdentitySecurityService identitySecurityService;
 
+    @Autowired
+    HttpServletRequest httpServletRequest;
+    @Autowired
+    HttpServletResponse httpServletResponse;
+    @Autowired
+    HttpSession httpSession;
+
     /*登录*/
     @PostMapping(value = "/login", produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String login(@NonNull String id, @NonNull String password,
-                        HttpServletRequest httpServletRequest,
-                        HttpServletResponse httpServletResponse) throws JsonProcessingException {
+    public String login(@NonNull String id, @NonNull String password) throws JsonProcessingException {
         /*seesion判断 是否存在id 判断是否为登录状态*/
         HttpSession httpSession = httpServletRequest.getSession();
         String sessionAttrId = (String) httpSession.getAttribute("id");
@@ -69,8 +75,7 @@ public class IdentitySecurity {
     @PostMapping(value = "/register", produces = "application/json;charset=utf-8")
     @ResponseBody
     public String register(@NonNull String password,
-                           @NonNull String emailCode,
-                           @NonNull HttpSession httpSession) throws JsonProcessingException {
+                           @NonNull String emailCode) throws JsonProcessingException {
         String sessionAttributeEmail = (String) httpSession.getAttribute("email");
         String sessionAttributeEmailCode = (String) httpSession.getAttribute("emailCode");
         StatusResult statusResult = new StatusResult();
@@ -90,8 +95,7 @@ public class IdentitySecurity {
     /*邮箱验证码身份验证::根据邮箱发送验证码*/
     @PostMapping(value = "/sendEmailCode", produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String sendEmailCode(@NonNull String email,
-                                @NonNull HttpSession httpSession) throws JsonProcessingException {
+    public String sendEmailCode(@NonNull String email) throws JsonProcessingException {
         StatusResult statusResult = new StatusResult();
         /*发送验证码 并将邮箱与验证码存进session*/
         String emailCode = identitySecurityService.sendEmailCode(email);
@@ -104,8 +108,7 @@ public class IdentitySecurity {
     @PostMapping(value = "/changePassword", produces = "application/json;charset=utf-8")
     @ResponseBody
     public String changePassword(@NonNull String emailCode,
-                                 @NonNull String newPassword,
-                                 @NonNull HttpSession httpSession) throws JsonProcessingException {
+                                 @NonNull String newPassword) throws JsonProcessingException {
         String sessionAttributeEmail = (String) httpSession.getAttribute("email");
         String sessionAttributeEmailCode = (String) httpSession.getAttribute("emailCode");
         StatusResult statusResult = new StatusResult();
