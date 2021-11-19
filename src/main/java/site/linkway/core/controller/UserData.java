@@ -98,8 +98,8 @@ public class UserData {
         InputStream is = file.getInputStream(); //文件输入流
         //获得文件大小
         String fileType=file.getContentType();
-        String fileSize=String.valueOf(file.getSize());
-        boolean updateResult=userDataService.updateHeadImg(is,fileSize,fileType);
+        int fileSize= (int)file.getSize();
+        boolean updateResult=userDataService.updateHeadImg(email, is, fileSize, fileType);
         statusResult.setResult(updateResult);
         is.close();
         return mapper.writeValueAsString(statusResult);

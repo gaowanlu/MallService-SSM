@@ -12,5 +12,5 @@ public interface UserDataService {
     public boolean updateUserData(String email, String name, String sex);
 
     /*更新头像*/
-    public boolean updateHeadImg(InputStream inputStream, String fileSize, String fileType);
+    public boolean updateHeadImg(String email, InputStream inputStream, int fileSize, String fileType);
 }
