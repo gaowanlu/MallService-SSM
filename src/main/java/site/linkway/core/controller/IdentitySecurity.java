@@ -135,7 +135,6 @@ public class IdentitySecurity {
         }
         return mapper.writeValueAsString(statusResult);
     }
-
     @RequestMapping(value="/testRequestBody",
                     method = {RequestMethod. POST },
                     produces = "application/json;charset=utf-8")
