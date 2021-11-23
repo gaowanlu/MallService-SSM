@@ -5,24 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import site.linkway.core.entity.vo.CartList;
 import site.linkway.core.entity.vo.StatusResult;
 import site.linkway.core.service.ShoppingCartService;
-import site.linkway.core.service.UserDataService;
 
 import javax.servlet.http.HttpSession;
 
-/*购物车模块
-* 添加购物车条项
-* /api/addCart?goodId={}&num={}
-* 删除购物车条项
-* /api/deleteCart?cartId={}
-* 获得购物车全部条项
-* /api/getMyCarts
-* */
 @Controller
 @RequestMapping("/api")
 public class ShoppingCart {
@@ -30,7 +20,6 @@ public class ShoppingCart {
     private ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
-    @Qualifier("ShoppingCartServiceImpl")
     private ShoppingCartService shoppingCartService;
 
     /*新增购物车条项*/

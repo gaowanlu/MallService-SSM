@@ -17,20 +17,6 @@ public class CommentSystem {
     static Logger logger= Logger.getLogger(CommentSystem.class);
     private ObjectMapper mapper = new ObjectMapper();
 
-    /*
-fCommentId varchar(32) PK
-goodId varchar(32)
-content varchar(20)
-time datetime
-userId varchar(32)
-
-sCommentId varchar(32) PK
-fCommentId varchar(32)
-content varchar(20)
-time datetime
-userId varchar(32)
-    * */
-
     /*根据商品id获得评论列表*/
 
     /*根据父评论id请求子评论列表*/

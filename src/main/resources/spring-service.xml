@@ -29,21 +29,4 @@
             <tx:method name="*" propagation="REQUIRED"/>
         </tx:attributes>
     </tx:advice>
-
-
-<!--    服务类装配-->
-<!--    <bean id="SampleServiceImpl" class="site.linkway.core.service.SampleServiceImpl">-->
-<!--        <property name="goodsMapper" ref="SampleMapper"/>-->
-<!--    </bean>-->
-    <bean id="IdentitySecurityServiceImpl" class="site.linkway.core.service.IdentitySecurityServiceImpl">
-        <property name="userMapper" ref="userMapper"/>
-    </bean>
-    <bean id="UserDataServiceImpl" class="site.linkway.core.service.UserDataServiceImpl">
-    </bean>
-    <bean id="ShoppingCartServiceImpl" class="site.linkway.core.service.ShoppingCartServiceImpl">
-    </bean>
-    <bean id="ReceivingAddressServiceImpl" class="site.linkway.core.service.ReceivingAddressServiceImpl">
-    </bean>
-    <bean id="ImageServiceImpl" class="site.linkway.core.service.ImageServiceImpl">
-    </bean>
 </beans>
