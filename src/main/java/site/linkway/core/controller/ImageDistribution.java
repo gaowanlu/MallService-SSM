@@ -22,15 +22,13 @@ import java.util.Map;
 
 /*图片分发模块
 * 获得图片
-* /imgApi?imgId={}
+* /img?imgId={}
 * */
 @Controller
 public class ImageDistribution {
     static Logger logger= Logger.getLogger(ImageDistribution.class);
     private ObjectMapper mapper = new ObjectMapper();
-
 //    @Autowired
-//    @Qualifier("ImageServiceImpl")
 //    private ImageService imageService;
 //
 //    /*获取图像*/
@@ -38,10 +36,6 @@ public class ImageDistribution {
 //    public void img(@NonNull String imgId,
 //                    @NonNull HttpServletResponse httpServletResponse
 //                    ) throws Exception {
-////        imgId varchar(32) PK
-////        imgType varchar(20)
-////        imgSize int un
-////        img mediumblob
 //        Map<String,Object> result=imageService.selectImgById(imgId);
 //        InputStream in = new ByteArrayInputStream((byte[]) result.get("img"));
 //        long filesize=Long.valueOf((String)result.get("imgSize"));

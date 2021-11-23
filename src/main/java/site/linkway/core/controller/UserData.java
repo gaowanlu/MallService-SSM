@@ -1,19 +1,11 @@
 package site.linkway.core.controller;
 
 /*用户个人信息模块*/
-/*
-* 已登录用户获得自己的相关个人信息
-* /apis/getMyData
-*
-*
-* */
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -26,15 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.InputStream;
 
-/*用户个人信息
-*
-* 获得个人信息
-* /api/getMyData
-* 更新性别或者昵称
-* /api/updateMyData?sex={}&name={}
-* 更新头像
-* /api/updateHeadImg    表单文件属性 "file":file
-* */
+/*用户个人信息*/
 @Controller
 @RequestMapping("/api")
 public class UserData {
@@ -42,12 +26,13 @@ public class UserData {
     private ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
-    @Qualifier("UserDataServiceImpl")
+    public void setUserDataService(UserDataService userDataService) {
+        this.userDataService = userDataService;
+    }
     private UserDataService userDataService;
 
-    /*已经登陆的用户获得自己的个人信息
-    * id name sex headImgId money email
-    * */
+
+    /*已经登陆的用户获得自己的个人信息*/
     @GetMapping(value = "/myData",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String getSelfData(@NonNull HttpSession httpSession)
@@ -65,9 +50,8 @@ public class UserData {
         return mapper.writeValueAsString(personalData);
     }
 
-    /*用户更新信息
-    * 已经登陆的用户更新name sex
-    * */
+
+    /*已经登录的用户更新个人信息*/
     @PutMapping(value = "/myData",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String updateMyData(@NonNull HttpSession httpSession,
@@ -75,6 +59,7 @@ public class UserData {
                                String sex) throws JsonProcessingException {
         StatusResult statusResult=new StatusResult();
         String email=(String)httpSession.getAttribute("id");
+        /*昵称或者性别可能为空 需要处理*/
         boolean result=userDataService.updateUserData(email,name,sex);
         statusResult.setResult(result);
         return mapper.writeValueAsString(statusResult);

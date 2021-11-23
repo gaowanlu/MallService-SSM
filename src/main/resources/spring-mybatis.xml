@@ -17,7 +17,6 @@
         <property name="initialSize" value="${jdbc.initialSize}"/>
         <property name="maxActive" value="${jdbc.maxActive}"/>
         <property name="maxWait" value="${jdbc.maxWait}"/>
-
         <property name="validationQuery">
             <value>SELECT 1</value>
         </property>
@@ -38,24 +37,28 @@
         <!-- <property name="filters" value="stat" /> -->
         <property name="filters" value="mergeStat" />
     </bean>
+
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="datasource"/>
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
+<!--        配置单个mapper xml-->
+<!--        <property name="mapperLocations" value="classpath:mapper/AddressMapper.xml"/> -->
+        <!-- 配置多个xml文件 -->
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:mapper/*.xml</value>
+            </list>
+<!--            <array>-->
+<!--                <value>classpath:mapper/AddressMapper.xml</value>-->
+<!--                <value>classpath:mapper/UserMapper.xml</value>-->
+<!--            </array>-->
+        </property>
     </bean>
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
         <constructor-arg index="0" ref="sqlSessionFactory"/>
     </bean>
 
-<!--    Mapper Class-->
-<!--    <bean id="SampleMapper" class="site.linkway.core.mapper.SampleMapperImpl">-->
-<!--        <property name="sqlSessionFactory" ref="sqlSessionFactory" />-->
-<!--    </bean>-->
-<!--    <bean id="UserMapper" class="site.linkway.core.mapper.UserMapperImpl">-->
-<!--        <property name="sqlSessionFactory" ref="sqlSessionFactory" />-->
-<!--    </bean>-->
-
-
-    <!-- 4.配置扫描Dao接口包，动态实现Dao接口注入到spring容器中 -->
+    <!-- 配置扫描Dao接口包，动态实现Dao接口注入到spring容器中 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!-- 注入sqlSessionFactory -->
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>

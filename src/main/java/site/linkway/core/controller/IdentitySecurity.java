@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import site.linkway.core.entity.bo.TestRequestBody;
@@ -18,28 +17,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
-/*身份安全模块*/
-/* 登录
- * /identitySecurity/login?id={email}&password={password}
- *  注册账号
- * /identitySecurity/register?password={}&emailCode={}
- *  发送验证码
- * /identitySecurity/sendEmailCode?email={}
- *  修改密码
- * /identitySecurity/changePassword?newPassword={}&emailCode={}
- * */
+/*身份安全验证*/
 @Controller
 @RequestMapping(value = "/identitySecurity")
 public class IdentitySecurity {
+    /*log4j*/
     static Logger logger = Logger.getLogger(IdentitySecurity.class);
-
+    /*jackson*/
     private ObjectMapper mapper = new ObjectMapper();
 
+    /*对于Autowired idea提示Field injection is not recommended 建议使用set注入*/
     @Autowired
-    @Qualifier("IdentitySecurityServiceImpl")
     private IdentitySecurityService identitySecurityService;
-
     @Autowired
     HttpServletRequest httpServletRequest;
     @Autowired
@@ -128,10 +117,10 @@ public class IdentitySecurity {
     }
 
 
-    @RequestMapping(value="/testRequestBody",
-            method = {RequestMethod. POST },
-            produces = "application/json;charset=utf-8")
+    @PostMapping(value="/testRequestBody",
+                produces = "application/json;charset=utf-8")
     @ResponseBody
+    /*测试请求体为json类型*/
     public String testRequestBody(@RequestBody TestRequestBody testRequestBody) throws JsonProcessingException {
         System.out.println(testRequestBody);
         return mapper.writeValueAsString(testRequestBody);

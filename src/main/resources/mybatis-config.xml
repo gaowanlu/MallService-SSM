@@ -2,7 +2,6 @@
 <!DOCTYPE configuration
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
-
 <configuration>
     <settings>
         <setting name="logImpl" value="LOG4J"/>
@@ -12,18 +11,10 @@
     </typeAliases>
 <!--    Mapper Files-->
     <mappers>
-        <mapper resource="mapper/SampleMapper.xml"/>
-        <mapper resource="mapper/AddressMapper.xml"/>
-        <mapper resource="mapper/AdminMapper.xml"/>
-        <mapper resource="mapper/CartMapper.xml"/>
-        <mapper resource="mapper/FCommentMapper.xml"/>
-        <mapper resource="mapper/GoodImgMapper.xml"/>
-        <mapper resource="mapper/GoodMapper.xml"/>
-        <mapper resource="mapper/GoodTypeMapper.xml"/>
-        <mapper resource="mapper/ImgMapper.xml"/>
-        <mapper resource="mapper/OrderMapper.xml"/>
-        <mapper resource="mapper/SCommentMapper.xml"/>
-        <mapper resource="mapper/UserMapper.xml"/>
+<!--        已经在spring-mybatis.xml中自动多个mapper xml 配置无需在此配置-->
+<!--        如需配置请取消自动多个mapper xml配置-->
+<!--        <mapper resource="mapper/SampleMapper.xml"/>-->
+<!--        <mapper resource="mapper/AddressMapper.xml"/>-->
     </mappers>
 </configuration>
 

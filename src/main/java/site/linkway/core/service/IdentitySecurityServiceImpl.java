@@ -1,23 +1,23 @@
 package site.linkway.core.service;
 
 import jodd.mail.EmailAddress;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import site.linkway.core.entity.po.User;
-import site.linkway.core.mapper.SampleMapper;
 import site.linkway.core.mapper.UserMapper;
 import site.linkway.utils.EmailUtils;
 import site.linkway.utils.RandomString;
 import site.linkway.utils.UUIDUtils;
 
-@Service("IdentitySecurityServiceImpl")
+@Service
 public class IdentitySecurityServiceImpl implements IdentitySecurityService{
-
-    private UserMapper userMapper;
-
-    public void setUserMapper(UserMapper userMapper) {
+    @Autowired
+    public IdentitySecurityServiceImpl(UserMapper userMapper) {
         this.userMapper = userMapper;
     }
+    private UserMapper userMapper;
 
     @Override
     public boolean checkIdPassword(String email, String password) {
@@ -29,6 +29,7 @@ public class IdentitySecurityServiceImpl implements IdentitySecurityService{
     }
 
     @Override
+    @Transactional
     public boolean changePassword(String email, String newPassword) {
         User user=new User();
         user.email=email;

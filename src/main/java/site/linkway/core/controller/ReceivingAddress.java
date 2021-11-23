@@ -14,14 +14,7 @@ import site.linkway.core.service.UserDataService;
 
 import javax.servlet.http.HttpSession;
 
-/*用户收货地址
- * 获得全部存储在平台的收货地址
- * /api/getMyAddress
- * 删除地址
- * /api/deleteAddress?addressId={}
- * 添加地址
- * /api/addAddress?phone={}&name={}&address={}
- */
+/*收货地址模块*/
 @Controller
 @RequestMapping("/api")
 public class ReceivingAddress {
@@ -29,7 +22,6 @@ public class ReceivingAddress {
     private ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
-    @Qualifier("ReceivingAddressServiceImpl")
     private ReceivingAddressService receivingAddressService;
 
     /*添加新收货地址*/

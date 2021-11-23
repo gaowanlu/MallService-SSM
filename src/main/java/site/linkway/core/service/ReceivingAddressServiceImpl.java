@@ -1,11 +1,22 @@
 package site.linkway.core.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import site.linkway.core.entity.po.Address;
+import site.linkway.core.mapper.AddressMapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class ReceivingAddressServiceImpl implements ReceivingAddressService{
+    @Autowired
+    public ReceivingAddressServiceImpl(AddressMapper addressMapper) {
+        this.addressMapper = addressMapper;
+    }
+
+    private AddressMapper addressMapper;
+
     @Override
     public boolean add(String email, String phone, String name, String address) {
         return false;
