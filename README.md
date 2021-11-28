@@ -36,4 +36,5 @@ breaks: false
 Spring、SpringMVC、Mybatis 、MySQL
 
 
-## [API 文档](https://md.yuuza.net/8db-waSeSdW1NnyYmYZeYw)
+## API 文档
+[查看详情](https://md.yuuza.net/8db-waSeSdW1NnyYmYZeYw)

@@ -4,7 +4,7 @@ import site.linkway.core.entity.po.Address;
 import java.util.List;
 
 public interface ReceivingAddressService {
-    public boolean add(String email,String phone,String name,String address);
-    public boolean del(String email,String addressId);
-    public List<Address> getAll(String email);
+    boolean add(String email,String phone,String name,String address);
+    boolean del(String email,String addressId);
+    List<Address> getAll(String email);
 }

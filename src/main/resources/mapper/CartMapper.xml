@@ -3,5 +3,18 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.linkway.core.mapper.CartMapper">
-
+    <insert id="insert" parameterType="site.linkway.core.entity.po.Cart">
+        INSERT INTO cart(cartId,goodId,userId,num)
+        VALUES (#{cartId},#{goodId},#{userId},#{num})
+    </insert>
+    <delete id="delete" parameterType="site.linkway.core.entity.po.Cart">
+        DELETE FROM cart WHERE userId=#{userId} and cartId=#{cartId}
+    </delete>
+    <update id="update" parameterType="site.linkway.core.entity.po.Cart">
+        UPDATE cart SET num=#{num}
+        WHERE cartId = #{cartId} and userId=#{userId}
+    </update>
+    <select id="select" parameterType="site.linkway.core.entity.po.Cart" resultType="site.linkway.core.entity.po.Cart">
+        SELECT * FROM cart WHERE userId=#{userId}
+    </select>
 </mapper>

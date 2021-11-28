@@ -4,9 +4,9 @@ import site.linkway.core.entity.po.User;
 
 //table name:user  entity:po.User
 public interface UserMapper {
-    public int insert(User user);
-    public int update(User user);
-    public int delete(User user);
-    public User select(User user);//by email
-    public User selectByEmailAndPassword(User user);
+    int insert(User user);
+    int update(User user);
+    int delete(User user);
+    User select(User user);//by email
+    User selectByEmailAndPassword(User user);
 }

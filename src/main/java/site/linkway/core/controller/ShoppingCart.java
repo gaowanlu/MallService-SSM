@@ -11,6 +11,8 @@ import site.linkway.core.entity.vo.CartList;
 import site.linkway.core.entity.vo.StatusResult;
 import site.linkway.core.service.ShoppingCartService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -22,30 +24,37 @@ public class ShoppingCart {
     @Autowired
     private ShoppingCartService shoppingCartService;
 
+    @Autowired
+    HttpServletRequest httpServletRequest;
+    @Autowired
+    HttpServletResponse httpServletResponse;
+    @Autowired
+    HttpSession httpSession;
+
     /*新增购物车条项*/
     @PostMapping(value = "/cart",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String addCart(@NonNull String goodId,
-                          @NonNull int num,
-                          @NonNull HttpSession httpSession) throws JsonProcessingException {
+                          @SessionAttribute("id") String email,
+                          @NonNull int num) throws JsonProcessingException {
         StatusResult statusResult=new StatusResult();
-        String email=(String)httpSession.getAttribute("id");
         //添加购物车条项
         statusResult.setResult(shoppingCartService.addCart(goodId,email,num));
         return mapper.writeValueAsString(statusResult);
     }
 
     /*删除购物车条项 同时返回现有条项*/
-    @DeleteMapping(value = "/cart/{cartId}",produces = "application/json;charset=utf-8")
+    @DeleteMapping(value = "/cart",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String addCart(@NonNull String cartId,
-                          @NonNull HttpSession httpSession) throws JsonProcessingException {
+                          @SessionAttribute("id") String email
+                          ) throws JsonProcessingException {
         CartList cartList=new CartList();
-        String email=(String)httpSession.getAttribute("id");
-        //删除购物车条项
+        //删除购物车条项 result为此次操作是否成功
         cartList.result=shoppingCartService.deleteCart(cartId,email);
-        //获取购物车条项
+        //获取此用户的购物车条项
         cartList.setCarts(shoppingCartService.getCartsByEmail(email));
+        //结果返回
         return mapper.writeValueAsString(cartList);
     }
 

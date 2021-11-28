@@ -1,8 +1,7 @@
 package site.linkway.core.service;
 
-import jodd.mail.EmailAddress;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.linkway.core.entity.po.User;
@@ -13,12 +12,14 @@ import site.linkway.utils.UUIDUtils;
 
 @Service
 public class IdentitySecurityServiceImpl implements IdentitySecurityService{
+    //set 注入
     @Autowired
     public IdentitySecurityServiceImpl(UserMapper userMapper) {
         this.userMapper = userMapper;
     }
     private UserMapper userMapper;
 
+    /*根据邮箱与密码检查身份是否匹配*/
     @Override
     public boolean checkIdPassword(String email, String password) {
         User user=new User();
@@ -28,6 +29,9 @@ public class IdentitySecurityServiceImpl implements IdentitySecurityService{
         return user!=null;
     }
 
+    /*
+    *更新用户密码
+    *开启事务管理*/
     @Override
     @Transactional
     public boolean changePassword(String email, String newPassword) {
@@ -38,6 +42,8 @@ public class IdentitySecurityServiceImpl implements IdentitySecurityService{
         return 1==userMapper.update(user);
     }
 
+    /*参数为邮箱地址
+    * 返回发送过去的验证码字符串*/
     @Override
     public String sendEmailCode(String email) {
         String code= RandomString.CreateVerificationCode();
@@ -45,6 +51,7 @@ public class IdentitySecurityServiceImpl implements IdentitySecurityService{
         return code;
     }
 
+    /*提供邮箱与密码添加新用户*/
     @Override
     public boolean register(String email, String password) {
         User newUser=new User();
@@ -52,6 +59,8 @@ public class IdentitySecurityServiceImpl implements IdentitySecurityService{
         newUser.userId= UUIDUtils.getUUID();
         newUser.email=email;
         newUser.headImgId="";
+        //头像默认设为空字符串
+        //如果用户请求此用户的头像 则返回事先准备好的平台默认头像
         newUser.money=0.0d;
         newUser.name="未知";
         newUser.sex="男";
