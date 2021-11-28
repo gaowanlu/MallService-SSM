@@ -4,8 +4,8 @@ import site.linkway.core.entity.po.Admin;
 
 //table name:admin  entity:po.Admin
 public interface AdminMapper {
-    public int insert(Admin admin);
-    public int update(Admin admin);
-    public int delete(Admin admin);
-    public Admin select(Admin admin);
+    int insert(Admin admin);
+    int update(Admin admin);
+    int delete(Admin admin);
+    Admin select(Admin admin);
 }

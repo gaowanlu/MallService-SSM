@@ -12,7 +12,7 @@ public class PersonalData {
     public String userId;
     public String name;
     public String sex;
-    public String headImgId;
+    public String profilePhotoURL;
     public double money;
     public String email;
 }

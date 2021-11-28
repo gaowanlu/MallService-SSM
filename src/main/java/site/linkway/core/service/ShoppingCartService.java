@@ -5,9 +5,9 @@ import java.util.List;
 
 public interface ShoppingCartService {
     /*新增条项*/
-    public boolean addCart(String goodId,String email,int num);
+    boolean addCart(String goodId,String email,int num);
     /*删除条项*/
-    public boolean deleteCart(String cartId,String email);
+    boolean deleteCart(String cartId,String email);
     /*获得购物车条项*/
-    public List<Cart> getCartsByEmail(String email);
+    List<Cart> getCartsByEmail(String email);
 }

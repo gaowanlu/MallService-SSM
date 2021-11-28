@@ -4,8 +4,8 @@ import site.linkway.core.entity.po.FComment;
 
 //table name:fComment  entity:po.FComment
 public interface FCommentMapper {
-    public int insert(FComment fComment);
-    public int update(FComment fComment);
-    public int delete(FComment fComment);
-    public FComment select(FComment fComment);
+    int insert(FComment fComment);
+    int update(FComment fComment);
+    int delete(FComment fComment);
+    FComment select(FComment fComment);
 }

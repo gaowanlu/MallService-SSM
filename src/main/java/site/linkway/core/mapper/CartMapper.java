@@ -1,12 +1,13 @@
 package site.linkway.core.mapper;
 
 import site.linkway.core.entity.po.Cart;
+import java.util.List;
 
 //table name:cart  entity:po.Cart
 public interface CartMapper {
-    public int insert(Cart cart);
-    public int update(Cart cart);
-    public int delete(Cart cart);
-    public Cart select(Cart cart);
+    int insert(Cart cart);
+    int update(Cart cart);//只负责更新数量
+    int delete(Cart cart);
+    List<Cart> select(Cart cart);
 }
 

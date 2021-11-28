@@ -1,6 +1,5 @@
 package site.linkway.core.service;
 
-import jodd.buffer.FastBooleanBuffer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,9 +7,9 @@ import site.linkway.core.entity.po.Img;
 import site.linkway.core.entity.po.User;
 import site.linkway.core.mapper.ImgMapper;
 import site.linkway.core.mapper.UserMapper;
+import site.linkway.utils.UUIDUtils;
 
 import java.io.InputStream;
-import java.util.UUID;
 
 @Service
 public class UserDataServiceImpl implements UserDataService {
@@ -26,7 +25,7 @@ public class UserDataServiceImpl implements UserDataService {
     /*根据邮箱获得用户信息*/
     @Override
     public User getUserByEmail(String email) {
-        var user = new User();
+        User user = new User();
         user.email = email;
         return userMapper.select(user);
     }
@@ -37,26 +36,24 @@ public class UserDataServiceImpl implements UserDataService {
     public boolean updateUserData(String email, String name, String sex) {
         var user = getUserByEmail(email);
         if (user == null) return false;
-
         user.email = email;
         return 1 == userMapper.update(user);
     }
 
-    /*更新头像*/
+    /*更新头像 直接根据图片id进行对图片的二进制数据进行更新*/
     @Override
     @Transactional
     public boolean updateHeadImg(String email, InputStream inputStream, int fileSize, String fileType) {
-        var user = getUserByEmail(email);
+        User user = getUserByEmail(email);
         if (user == null) return false;
-
-        var img = new Img();
-        img.imgId = UUID.randomUUID().toString();
-        img.imgType = fileType;
-        img.imgSize = fileSize;
-        img.img = inputStream;
-        if (imgMapper.insert(img) != 1) return false;
-
-        user.headImgId = img.imgId;
-        return 1 == userMapper.update(user);
+        /*首先检索此用户是否已经存在自定义头像*/
+        if(user.getUserId()==null||user.getHeadImgId().equals("")){
+            //插入新的头像
+            Img img=new Img(UUIDUtils.getUUID(),fileType,fileSize,inputStream);
+            return 1==imgMapper.insert(img);
+        }else{//根据头像id进行更新
+            Img img=new Img(user.getHeadImgId(),fileType,fileSize,inputStream);
+            return 1==imgMapper.update(img);
+        }
     }
 }
