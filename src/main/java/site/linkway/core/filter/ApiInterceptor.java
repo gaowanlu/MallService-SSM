@@ -2,11 +2,8 @@ package site.linkway.core.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import site.linkway.core.controller.UserData;
 import site.linkway.core.entity.vo.StatusResult;
 
 import javax.servlet.http.HttpServletRequest;
