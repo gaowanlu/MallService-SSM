@@ -11,7 +11,7 @@
         UPDATE user SET password =#{password},name =#{name},sex=#{sex},headImgId=#{headImgId},money=#{money}
         WHERE email=#{email}
     </update>
-    <update id="delete" parameterType="site.linkway.core.entity.po.SamplePo">
+    <update id="delete" parameterType="site.linkway.core.entity.po.User">
         DELETE FROM user WHERE email = #{email}
     </update>
     <select id="select" parameterType="site.linkway.core.entity.po.User" resultType="site.linkway.core.entity.po.User">
