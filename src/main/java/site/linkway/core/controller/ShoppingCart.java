@@ -61,9 +61,8 @@ public class ShoppingCart {
     /*获取购物车全部条项*/
     @GetMapping(value = "/cart",produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String addCart(@NonNull HttpSession httpSession) throws JsonProcessingException {
+    public String addCart(@SessionAttribute("id") String email) throws JsonProcessingException {
         CartList cartList=new CartList();
-        String email=(String)httpSession.getAttribute("id");
         //获取购物车条项
         cartList.setCarts(shoppingCartService.getCartsByEmail(email));
         return mapper.writeValueAsString(cartList);

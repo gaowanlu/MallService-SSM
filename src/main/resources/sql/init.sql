@@ -130,3 +130,22 @@ create TABLE address(
 	foreign key(userId) references user(userId) ON UPDATE cascade ON delete cascade
 );
 
+
+#订单所购买的物品项
+CREATE TABLE orderGood(
+    orderGoodId int unsigned auto_increment NOT NULL primary key,
+    orderId VARCHAR(32) NOT NULL references orders(orderId),
+    goodId VARCHAR(32) NOT NULL,
+    num int unsigned NOT NULL
+);
+
+#INSERT INTO user VALUES('1','123456789','gaowanlu','男','',100.0,'2209120827@qq.com');
+#INSERT INTO goodtype values(1,'手机');
+
+#INSERT INTO good values('1',6345,'p50','好手机',12,300,1);
+#INSERT INTO cart VALUES('dsvdfvsdf','1','1',1);
+
+-- INSERT INTO goodtype values(2,'电脑');
+-- INSERT INTO good values('2',6345,'BX505','好电脑',12,300,2);
+-- INSERT INTO cart VALUES('dsvdcdscs','2','1',2);
+

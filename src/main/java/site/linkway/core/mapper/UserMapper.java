@@ -11,4 +11,5 @@ public interface UserMapper {
     int delete(User user);
     User select(User user);//by email
     User selectByEmailAndPassword(User user);
+    String selectIdByEmail(String email);
 }

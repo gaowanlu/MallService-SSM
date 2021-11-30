@@ -2,17 +2,13 @@ package site.linkway.core.entity.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import site.linkway.core.entity.po.CartItem;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
-public class CartList {
-    public boolean result=true;
-    public List<CartItem> carts;
-    public CartList(){
-        this.carts=new ArrayList<>();
-    }
+public class OrderItem {
+    List<CartItem> orderDetail;
 }

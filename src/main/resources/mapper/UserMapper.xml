@@ -20,4 +20,7 @@
     <select id="selectByEmailAndPassword" parameterType="site.linkway.core.entity.po.User" resultType="site.linkway.core.entity.po.User">
         SELECT * FROM user WHERE email=#{email} and password=#{password}
     </select>
+    <select id="selectIdByEmail" resultType="java.lang.String">
+        SELECT userId FROM user WHERE email=#{email}
+    </select>
 </mapper>
