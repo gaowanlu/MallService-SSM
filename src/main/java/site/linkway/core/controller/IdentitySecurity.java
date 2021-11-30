@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import site.linkway.core.entity.bo.TestRequestBody;
-import site.linkway.core.entity.vo.ErrorResult;
+import site.linkway.core.entity.vo.ResultMessage;
 import site.linkway.core.entity.vo.StatusResult;
 import site.linkway.core.service.IdentitySecurityService;
 
@@ -29,6 +29,7 @@ public class IdentitySecurity {
     /*对于Autowired idea提示Field injection is not recommended 建议使用set注入*/
     @Autowired
     private IdentitySecurityService identitySecurityService;
+
     @Autowired
     HttpServletRequest httpServletRequest;
     @Autowired
@@ -58,7 +59,7 @@ public class IdentitySecurity {
         }
         //身份验证失败
         httpServletResponse.setStatus(403);
-        return mapper.writeValueAsString(new ErrorResult("用户名或密码错误"));
+        return mapper.writeValueAsString(new ResultMessage("用户名或密码错误"));
     }
 
     /*注册账号*/

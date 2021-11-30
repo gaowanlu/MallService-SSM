@@ -1,6 +1,7 @@
 package site.linkway.core.service;
 
-import site.linkway.core.entity.po.Cart;
+import site.linkway.core.entity.po.CartItem;
+
 import java.util.List;
 
 public interface ShoppingCartService {
@@ -9,5 +10,5 @@ public interface ShoppingCartService {
     /*删除条项*/
     boolean deleteCart(String cartId,String email);
     /*获得购物车条项*/
-    List<Cart> getCartsByEmail(String email);
+    List<CartItem> getCartsByEmail(String email);
 }

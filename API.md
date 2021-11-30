@@ -90,17 +90,12 @@
 
 #### 删除购物车条项
 `DELETE /api/cart`
-
-删除后，返回现有 `CartList` 
-
-（[数据类型](#数据类型)） 
-
-
+参数 `{cartId}`
 
 #### 获得购物车全部条项
 `GET /api/cart`
 
-返回现有 `CartList` 
+返回格式 `CartList` （[数据类型](#数据类型)）
 
 
 
@@ -137,15 +132,31 @@
 
 
 
+## 进行中 
+#### Order  (用户自我订单的操作) code: gaowanlu 
+* 产生新订单
+* 查看已有订单详情
+* 订单取消（退款申请）
+
+
 ## 待定 API 
 
 #### Admin  （管理端）
+* 商品管理 
+* 订单管理 
+* 商品类别管理  
+* 主页展示管理 
 #### CommentSystem   （评论系统） 
-#### Order  (用户自我订单的操作)
+* 对商品发布评价（文字+评星） 
+* 发布子评论（文字） 
+* 评论浏览
+
 #### ProductBrowsing   (商品浏览相关)
+* 商品推荐列表   
+* 浏览商品详情
 #### Search (商品搜索)
-
-
+* 根据类别检索   
+* 名称关键词检索
 ## 数据类型
 
 ```typescript 
@@ -160,17 +171,23 @@ interface PersonalData {
 }
 
 /*购物车条项*/
-interface Cart {
+interface CartItem {
     cartId: string;
     goodId: string;
     userId: string;
     num: number;
+    price:number;
+    name:string;
+    profile:string;
+    stock:number;
+    soldSum:number;
+    goodType:string;
 }
 
 /*购物车列表*/
 interface CartList {
     result: boolean;
-    carts: Cart[];
+    carts: CartItem[];
 }
 
 /*收货地址*/
