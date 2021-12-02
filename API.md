@@ -1,7 +1,3 @@
----
-breaks: false
----
-
 # MallService API 文档
 
 （最新版本/草稿见[此处](https://md.yuuza.net/8db-waSeSdW1NnyYmYZeYw)）
@@ -109,28 +105,29 @@ breaks: false
 ## `收货地址`
 
 #### 获得全部存储在平台的收货地址
-`GET /api/addresses`  
+`GET /api/addresses`
 
-返回 AddressList  （[数据类型](#数据类型)）
+
+返回 `AddressList`  （[数据类型](#数据类型)）
 
 
 
 #### 删除地址
-`DELETE /api/addresses`  
+`DELETE /api/addresses` 
 
-参数`{addressId}` 
+参数`{addressId}`
 
-返回 AddressList （[数据类型](#数据类型)）
+返回 `AddressList` （[数据类型](#数据类型)）
 
 #### 添加地址 
-`POST /api/addresses`  
+`POST /api/addresses` 
 
 参数 `{phone, name, address}` 
 
 
-## `图片分发`  
+## `图片分发`
 
-#### 获得指定图片  
+#### 获得指定图片 
 `GET /imgApi?imgId={}` 
 
 
@@ -247,11 +244,11 @@ interface CartList {
 
 /*收货地址*/
 interface Address{
-    addressId:string;
-    userId:string;
-    phone:string;
-    address:string;
-    name:string;
+    addressId: string;
+    userId: string;
+    phone: string;
+    address: string;
+    name: string;
 }
 
 /*收货地址列表*/
@@ -276,6 +273,7 @@ interface Good{
     soldSum:number;
     imgsURL:string[]
 }
+
 
 /*商品推荐列表*/
 interface GoodTipList{
