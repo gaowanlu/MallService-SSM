@@ -18,7 +18,7 @@
         SELECT * FROM cart WHERE userId=#{userId}
     </select>
     <select id="selectCartsDetail" resultType="site.linkway.core.entity.po.CartItem">
-        SELECT user.userId as userId,cartId,num,cart.goodId,price,good.name,profile,stock,soldSum,goodtype.name as goodType
+        SELECT user.userId as userId,cartId,num,cart.goodId,price,good.name,profile,stock,soldSum,goodtype.name as goodType,goodtype.goodTypeId
         FROM user,cart,good,goodtype
         WHERE
         user.email=#{email} AND

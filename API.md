@@ -30,7 +30,7 @@
 #### 登录
 `POST /identitySecurity/login`
 
-参数 `{id, password}` （id 是用户邮箱）
+参数 `{id, password}` （id 暂时仅支持用户邮箱）
 
 
 
@@ -89,7 +89,8 @@
 
 
 #### 删除购物车条项
-`DELETE /api/cart`
+`DELETE /api/cart`  
+
 参数 `{cartId}`
 
 #### 获得购物车全部条项
@@ -106,7 +107,8 @@
 #### 获得全部存储在平台的收货地址
 `GET /api/addresses`
 
-返回 `AddressList`
+
+返回 `AddressList`  （[数据类型](#数据类型)）
 
 
 
@@ -115,9 +117,7 @@
 
 参数`{addressId}`
 
-返回 `AddressList`
-
-
+返回 `AddressList` （[数据类型](#数据类型)）
 
 #### 添加地址 
 `POST /api/addresses` 
@@ -133,10 +133,59 @@
 
 
 ## 进行中 
-#### Order  (用户自我订单的操作) code: gaowanlu 
+### Order  (订单-用户) 
+coding: @gaowanlu 
 * 产生新订单
-* 查看已有订单详情
-* 订单取消（退款申请）
+
+```
+拟定提交格式 json
+{
+    List<OrderGoodItem> goods;
+    String addressId;
+}
+
+interface OrderGoodItem{
+    goodId:string,
+    num:number
+}
+
+返回格式
+{
+    result: boolean,
+    massge: '下单失败相关原因' 
+}
+```
+* 查看已有订单详情 (个人订单有限暂不分页)
+```
+返回格式
+{
+    result:boolean;
+    orders:Order[];
+}
+
+返回格式
+{
+    orderId:string;//订单号
+    statusId:number; //订单状态号
+    statusDescribe:string;//订单状态描述
+    goods:[
+        {good:Good,num:number},
+        {good:Good,num:number}
+    ]
+}
+
+``` 
+* 订单取消（退款申请 需要管理员审批退款） 
+```
+请求格式 表单
+参数 {orderId:string}
+```
+
+* 确认签收
+```
+请求格式 表单
+参数 {orderId:string}
+```
 
 
 ## 待定 API 
@@ -156,7 +205,8 @@
 * 浏览商品详情
 #### Search (商品搜索)
 * 根据类别检索   
-* 名称关键词检索
+* 名称关键词检索 
+
 ## 数据类型
 
 ```typescript 
@@ -182,6 +232,8 @@ interface CartItem {
     stock:number;
     soldSum:number;
     goodType:string;
+    goodTypeId:number;
+    imgsURL:string[] //商品相关图片
 }
 
 /*购物车列表*/
@@ -201,10 +253,38 @@ interface Address{
 
 /*收货地址列表*/
 interface AddressList{
-    result: boolean;
-    addresses: Address[];
+    result:boolean;
+    addresses:Address[];
+}
+
+```
+
+## 拟定数据类型
+```typescript
+/*商品*/
+interface Good{
+    goodType:string;
+    goodTypeId:number;
+    name:string;
+    profile:string;
+    price:number;
+    goodId:string;
+    stock:number;
+    soldSum:number;
+    imgsURL:string[]
 }
 
 
+/*商品推荐列表*/
+interface GoodTipList{
+    result:boolean;
+    goods:Good[]
+}
 
+/*商品搜索结果*/
+interface GoodSearchResult{
+    result:boolean,
+    goods:Good[],
+    pageSum:number //总页数
+}
 ```

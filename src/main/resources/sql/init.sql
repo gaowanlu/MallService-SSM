@@ -139,13 +139,22 @@ CREATE TABLE orderGood(
     num int unsigned NOT NULL
 );
 
-#INSERT INTO user VALUES('1','123456789','gaowanlu','男','',100.0,'2209120827@qq.com');
-#INSERT INTO goodtype values(1,'手机');
+INSERT INTO user VALUES('1','123456789','gaowanlu','男','',100.0,'2209120827@qq.com');
+INSERT INTO goodtype values(1,'手机');
 
-#INSERT INTO good values('1',6345,'p50','好手机',12,300,1);
-#INSERT INTO cart VALUES('dsvdfvsdf','1','1',1);
+INSERT INTO good values('1',6345,'p50','好手机',12,300,1);
+INSERT INTO cart VALUES('dsvdfvsdf','1','1',1);
 
--- INSERT INTO goodtype values(2,'电脑');
--- INSERT INTO good values('2',6345,'BX505','好电脑',12,300,2);
--- INSERT INTO cart VALUES('dsvdcdscs','2','1',2);
+INSERT INTO goodtype values(2,'电脑');
+INSERT INTO good values('2',6345,'BX505','好电脑',12,300,2);
+INSERT INTO cart VALUES('dsvdcdscs','2','1',2);
 
+INSERT INTO img VALUES("dsds","csc",234,"");
+INSERT INTO img VALUES("dsdsvfd","csc",234,"");
+INSERT INTO img VALUES("dsdngms","csc",234,"");
+INSERT INTO goodimg VALUES("csvfd1","dsds","1");
+INSERT INTO goodimg VALUES("csvfd2","dsds","2");
+INSERT INTO goodimg VALUES("csvfd3","dsdsvfd","1");
+INSERT INTO goodimg VALUES("csvfd4","dsdsvfd","2");
+INSERT INTO goodimg VALUES("csvfd5","dsdngms","1");
+INSERT INTO goodimg VALUES("csvfd6","dsdngms","2");

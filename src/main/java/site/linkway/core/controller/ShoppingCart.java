@@ -32,10 +32,10 @@ public class ShoppingCart {
     HttpSession httpSession;
 
     /*新增购物车条项*/
-    @PostMapping(value = "/cart",produces = "application/json;charset=utf-8")
+    @PostMapping (value = "/cart",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String addCart(@NonNull String goodId,
-                          @SessionAttribute("id") String email,
+                          @SessionAttribute(value = "id") String email,
                           @NonNull int num) throws JsonProcessingException {
         StatusResult statusResult=new StatusResult();
         //添加购物车条项
@@ -47,7 +47,7 @@ public class ShoppingCart {
     @DeleteMapping(value = "/cart",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String addCart(@NonNull String cartId,
-                          @SessionAttribute("id") String email
+                          @SessionAttribute(value = "id") String email
                           ) throws JsonProcessingException {
         CartList cartList=new CartList();
         //删除购物车条项 result为此次操作是否成功
@@ -61,7 +61,7 @@ public class ShoppingCart {
     /*获取购物车全部条项*/
     @GetMapping(value = "/cart",produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String addCart(@SessionAttribute("id") String email) throws JsonProcessingException {
+    public String addCart(@SessionAttribute(value = "id") String email) throws JsonProcessingException {
         CartList cartList=new CartList();
         //获取购物车条项
         cartList.setCarts(shoppingCartService.getCartsByEmail(email));
