@@ -50,7 +50,6 @@ public class ReceivingAddress {
     public String deleteAddress(@NonNull String addressId,
                                 @SessionAttribute("id") String email
                                 ) throws JsonProcessingException {
-
         AddressList addressList=new AddressList();
         addressList.setResult(receivingAddressService.del(email,addressId));
         addressList.setAddresses(receivingAddressService.getAll(email));

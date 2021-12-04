@@ -3,5 +3,35 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.linkway.core.mapper.GoodMapper">
-
+    <select id="randomCommodities" resultMap="Commodity">
+        select goodtype.name as goodType,
+               good.goodTypeId as goodtypeId,
+               good.name as name,
+               profile,
+               price,
+               good.goodId as goodId,
+               stock,
+               soldSum
+        FROM good,goodtype
+        WHERE good.goodTypeId=goodtype.goodTypeId
+        ORDER BY rand() limit #{maxSize}
+    </select>
+    <select id="commodityByGoodId" resultMap="Commodity">
+        select goodtype.name as goodType,
+               good.goodTypeId as goodtypeId,
+               good.name as name,
+               profile,
+               price,
+               good.goodId as goodId,
+               stock,
+               soldSum
+        FROM good,goodtype
+        WHERE good.goodId=#{goodId} AND good.goodTypeId=goodtype.goodTypeId
+    </select>
+    <select id="imgIdByGoodId" resultType="java.lang.String">
+        select imgId from goodimg WHERE goodId=#{goodId}
+    </select>
+    <resultMap id="Commodity" type="site.linkway.core.entity.po.Commodity">
+        <collection property="imgsURL" javaType="ArrayList" ofType="java.lang.String" column="goodId" select="imgIdByGoodId"/>
+    </resultMap>
 </mapper>

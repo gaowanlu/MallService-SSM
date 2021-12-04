@@ -2,6 +2,7 @@ package site.linkway.core.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import site.linkway.core.controller.ImageDistribution;
 import site.linkway.core.entity.po.Cart;
 import site.linkway.core.entity.po.GoodImg;
 import site.linkway.core.entity.po.User;
@@ -61,7 +62,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
             List<String> goodIds=goodImgMapper.selectImgIdByGoodId(item.getGoodId());
             for(int i=0;i<goodIds.size();i++){
                 String URL=goodIds.get(i);
-                URL="/imgApi?imgId="+URL;
+                URL=ImageDistribution.formatURLFromImgId(URL);
                 goodIds.set(i,URL);
             }
             item.setImgsURL(goodIds);

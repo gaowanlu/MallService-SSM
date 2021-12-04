@@ -41,4 +41,10 @@ public class ImageDistribution {
         * */
         ResizeImg.zoomImage(httpServletResponse,in,500,filesize,filetype);
     }
+
+    /*格式化URI*/
+    public static String formatURLFromImgId(String imgId){
+        return "/imgApi?imgId="+imgId;
+    }
+
 }
