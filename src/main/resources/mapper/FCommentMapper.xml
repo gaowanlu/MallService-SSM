@@ -3,5 +3,28 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.linkway.core.mapper.FCommentMapper">
-
+    <select id="commentListByGoodId" resultMap="CommentAll">
+        SELECT fcomment.fCommentId as commentId,
+               content,
+               fcomment.userId as userId,
+               user.name as userName,
+               user.headImgId as avatarURL,
+               fcomment.time as time,
+               rate
+        FROM fcomment,user
+        WHERE fcomment.userId=user.userId AND fcomment.goodId=#{goodId}
+        ORDER BY fcomment.time
+        LIMIT #{num},#{size}
+    </select>
+    <resultMap id="CommentAll" type="site.linkway.core.entity.po.Comment">
+        <!--association关联属性  property属性名 javaType属性类型 column在多的一方的表中的列名-->
+        <association property="childCount"  column="{id=commentId}" javaType="java.lang.Long" select="countSComment"/>
+    </resultMap>
+    <select id="countSComment" resultType="java.lang.Long">
+        SELECT COUNT(*) from scomment where fCommentId=#{id}
+    </select>
+    <select id="countByGoodId" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM fcomment WHERE goodId=#{goodId}
+    </select>
 </mapper>
+

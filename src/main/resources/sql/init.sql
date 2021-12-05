@@ -158,3 +158,23 @@ INSERT INTO goodimg VALUES("csvfd3","dsdsvfd","1");
 INSERT INTO goodimg VALUES("csvfd4","dsdsvfd","2");
 INSERT INTO goodimg VALUES("csvfd5","dsdngms","1");
 INSERT INTO goodimg VALUES("csvfd6","dsdngms","2");
+
+#插入评论
+#父评论
+INSERT INTO fcomment VALUES("2wdwef",'1','dfvdbdbfg',NOW(),'1',5);
+INSERT INTO fcomment VALUES("2wgef",'1','dfvnghg',NOW(),'1',5);
+INSERT INTO fcomment VALUES("2wdfef",'1','dfvadfg',NOW(),'1',5);
+INSERT INTO fcomment VALUES("2wsdf",'1','dfnfbfg',NOW(),'1',5);
+INSERT INTO fcomment VALUES("2wgfef",'1','dfghbfg',NOW(),'1',5);
+INSERT INTO fcomment VALUES("2whgef",'1','dfasddbfg',NOW(),'1',5);
+
+#子评论
+INSERT INTO scomment VALUES('vsdfbs1','2wdwef','vdsbfgnf',NOW(),'1');
+INSERT INTO scomment VALUES('vsdfbs2','2wdwef','vdsbfgnf',NOW(),'1');
+INSERT INTO scomment VALUES('vsdfbs3','2wdwef','vdsbfgnf',NOW(),'1');
+INSERT INTO scomment VALUES('vsdfbs4','2wdwef','vdsbfgnf',NOW(),'1');
+
+INSERT INTO scomment VALUES('vsdwfbs','2wgef','vdsbfgnf',NOW(),'1');
+INSERT INTO scomment VALUES('vsdffbs','2wgef','vdsbfgnf',NOW(),'1');
+INSERT INTO scomment VALUES('vsdafbs','2wgef','vdsbfgnf',NOW(),'1');
+INSERT INTO scomment VALUES('vsdfgbs','2wgef','vdsbfgnf',NOW(),'1');
