@@ -143,10 +143,12 @@
 * 参数`{goodId:string}` 
 * 返回格式 `Commodity` ([数据类型](#数据类型)) 
 
----
+--- 
+
+
 
 ## 进行中 
-### Order  (订单-用户) 
+### `订单-用户`  
 coding: [@gaowanlu](https://www.github.com/gaowanlu) 
 * 产生新订单 
 
@@ -201,23 +203,43 @@ interface OrderGoodItem{
 ```
 
 
-## 待定 API 
+
+### `商品评论` 
+coding: [@gaowanlu](https://www.github.com/gaowanlu)
+* -[x] 根据商品id获得评论列表
+`METHOD /comment/fList` 
+* -[x] 根据父评论id请求子评论列表 
+`METHOD /comment/sList` 
+* -[ ] 根据商品id添加父评论 
+`METHOD /comment/add/f` 
+* -[ ] 根据父评论id增加子评论 
+`METHOD /comment/add/s` 
+* -[ ] 删除父评论 
+`METHOD /comment/delete/f` 
+* -[ ] 删除子评论 
+`METHOD /comment/delete/s` 
+
+
+
+
+--- 
+
+
+
+
+## 待定 API (🔫)
 
 #### 管理端  
-* 商品管理 
-* 订单管理 
-* 商品类别管理  
-* 主页展示管理 
-#### 商品评论 
-* 对商品发布评价（文字+评星） 
-* 发布子评论（文字） 
-* 评论浏览 
+* 商品管理  
+* 订单管理  
+* 商品类别管理   
+* 主页展示管理  
 
 #### 商品搜索 
 * 根据类别检索   
 * 名称关键词检索  
 
-## 数据类型
+## 数据类型 
 
 ```typescript 
 /*个人信息*/
@@ -285,6 +307,27 @@ interface CommodityTipList{
     result:boolean;
     commodities:Commodity[]
 }
+
+/*评论列表*/ 
+interface CommentList{
+    result:boolean;
+    comments:Comment[];//评论列表
+    pageNow:number;//现在所在页号
+    pageSize:number;//每页得的大小
+    pageCount:number;//总共页数
+}
+
+/*评论*/ 
+interface Comment{
+    commentId:string;//评论id
+    content:string;//评论文字内容
+    userId:string;//用户id
+    userName:string;//用户昵称
+    avatarURL:string;//用户头像URL
+    time:string;//评论发布时间
+    rate:number;//(注：子评论没有rate，但此字段返回至客户端) 
+    childCount:number;//此条评论子评论数量
+}
 ```
 
 ## 拟定数据类型
@@ -292,8 +335,11 @@ interface CommodityTipList{
 
 /*商品搜索结果*/
 interface CommoditySearchResult{
-    result:boolean,
-    commodities:Commodity[],
-    pageSum:number //总页数
+    result:boolean;
+    commodities:Commodity[];
+    pageCount:number; //总页数
+    pageNow:number;//现在所在页号
+    pageSize:number;//每页得的大小
+    pageCount:number;//总共页数
 }
 ```
