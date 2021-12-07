@@ -4,16 +4,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.linkway.core.mapper.FCommentMapper">
     <select id="commentListByGoodId" resultMap="CommentAll">
-        SELECT fcomment.fCommentId as commentId,
+        SELECT fComment.fCommentId as commentId,
                content,
-               fcomment.userId as userId,
+               fComment.userId as userId,
                user.name as userName,
                user.headImgId as avatarURL,
-               fcomment.time as time,
+               fComment.time as time,
                rate
-        FROM fcomment,user
-        WHERE fcomment.userId=user.userId AND fcomment.goodId=#{goodId}
-        ORDER BY fcomment.time
+        FROM fComment,user
+        WHERE fComment.userId=user.userId AND fComment.goodId=#{goodId}
+        ORDER BY fComment.time
         LIMIT #{num},#{size}
     </select>
     <resultMap id="CommentAll" type="site.linkway.core.entity.po.Comment">
@@ -21,10 +21,10 @@
         <association property="childCount"  column="{id=commentId}" javaType="java.lang.Long" select="countSComment"/>
     </resultMap>
     <select id="countSComment" resultType="java.lang.Long">
-        SELECT COUNT(*) from scomment where fCommentId=#{id}
+        SELECT COUNT(*) from sComment where fCommentId=#{id}
     </select>
     <select id="countByGoodId" resultType="java.lang.Long">
-        SELECT COUNT(*) FROM fcomment WHERE goodId=#{goodId}
+        SELECT COUNT(*) FROM fComment WHERE goodId=#{goodId}
     </select>
 </mapper>
 
