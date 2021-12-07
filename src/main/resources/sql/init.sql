@@ -139,42 +139,45 @@ CREATE TABLE orderGood(
     num int unsigned NOT NULL
 );
 
+
+# 用户
+INSERT INTO user VALUES('cd0bf38c57fe44d39d4b6a135fb8fc7e','123456','未知','男','',0,'moezrf@gmail.com');
 INSERT INTO user VALUES('1','123456789','gaowanlu','男','',100.0,'2209120827@qq.com');
-INSERT INTO goodtype values(1,'手机');
+INSERT INTO goodType values(1,'手机');
 
 INSERT INTO good values('1',6345,'p50','好手机',12,300,1);
 INSERT INTO cart VALUES('dsvdfvsdf','1','1',1);
 
-INSERT INTO goodtype values(2,'电脑');
+INSERT INTO goodType values(2,'电脑');
 INSERT INTO good values('2',6345,'BX505','好电脑',12,300,2);
 INSERT INTO cart VALUES('dsvdcdscs','2','1',2);
 
 INSERT INTO img VALUES("dsds","csc",234,"");
 INSERT INTO img VALUES("dsdsvfd","csc",234,"");
 INSERT INTO img VALUES("dsdngms","csc",234,"");
-INSERT INTO goodimg VALUES("csvfd1","dsds","1");
-INSERT INTO goodimg VALUES("csvfd2","dsds","2");
-INSERT INTO goodimg VALUES("csvfd3","dsdsvfd","1");
-INSERT INTO goodimg VALUES("csvfd4","dsdsvfd","2");
-INSERT INTO goodimg VALUES("csvfd5","dsdngms","1");
-INSERT INTO goodimg VALUES("csvfd6","dsdngms","2");
+INSERT INTO goodImg VALUES("csvfd1","dsds","1");
+INSERT INTO goodImg VALUES("csvfd2","dsds","2");
+INSERT INTO goodImg VALUES("csvfd3","dsdsvfd","1");
+INSERT INTO goodImg VALUES("csvfd4","dsdsvfd","2");
+INSERT INTO goodImg VALUES("csvfd5","dsdngms","1");
+INSERT INTO goodImg VALUES("csvfd6","dsdngms","2");
 
 #插入评论
 #父评论
-INSERT INTO fcomment VALUES("2wdwef",'1','dfvdbdbfg',NOW(),'1',5);
-INSERT INTO fcomment VALUES("2wgef",'1','dfvnghg',NOW(),'1',5);
-INSERT INTO fcomment VALUES("2wdfef",'1','dfvadfg',NOW(),'1',5);
-INSERT INTO fcomment VALUES("2wsdf",'1','dfnfbfg',NOW(),'1',5);
-INSERT INTO fcomment VALUES("2wgfef",'1','dfghbfg',NOW(),'1',5);
-INSERT INTO fcomment VALUES("2whgef",'1','dfasddbfg',NOW(),'1',5);
+INSERT INTO fComment VALUES("2wdwef",'1','dfvdbdbfg',NOW(),'1',5);
+INSERT INTO fComment VALUES("2wgef",'1','dfvnghg',NOW(),'1',5);
+INSERT INTO fComment VALUES("2wdfef",'1','dfvadfg',NOW(),'1',5);
+INSERT INTO fComment VALUES("2wsdf",'1','dfnfbfg',NOW(),'1',5);
+INSERT INTO fComment VALUES("2wgfef",'1','dfghbfg',NOW(),'1',5);
+INSERT INTO fComment VALUES("2whgef",'1','dfasddbfg',NOW(),'1',5);
 
 #子评论
-INSERT INTO scomment VALUES('vsdfbs1','2wdwef','vdsbfgnf',NOW(),'1');
-INSERT INTO scomment VALUES('vsdfbs2','2wdwef','vdsbfgnf',NOW(),'1');
-INSERT INTO scomment VALUES('vsdfbs3','2wdwef','vdsbfgnf',NOW(),'1');
-INSERT INTO scomment VALUES('vsdfbs4','2wdwef','vdsbfgnf',NOW(),'1');
+INSERT INTO sComment VALUES('vsdfbs1','2wdwef','vdsbfgnf',NOW(),'1');
+INSERT INTO sComment VALUES('vsdfbs2','2wdwef','vdsbfgnf',NOW(),'1');
+INSERT INTO sComment VALUES('vsdfbs3','2wdwef','vdsbfgnf',NOW(),'1');
+INSERT INTO sComment VALUES('vsdfbs4','2wdwef','vdsbfgnf',NOW(),'1');
 
-INSERT INTO scomment VALUES('vsdwfbs','2wgef','vdsbfgnf',NOW(),'1');
-INSERT INTO scomment VALUES('vsdffbs','2wgef','vdsbfgnf',NOW(),'1');
-INSERT INTO scomment VALUES('vsdafbs','2wgef','vdsbfgnf',NOW(),'1');
-INSERT INTO scomment VALUES('vsdfgbs','2wgef','vdsbfgnf',NOW(),'1');
+INSERT INTO sComment VALUES('vsdwfbs','2wgef','vdsbfgnf',NOW(),'1');
+INSERT INTO sComment VALUES('vsdffbs','2wgef','vdsbfgnf',NOW(),'1');
+INSERT INTO sComment VALUES('vsdafbs','2wgef','vdsbfgnf',NOW(),'1');
+INSERT INTO sComment VALUES('vsdfgbs','2wgef','vdsbfgnf',NOW(),'1');

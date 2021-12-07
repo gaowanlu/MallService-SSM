@@ -4,18 +4,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.linkway.core.mapper.SCommentMapper">
     <select id="commentListByFCommentId" resultType="site.linkway.core.entity.po.Comment">
-        SELECT scomment.sCommentId as commentId,
+        SELECT sComment.sCommentId as commentId,
                content,
-               scomment.userId as userId,
+               sComment.userId as userId,
                user.name as userName,
                user.headImgId as avatarURL,
-               scomment.time as time
-        FROM scomment,user
-        WHERE scomment.fCommentId=#{fCommentId} AND scomment.userId=user.userId
-        ORDER BY scomment.time
+               sComment.time as time
+        FROM sComment,user
+        WHERE sComment.fCommentId=#{fCommentId} AND sComment.userId=user.userId
+        ORDER BY sComment.time
         LIMIT #{num},#{size}
     </select>
     <select id="countByfCommentId" resultType="java.lang.Long">
-        SELECT COUNT(*) from scomment WHERE fCommentId=#{fCommentId}
+        SELECT COUNT(*) from sComment WHERE fCommentId=#{fCommentId}
     </select>
 </mapper>

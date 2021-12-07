@@ -18,12 +18,22 @@
         SELECT * FROM cart WHERE userId=#{userId}
     </select>
     <select id="selectCartsDetail" resultType="site.linkway.core.entity.po.CartItem">
-        SELECT user.userId as userId,cartId,num,cart.goodId,price,good.name,profile,stock,soldSum,goodtype.name as goodType,goodtype.goodTypeId
-        FROM user,cart,good,goodtype
+        SELECT user.userId as userId,
+               cartId,
+               num,
+               cart.goodId,
+               price,
+               good.name,
+               profile,
+               stock,
+               soldSum,
+               goodType.name as goodType,
+               goodType.goodTypeId
+        FROM user,cart,good,goodType
         WHERE
         user.email=#{email} AND
         cart.userId=user.userId AND
         cart.goodId=good.goodId AND
-        goodtype.goodTypeId=good.goodTypeId;
+        goodType.goodTypeId=good.goodTypeId;
     </select>
 </mapper>
