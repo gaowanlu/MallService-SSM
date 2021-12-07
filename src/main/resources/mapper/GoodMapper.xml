@@ -29,7 +29,7 @@
         WHERE good.goodId=#{goodId} AND good.goodTypeId=goodType.goodTypeId
     </select>
     <select id="imgIdByGoodId" resultType="java.lang.String">
-        select imgId from goodimg WHERE goodId=#{goodId}
+        select imgId from goodImg WHERE goodId=#{goodId}
     </select>
     <resultMap id="Commodity" type="site.linkway.core.entity.po.Commodity">
         <collection property="imgsURL" javaType="ArrayList" ofType="java.lang.String" column="goodId" select="imgIdByGoodId"/>
