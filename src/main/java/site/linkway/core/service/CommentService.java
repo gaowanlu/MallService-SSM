@@ -8,9 +8,9 @@ public interface CommentService {
     /*检索子评论列表*/
     CommentList sCommentServiceByFCommentId(String fCommentId,int pageSize,int pageNow);
     /*添加父评论*/
-    boolean insertFComment(String content,String goodId,String email);
+    String insertFComment(String content,String goodId,String email,int rate);
     /*添加子评论*/
-    boolean insertSComment(String content,String fCommentId,String email);
+    String insertSComment(String content,String fCommentId,String email);
     /*删除父评论*/
     boolean deleteFComment(String fCommentId,String email);
     /*删除子评论*/

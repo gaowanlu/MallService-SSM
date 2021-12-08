@@ -18,4 +18,17 @@
     <select id="countByfCommentId" resultType="java.lang.Long">
         SELECT COUNT(*) from sComment WHERE fCommentId=#{fCommentId}
     </select>
+
+    <insert id="insert">
+        INSERT INTO sComment(sCommentId,fCommentId,content,time,userId)
+        VALUES(
+        #{sCommentId},
+        #{fCommentId},
+        #{content},
+        now(),
+        (SELECT userId FROM user WHERE email=#{email}));
+    </insert>
+    <delete id="delete">
+        DELETE FROM sComment WHERE sCommentId=#{sCommentId} AND userId=(SELECT userId FROM user WHERE email=#{email});
+    </delete>
 </mapper>
