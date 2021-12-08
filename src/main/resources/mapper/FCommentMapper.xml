@@ -16,15 +16,33 @@
         ORDER BY fComment.time
         LIMIT #{num},#{size}
     </select>
+
     <resultMap id="CommentAll" type="site.linkway.core.entity.po.Comment">
         <!--association关联属性  property属性名 javaType属性类型 column在多的一方的表中的列名-->
         <association property="childCount"  column="{id=commentId}" javaType="java.lang.Long" select="countSComment"/>
     </resultMap>
+
     <select id="countSComment" resultType="java.lang.Long">
         SELECT COUNT(*) from sComment where fCommentId=#{id}
     </select>
+
     <select id="countByGoodId" resultType="java.lang.Long">
         SELECT COUNT(*) FROM fComment WHERE goodId=#{goodId}
     </select>
+
+    <insert id="insert">
+        INSERT INTO fComment(fCommentId,goodId,content,time,userId,rate)
+        VALUES(
+        #{fCommentId},
+        #{goodId},
+        #{content},
+        now(),
+        (SELECT userId FROM user WHERE email=#{email}),
+        #{rate});
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM fComment WHERE fCommentId=#{fCommentId} AND userId=(SELECT userId FROM user WHERE email=#{email});
+    </delete>
 </mapper>
 

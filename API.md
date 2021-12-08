@@ -145,7 +145,58 @@
 
 --- 
 
+## `商品评论`
 
+#### 根据商品id获得评论列表
+
+`POST /comment/fList`
+```
+参数 {goodId:string,pageSize:number,pageNow:number}
+返回格式 CommentList
+```
+
+
+
+#### 根据父评论id请求子评论列表
+
+`POST /comment/sList`
+```
+参数 {fCommentId:string,pageSize:number,pageNow:number}
+返回格式 CommentList
+```
+
+#### 根据商品id添加父评论
+```
+POST /comment/add/f
+
+参数 {content:string,goodId:string,rate:number(1~5)}
+返回格式 {result:boolean,message:(fCommentId)}
+注：利用message将新的父评论id捎带 如需要改就改
+```
+
+#### 根据父评论id增加子评论
+
+`POST /comment/add/s`
+```
+参数 {content:string,fCommentId:string}
+返回格式 {result:boolean,message:(sCommentId)}
+```
+
+#### 删除父评论
+`DELETE /comment/delete/f`
+```
+参数 {fCommentId:string}
+```
+
+#### 删除子评论
+`DELETE /comment/delete/s`
+```
+参数 {sCommentId:string}
+```
+
+
+
+---
 
 ## 进行中 
 ### `订单-用户`  
@@ -201,23 +252,6 @@ interface OrderGoodItem{
 请求格式 表单 
 参数 {orderId:string} 
 ```
-
-
-
-### `商品评论` 
-coding: [@gaowanlu](https://www.github.com/gaowanlu)
-* -[x] 根据商品id获得评论列表
-`METHOD /comment/fList` 
-* -[x] 根据父评论id请求子评论列表 
-`METHOD /comment/sList` 
-* -[ ] 根据商品id添加父评论 
-`METHOD /comment/add/f` 
-* -[ ] 根据父评论id增加子评论 
-`METHOD /comment/add/s` 
-* -[ ] 删除父评论 
-`METHOD /comment/delete/f` 
-* -[ ] 删除子评论 
-`METHOD /comment/delete/s` 
 
 
 
