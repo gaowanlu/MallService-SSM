@@ -14,7 +14,7 @@ import site.linkway.core.service.CommentService;
 
 /*评论系统*/
 @Controller
-@RequestMapping("/comment")
+@RequestMapping("/api/comment")
 public class CommentSystem {
     static Logger logger= Logger.getLogger(CommentSystem.class);
     private ObjectMapper mapper = new ObjectMapper();

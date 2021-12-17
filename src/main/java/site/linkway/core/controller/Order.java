@@ -3,6 +3,7 @@ package site.linkway.core.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -13,23 +14,22 @@ import site.linkway.core.entity.vo.OrderList;
 import site.linkway.core.service.OrderService;
 import java.util.List;
 
-//* 产生新订单
-//* 查看已有订单详情
-//* 订单取消（退款申请）
-
 /*用户订单模块*/
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 public class Order {
+    static Logger logger= Logger.getLogger(CommentSystem.class);
     private ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
     OrderService orderService;
-    @PostMapping("/order")
+
+    @PostMapping(value="/order",produces = "application/json;charset=utf-8")
     @ResponseBody
     /*用户提交订单*/
     public String addOrder(@SessionAttribute("id") String email,
                            @RequestBody @NonNull PostOrder postOrder) throws JsonProcessingException {
+        logger.info(postOrder);
         ResultMessage resultMessage =new ResultMessage();
         String result=orderService.insert(email,postOrder);
         resultMessage.setResult(result.equals("true"));
@@ -37,17 +37,17 @@ public class Order {
         return mapper.writeValueAsString(resultMessage);
     }
 
-    @GetMapping("/order")
+    @GetMapping(value="/order", produces = "application/json;charset=utf-8")
     @ResponseBody
     /*用户获得自己的所有订单包括详情*/
     public String orderList(@SessionAttribute("id") String email) throws JsonProcessingException {
         List<OrderItem> orderItemList=orderService.selectByEmail(email);
         OrderList orderList=new OrderList();
-        orderList.setOrders(orderItemList);
+        orderList.setOrderItems(orderItemList);
         return mapper.writeValueAsString(orderList);
     }
 
-    @GetMapping("/order/detail")
+    @GetMapping(value="/order/detail", produces = "application/json;charset=utf-8")
     @ResponseBody
     /*根据订单id返回详情*/
     public String orderDetail(@SessionAttribute("id") String email,
@@ -57,17 +57,31 @@ public class Order {
         return mapper.writeValueAsString(orderItem);
     }
 
-    @PostMapping("/order/cancel")
+    @PostMapping(value="/order/update",produces = "application/json;charset=utf-8")
     @ResponseBody
-    /*申请取消订单*/
-    public String orderCancel(@SessionAttribute("id") String email,
-                              @NonNull String orderId
+    /*更新订单状态*/
+    public String orderStatus(@SessionAttribute("id") String email,
+                              @NonNull String orderId,
+                              @RequestParam("status") @NonNull String status
                               ) throws JsonProcessingException {
-        ResultMessage cancelResult=new ResultMessage();
-        String result=orderService.cancel(email,orderId);
-        cancelResult.setResult(result.equals("true"));
-        cancelResult.setMessage(result);
-        return mapper.writeValueAsString(cancelResult);
+        ResultMessage resultMessage=new ResultMessage();
+        String result=orderService.updateStatus(email,orderId,status,false);//false非管理员操作
+        resultMessage.setResult(result.equals("true"));
+        resultMessage.setMessage(result);
+        return mapper.writeValueAsString(resultMessage);
+    }
+
+    @PostMapping(value="/order/delete",produces = "application/json;charset=utf-8")
+    @ResponseBody
+    /*删除已签收的订单*/
+    public String orderDelete(@SessionAttribute("id") String email,
+            @RequestParam("orderId") @NonNull String orderId
+    ) throws JsonProcessingException {
+        ResultMessage resultMessage=new ResultMessage();
+        String result=orderService.delete(orderId,email);
+        resultMessage.setResult(result.equals("true"));
+        resultMessage.setMessage(result);
+        return mapper.writeValueAsString(resultMessage);
     }
 
 }

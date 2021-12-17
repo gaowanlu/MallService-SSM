@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 public class ShoppingCart {
     static Logger logger= Logger.getLogger(ShoppingCart.class);
     private ObjectMapper mapper = new ObjectMapper();

@@ -15,4 +15,5 @@ public interface GoodMapper {
     List<Commodity> randomCommodities(int maxSize);
     Commodity commodityByGoodId(String goodId);
     List<String> imgIdByGoodId(String goodId);
+    double selectPriceByGoodId(String goodId);
 }

@@ -22,7 +22,7 @@ import java.io.InputStream;
 
 /*用户个人信息*/
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 public class UserData {
     static Logger logger= Logger.getLogger(UserData.class);
     private ObjectMapper mapper = new ObjectMapper();
@@ -78,10 +78,10 @@ public class UserData {
 
 
     /*更新头像*/
-    @PutMapping(value = "/profilePhoto",produces = "application/json;charset=utf-8")
+    @PutMapping(value = "/avatar",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String updateHeadImg(@NonNull @SessionAttribute(name="id") String email,
-                                @NonNull @RequestParam("file") CommonsMultipartFile file
+                                @NonNull @RequestParam("avatar") CommonsMultipartFile file
                                 ) throws IOException {
 
         StatusResult statusResult=new StatusResult();

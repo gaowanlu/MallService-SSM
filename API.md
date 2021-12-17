@@ -28,28 +28,28 @@
 ## `身份安全`
 
 ### 登录
-`POST /identitySecurity/login`
+`POST /api/identitySecurity/login`
 
 * 参数 `{id, password}` (id 暂时仅支持用户邮箱)
 
 
 
 ### 注册账号
-`POST /identitySecurity/register`
+`POST /api/identitySecurity/register`
 
 * 参数 `{password, emailCode}`
 
 
 
 ### 发送验证码
-`POST /identitySecurity/sendEmailCode`
+`POST /api/identitySecurity/sendEmailCode`
 
 * 参数 `{email}`
 
 
 
 ### 修改密码
-`POST /identitySecurity/changePassword`
+`POST /api/identitySecurity/changePassword`
 
 * 参数 `{newPassword, emailCode}`
 
@@ -58,23 +58,23 @@
 ## `个人信息`
 
 ### 获得个人信息
-`GET /api/myData`
+`GET /api/user/myData`
 
-* 返回格式 `PersonalData` ([数据类型](#数据类型))
+* 返回格式 `PersonalData` [数据类型](#返回)
 
 
 
 ### 更新性别或者昵称
-`PUT /api/myData`
+`PUT /api/user/myData`
 
 * 参数 `{sex, name}`
 
 
 
 ### 更新头像
-`PUT /api/profilePhoto`
+`PUT /api/user/avatar`
 
-* 表单文件属性 `"file": file`
+* 表单文件属性 `"avatar": file`
 
 ---
 
@@ -82,42 +82,42 @@
 
 ### 添加购物车条项 
 
-`POST /api/cart`
+`POST /api/user/cart`
 
 * 参数 `{goodId, num}`
 
 
 
 ### 删除购物车条项
-`DELETE /api/cart`  
+`DELETE /api/user/cart`  
 
 * 参数 `{cartId}`
 
 ### 获得购物车全部条项
-`GET /api/cart`
+`GET /api/user/cart`
 
-* 返回格式 `CartList` ([数据类型](#数据类型))
+* 返回格式 `CartList` [数据类型](#返回)
 
 ---
 
 ## `收货地址`
 
 ### 获得全部存储在平台的收货地址
-`GET /api/addresses`
+`GET /api/user/addresses`
 
 
-* 返回格式 `AddressList`  ([数据类型](#数据类型))
+* 返回格式 `AddressList` [数据类型](#返回)
 
 
 
 ### 删除地址
-`DELETE /api/addresses` 
+`DELETE /api/user/addresses` 
 
 * 参数`{addressId}`
-* 返回格式 `AddressList` ([数据类型](#数据类型))
+* 返回格式 `AddressList` [数据类型](#返回)
 
 ### 添加地址 
-`POST /api/addresses` 
+`POST /api/user/addresses` 
 
 * 参数 `{phone, name, address}` 
 
@@ -126,22 +126,22 @@
 ## `图片分发`
 
 ### 获得指定图片 
-`GET /imgApi?imgId={}` 
+`GET /api/img?imgId={}` 
 
 ---
 
 ## `商品浏览` 
 ### 商品推荐列表(暂为随机检索出20个) 
   
-`GET /commodity/recommendation`  
+`GET /api/commodity/recommendation`  
 
-* 返回格式  `CommodityTipList` ([数据类型](#数据类型)) 
+* 返回格式  `CommodityTipList` [数据类型](#返回)
 
 ### 浏览商品  
-`POST /commodity/detail`  
+`POST /api/commodity/detail`  
 
 * 参数`{goodId:string}` 
-* 返回格式 `Commodity` ([数据类型](#数据类型)) 
+* 返回格式 `Commodity` [数据类型](#返回) 
 
 --- 
 
@@ -149,7 +149,7 @@
 
 ### 根据商品id获得评论列表
 
-`POST /comment/fList`
+`POST /api/comment/fList`
 ```
 参数 {goodId:string,pageSize:number,pageNow:number}
 返回格式 CommentList
@@ -159,16 +159,15 @@
 
 ### 根据父评论id请求子评论列表
 
-`POST /comment/sList`
+`POST /api/comment/sList`
 ```
 参数 {fCommentId:string,pageSize:number,pageNow:number}
 返回格式 CommentList
 ```
 
 ### 根据商品id添加父评论
+`POST /api/comment/add/f`
 ```
-POST /comment/add/f
-
 参数 {content:string,goodId:string,rate:number(1~5)}
 返回格式 {result:boolean,message:(fCommentId)}
 注：利用message将新的父评论id捎带 如需要改就改
@@ -176,104 +175,78 @@ POST /comment/add/f
 
 ### 根据父评论id增加子评论
 
-`POST /comment/add/s`
+`POST /api/comment/add/s`
 ```
 参数 {content:string,fCommentId:string}
 返回格式 {result:boolean,message:(sCommentId)}
 ```
 
 ### 删除父评论
-`DELETE /comment/delete/f`
+`DELETE /api/comment/delete/f`
 ```
 参数 {fCommentId:string}
 ```
 
 ### 删除子评论
-`DELETE /comment/delete/s`
+`DELETE /api/comment/delete/s`
 ```
 参数 {sCommentId:string}
 ```
+---
+
+## 订单-用户
+### 增加新订单
+
+`POST /api/user/order`
+
+* 请求格式 `PostOrder` ([数据类型](#请求))
 
 
+### 查看已有订单详情
+`POST /order/detail`
+
+* 请求参数 `{orderId}`  
+* 返回格式 `OrderItem`
+
+### 更新订单状态
+
+`POST /api/user/order/update`
+
+* 请求参数 `{orderId,status}`   
+* 参数详情 status in ('已签收','退款中')
+
+### 获得用户订单列表
+`GET /api/user/order`
+
+* 返回格式 `OrderList` ([数据类型](#返回))
 
 ---
 
 ## 进行中 
-### `订单-用户`  
-coding: [@gaowanlu](https://www.github.com/gaowanlu) 
-* 产生新订单 
 
-```
-拟定提交格式 json
-{
-    List<OrderGoodItem> goods;
-    String addressId;
-}
-
-interface OrderGoodItem{
-    goodId:string,
-    num:number
-}
-
-返回格式
-{
-    result: boolean,
-    massge: '下单失败相关原因' 
-}
-```
-* 查看已有订单详情 (个人订单有限暂不分页)
-```
-返回格式
-{
-    result:boolean;
-    orders:Order[];
-}
-
-返回格式
-{
-    orderId:string;//订单号 
-    statusId:number; //订单状态号 
-    statusDescribe:string;//订单状态描述 
-    goods:[ 
-        {good:Commodity,num:number}, 
-        {good:Commodity,num:number} 
-    ] 
-}
-
-``` 
-* 订单取消（退款申请 需要管理员审批退款） 
-```
-请求格式 表单 
-参数 {orderId:string} 
-```
-
-* 确认签收
-```
-请求格式 表单 
-参数 {orderId:string} 
-```
+---
 
 
+  
+### 管理端 
+* 商品管理    
+    上下架、搜索、列表分页、新增商品、删除商品、类别管理  
+   
+* 订单  
+    订单状态管理、待处理列表、订单列表、订单搜索   
+   
+* 用户管理  
+    充值 (提供ID与金额) 
 
 
+### 商品搜索
+以json形式提交、其中有许多字段、采用一个接口、提供多种类型与参数进行搜索限制
+* 根据类别检索
+* 名称关键词检索  
+  {keyword:'',searchType:'',goodTypeId:1,price:{min:1.2,max:12.3}}
 --- 
 
 
-
-
-## 待定 API (🔫)
-
-### 管理端  
-* 商品管理  
-* 订单管理  
-* 商品类别管理   
-* 主页展示管理  
-
-### 商品搜索 
-* 根据类别检索   
-* 名称关键词检索  
-
----
 
 ## 数据类型 
 
@@ -391,13 +364,73 @@ interface Comment{
     rate:number;//(注：子评论没有rate，但此字段返回至客户端) 
     childCount:number;//此条评论子评论数量
 }
+```  
+##### OrderItem 
+```typescript 
+/*订单项*/
+interface OrderItem {
+    orderGoods:OrderItemGood[];//订单商品
+    order:Order;
+}
+```
+##### OrderItemGood 
+```typescript
+/*订单商品*/
+interface OrderItemGood {
+    num:number;
+    goodId:string;
+    price:double;
+    name:string;
+    profile:string;//商品描述
+    imgsURL:string[];
+}
+```
+##### Order 
+```typescript 
+/*订单*/
+interface Order {
+    orderId:string;
+    userId:string;
+    status:string;//'待付款','待发货','已发货','已签收','退款中'
+    phone:string;
+    time:string;
+    address:string;
+    name:string;
+    logisticsNumber:string;
+    logisticsName:string;
+    priceCount:double;
+}
 ``` 
+##### OrderList
+``` typescript 
+/*订单列表*/ 
+interface OrderList {
+    orderItems:OrderItem[];
+}
+```
 
-### 请求
+### 请求 
+#### PostOrder
+```typescript
+/*提交订单*/
+interface PostOrder
+{
+    goods:OrderGoodItem[];
+    addressId:string;
+}
+```
+#### OrderGoodItem
+```typescript
+/*提交订单商品项*/
+interface OrderGoodItem{
+    goodId:string,
+    num:number
+}
+```
 
 ---
 
-## 拟定数据类型
+## 拟定
 
 ```typescript
 

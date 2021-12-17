@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 
 /*收货地址模块*/
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 public class ReceivingAddress {
     static Logger logger= Logger.getLogger(ReceivingAddress.class);
     private ObjectMapper mapper = new ObjectMapper();
