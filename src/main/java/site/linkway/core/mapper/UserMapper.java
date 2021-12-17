@@ -1,6 +1,7 @@
 package site.linkway.core.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import site.linkway.core.entity.po.User;
 
 //table name:user  entity:po.User
@@ -12,4 +13,5 @@ public interface UserMapper {
     User select(User user);//by email
     User selectByEmailAndPassword(User user);
     String selectIdByEmail(String email);
+    int updateMoney(@Param("email") String email,@Param("money") double money);
 }

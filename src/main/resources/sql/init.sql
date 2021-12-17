@@ -72,17 +72,21 @@ CREATE TABLE orders(
     orderId VARCHAR(32) NOT NULL unique primary key,
     userId VARCHAR(32) NOT NULL,
     #发货状态
-    status VARCHAR(10) NOT NULL check(status in('待付款','待发货','已发货','已签收')),
+    status VARCHAR(10) NOT NULL check(status in('待付款','待发货','已发货','已签收','退款中')),
     #物流联系电话
     phone CHAR(11) NOT NULL,
     #地址
     address VARCHAR(30) NOT NULL,
     #物流联系姓名
     name VARCHAR(14) NOT NULL,
+    #订单创建时间 
+    time DATETIME NOT NULL,
     #物流单号
     logisticsNumber VARCHAR(30) NOT NULL,
     #物流服务商
     logisticsName VARCHAR(20) NOT NULL,
+    #消费金额 
+    priceCount double NOT NULL,
     index(userId),
 	foreign key(userId) references user(userId) ON UPDATE cascade ON delete cascade
 );
@@ -134,22 +138,24 @@ create TABLE address(
 #订单所购买的物品项
 CREATE TABLE orderGood(
     orderGoodId int unsigned auto_increment NOT NULL primary key,
-    orderId VARCHAR(32) NOT NULL references orders(orderId),
+    orderId VARCHAR(32) NOT NULL,
     goodId VARCHAR(32) NOT NULL,
-    num int unsigned NOT NULL
+    num int NOT NULL check(num>0),
+    index(orderId),
+	foreign key(orderId) references orders(orderId) ON UPDATE cascade ON delete cascade
 );
 
 
 # 用户
-INSERT INTO user VALUES('cd0bf38c57fe44d39d4b6a135fb8fc7e','123456','未知','男','',0,'moezrf@gmail.com');
-INSERT INTO user VALUES('1','123456789','gaowanlu','男','',100.0,'2209120827@qq.com');
+INSERT INTO user VALUES('cd0bf38c57fe44d39d4b6a135fb8fc7e','123456','未知','男','',10000.0,'moezrf@gmail.com');
+INSERT INTO user VALUES('1','123456789','gaowanlu','男','',10000.0,'2209120827@qq.com');
 INSERT INTO goodType values(1,'手机');
 
-INSERT INTO good values('1',6345,'p50','好手机',12,300,1);
+INSERT INTO good values('1',634,'p50','好手机',12,300,1);
 INSERT INTO cart VALUES('dsvdfvsdf','1','1',1);
 
 INSERT INTO goodType values(2,'电脑');
-INSERT INTO good values('2',6345,'BX505','好电脑',12,300,2);
+INSERT INTO good values('2',645,'BX505','好电脑',12,300,2);
 INSERT INTO cart VALUES('dsvdcdscs','2','1',2);
 
 INSERT INTO img VALUES("dsds","csc",234,"");
@@ -181,3 +187,7 @@ INSERT INTO sComment VALUES('vsdwfbs','2wgef','vdsbfgnf',NOW(),'1');
 INSERT INTO sComment VALUES('vsdffbs','2wgef','vdsbfgnf',NOW(),'1');
 INSERT INTO sComment VALUES('vsdafbs','2wgef','vdsbfgnf',NOW(),'1');
 INSERT INTO sComment VALUES('vsdfgbs','2wgef','vdsbfgnf',NOW(),'1');
+
+#插入收货地址 
+INSERT INTO address VALUES('qwertyuioplkjhgfdsazxcv45678','1','13346637702','广西 桂林市 电子科技大学(花江校区)','高万禄');
+INSERT INTO address VALUES('qwertyuioplkjhgfdsazxcv4568','1','13346637702','广西 桂林市 电子科技大学(花江校区)','高万禄');

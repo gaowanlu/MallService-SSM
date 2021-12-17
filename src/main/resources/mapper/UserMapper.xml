@@ -23,4 +23,7 @@
     <select id="selectIdByEmail" resultType="java.lang.String">
         SELECT userId FROM user WHERE email=#{email}
     </select>
+    <update id="updateMoney">
+        UPDATE user SET money=#{money} WHERE email=#{email}
+    </update>
 </mapper>

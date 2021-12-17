@@ -18,7 +18,7 @@ import site.linkway.core.service.CommodityBrowsingService;
 - 根据商品序列号或得商品详情
 * */
 @Controller
-@RequestMapping("/commodity")
+@RequestMapping("/api/commodity")
 public class CommodityBrowsing {
     private ObjectMapper mapper = new ObjectMapper();
     @Autowired

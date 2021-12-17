@@ -34,4 +34,8 @@
     <resultMap id="Commodity" type="site.linkway.core.entity.po.Commodity">
         <collection property="imgsURL" javaType="ArrayList" ofType="java.lang.String" column="goodId" select="imgIdByGoodId"/>
     </resultMap>
+
+    <select id="selectPriceByGoodId" resultType="java.lang.Double">
+        SELECT price FROM good WHERE goodId=#{goodId}
+    </select>
 </mapper>

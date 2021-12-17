@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 
 /*
 * 登录身份拦截器
-* 拦截资源 /api/**
+* 拦截资源 /api/user/**
 * */
 public class ApiInterceptor implements HandlerInterceptor {
     static Logger logger= Logger.getLogger(ApiInterceptor.class);

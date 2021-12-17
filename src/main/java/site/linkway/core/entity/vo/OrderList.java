@@ -9,5 +9,5 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderList {
-    List<OrderItem> orders;
+    List<OrderItem> orderItems;
 }

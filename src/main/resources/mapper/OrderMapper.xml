@@ -3,5 +3,40 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.linkway.core.mapper.OrderMapper">
+    <insert id="insert" parameterType="site.linkway.core.entity.po.Order">
+        INSERT INTO orders VALUES(#{orderId},#{userId},#{status},#{phone},#{address},#{name},NOW(),#{logisticsNumber},#{logisticsName},#{priceCount})
+    </insert>
+    <insert id="insertByAddressIdAndEmail">
+        INSERT INTO orders VALUES (
+        #{orderId},
+        #{userId},
+        '待发货',
+        (SELECT phone FROM address WHERE addressId=#{addressId} AND userId=#{userId}),
+        (SELECT address FROM address WHERE addressId=#{addressId} AND userId=#{userId}),
+        (SELECT name FROM address WHERE addressId=#{addressId} AND userId=#{userId}),
+        NOW(),
+        '',
+        '',
+        #{priceCount}
+        );
+    </insert>
+
+    <update id="statusUpdate">
+        UPDATE orders SET status=#{status} WHERE orderId=#{orderId} AND userId=#{userId}
+    </update>
+
+    <select id="select" resultType="site.linkway.core.entity.po.Order" parameterType="site.linkway.core.entity.po.Order">
+        SELECT * FROM orders WHERE orderId=#{orderId}
+    </select>
+    <select id="selectByOrderIdAndUserId" resultType="site.linkway.core.entity.po.Order">
+        SELECT * FROM orders WHERE orderId=#{orderId} and userId=#{userId}
+    </select>
+    <select id="selectByUserId" resultType="site.linkway.core.entity.po.Order">
+        SELECT * FROM orders WHERE userId=#{userId}
+    </select>
+
+    <delete id="delete">
+        DELETE FROM orders WHERE orderId=#{orderId} and userId=#{userId}
+    </delete>
 
 </mapper>

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import org.springframework.web.bind.annotation.RequestMapping;
 import site.linkway.core.service.ImageService;
 import site.linkway.utils.ResizeImg;
 
@@ -14,9 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Map;
+import java.util.List;
 
 /*图片分发*/
 @Controller
+@RequestMapping("/api")
 public class ImageDistribution {
     static Logger logger= Logger.getLogger(ImageDistribution.class);
 
@@ -24,7 +27,7 @@ public class ImageDistribution {
     private ImageService imageService;
 
     /*获取图像*/
-    @GetMapping(value = "/imgApi")
+    @GetMapping(value = "/img")
     public void img(@NonNull String imgId,
                     @NonNull HttpServletResponse httpServletResponse
                     ) throws Exception {
@@ -44,7 +47,13 @@ public class ImageDistribution {
 
     /*格式化URI*/
     public static String formatURLFromImgId(String imgId){
-        return "/imgApi?imgId="+imgId;
+        return "/api/img?imgId="+imgId;
+    }
+    public static List<String> formatURLFromImgId(List<String> imgIds){
+        for(int i=0;i<imgIds.size();i++){
+            imgIds.set(i, formatURLFromImgId(imgIds.get(i)));
+        }
+        return imgIds;
     }
 
 }

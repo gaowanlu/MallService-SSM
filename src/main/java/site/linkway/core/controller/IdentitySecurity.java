@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
 
 /*身份安全验证*/
 @Controller
-@RequestMapping(value = "/identitySecurity")
+@RequestMapping(value = "/api/identitySecurity")
 public class IdentitySecurity {
     /*log4j*/
     static Logger logger = Logger.getLogger(IdentitySecurity.class);
