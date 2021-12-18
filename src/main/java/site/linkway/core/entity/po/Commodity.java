@@ -18,5 +18,6 @@ public class Commodity {
     String goodId;
     int stock;
     int soldSum;
+    int onSale;
     List<String> imgsURL=new ArrayList<>();
 }

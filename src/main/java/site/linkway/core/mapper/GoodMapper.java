@@ -1,6 +1,7 @@
 package site.linkway.core.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import site.linkway.core.entity.po.Good;
 import site.linkway.core.entity.po.Commodity;
 import java.util.List;
@@ -16,4 +17,16 @@ public interface GoodMapper {
     Commodity commodityByGoodId(String goodId);
     List<String> imgIdByGoodId(String goodId);
     double selectPriceByGoodId(String goodId);
+    /*搜索*/
+    List<Commodity> search(@Param("keyword") String keyword,
+                           @Param("searchType") String searchType,
+                           @Param("minPrice") double minPrice,
+                           @Param("maxPrice") double maxPrice,
+                           @Param("num") int num,
+                           @Param("size") int size);
+    /*搜索分页统计页数*/
+    int searchPageCount(@Param("keyword") String keyword,
+                        @Param("searchType") String searchType,
+                        @Param("minPrice") double minPrice,
+                        @Param("maxPrice") double maxPrice);
 }

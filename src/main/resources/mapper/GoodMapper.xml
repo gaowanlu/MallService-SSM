@@ -11,7 +11,8 @@
                price,
                good.goodId as goodId,
                stock,
-               soldSum
+               soldSum,
+               onSale
         FROM good,goodType
         WHERE good.goodTypeId=goodType.goodTypeId
         ORDER BY rand() limit #{maxSize}
@@ -24,18 +25,72 @@
                price,
                good.goodId as goodId,
                stock,
-               soldSum
+               soldSum,
+               onSale
         FROM good,goodType
         WHERE good.goodId=#{goodId} AND good.goodTypeId=goodType.goodTypeId
     </select>
     <select id="imgIdByGoodId" resultType="java.lang.String">
-        select imgId from goodImg WHERE goodId=#{goodId}
+        select imgId from goodImg WHERE goodId=#{id}
     </select>
     <resultMap id="Commodity" type="site.linkway.core.entity.po.Commodity">
-        <collection property="imgsURL" javaType="ArrayList" ofType="java.lang.String" column="goodId" select="imgIdByGoodId"/>
+        <collection property="imgsURL" javaType="ArrayList" ofType="java.lang.String" column="{id=goodId}" select="imgIdByGoodId"/>
     </resultMap>
 
     <select id="selectPriceByGoodId" resultType="java.lang.Double">
         SELECT price FROM good WHERE goodId=#{goodId}
+    </select>
+
+<!--    List<Commodity> search(@Param("keyword") String keyword,-->
+<!--    @Param("searchType") String searchType,-->
+<!--    @Param("minPrice") double minPrice,-->
+<!--    @Param("maxPrice") double maxPrice);-->
+    <select id="search" resultMap="Commodity">
+        SELECT goodType.name AS goodType,
+               good.goodTypeId AS goodtypeId,
+               good.name AS name,
+               profile,
+               price,
+               good.goodId AS goodId,
+               stock,
+               soldSum,
+               onSale
+        FROM good,goodType
+        <where>
+            good.goodTypeId=goodType.goodTypeId
+            <if test="keyword != null">
+               and good.name like #{keyword}
+            </if>
+            <if test="searchType != null">
+               and goodType.name like #{searchType}
+            </if>
+            <if test="minPrice != 0">
+                and good.price &gt;= #{minPrice}
+            </if>
+            <if test="maxPrice != 0">
+                and good.price &lt;= #{maxPrice}
+            </if>
+        </where>
+        LIMIT #{num},#{size}
+    </select>
+
+    <select id="searchPageCount" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM good,goodType
+        <where>
+            good.goodTypeId=goodType.goodTypeId
+            <if test="keyword != null">
+                and good.name like #{keyword}
+            </if>
+            <if test="searchType != null">
+                and goodType.name like #{searchType}
+            </if>
+            <if test="minPrice != 0">
+                and good.price &gt;= #{minPrice}
+            </if>
+            <if test="maxPrice != 0">
+                and good.price &lt;= #{maxPrice}
+            </if>
+        </where>
     </select>
 </mapper>
