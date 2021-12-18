@@ -1,5 +1,6 @@
 package site.linkway.core.service;
 
+import org.apache.ibatis.annotations.Param;
 import site.linkway.core.entity.po.User;
 
 import java.io.InputStream;
@@ -20,4 +21,7 @@ public interface UserDataService {
 
     /*更新头像*/
     boolean updateHeadImg(String email, InputStream inputStream, int fileSize, String fileType);
+
+    /*充值 金额可正可负*/
+    boolean recharge(@Param("email") String email,@Param("amount") double amount);
 }

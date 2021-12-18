@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import site.linkway.core.entity.po.Commodity;
+import site.linkway.core.entity.vo.CommodityTypeList;
 import site.linkway.core.entity.vo.ResultMessage;
 import site.linkway.core.service.CommodityBrowsingService;
 
@@ -43,5 +44,14 @@ public class CommodityBrowsing {
             return mapper.writeValueAsString(resultMessage);
         }
         return mapper.writeValueAsString(commodity);
+    }
+
+    /*获取商品类型列表*/
+    @RequestMapping(value = "/typeList",produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String commodityTypeList() throws JsonProcessingException {
+        CommodityTypeList commodityTypeList=new CommodityTypeList();
+        commodityTypeList.setTypes(commodityBrowsingService.goodTypes());
+        return mapper.writeValueAsString(commodityTypeList);
     }
 }

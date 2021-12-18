@@ -69,4 +69,19 @@ public class UserDataServiceImpl implements UserDataService {
             return 1==imgMapper.update(img);
         }
     }
+
+    /*充值 金额可正可负*/
+    @Override
+    @Transactional
+    public boolean recharge(String email, double amount) {
+        User user=new User();user.setEmail(email);
+        user=userMapper.select(user);
+        if(null==user){
+            return false;
+        }
+        double balance=user.money;
+        balance=balance+amount<0?0f:balance+amount;
+        int line=userMapper.updateMoney(email,balance);
+        return 1==line;
+    }
 }

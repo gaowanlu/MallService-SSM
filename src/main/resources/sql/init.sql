@@ -150,6 +150,11 @@ CREATE TABLE orderGood(
 # 用户
 INSERT INTO user VALUES('cd0bf38c57fe44d39d4b6a135fb8fc7e','123456','未知','男','',10000.0,'moezrf@gmail.com');
 INSERT INTO user VALUES('1','123456789','gaowanlu','男','',10000.0,'2209120827@qq.com');
+
+# 添加为管理员 
+INSERT  INTO admin(userId) VALUES('cd0bf38c57fe44d39d4b6a135fb8fc7e');
+INSERT  INTO admin(userId) VALUES('1');
+
 INSERT INTO goodType values(1,'手机');
 
 INSERT INTO good values('1',634,'p50','好手机',12,300,1,1);

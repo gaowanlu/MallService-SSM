@@ -3,5 +3,16 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.linkway.core.mapper.GoodTypeMapper">
-
+    <select id="selectAll" resultType="site.linkway.core.entity.po.GoodType">
+        SELECT * FROM goodType
+    </select>
+    <insert id="insert">
+        INSERT INTO goodType(name) VALUES(#{name})
+    </insert>
+    <update id="update">
+        UPDATE goodType SET name=#{name} WHERE goodTypeId=#{goodTypeId}
+    </update>
+    <select id="selectByName" resultType="site.linkway.core.entity.po.GoodType">
+        SELECT * FROM goodType WHERE name=#{name}
+    </select>
 </mapper>

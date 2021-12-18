@@ -38,18 +38,21 @@ public class SearchServiceImpl implements SearchService{
         /*最小价格与最大价格*/
         double minPrice=postSearch.getPrice().getMin();
         double maxPrice=postSearch.getPrice().getMax();
-
+        /*商品Id*/
+        String goodId=postSearch.getGoodId();
+        goodId=goodId.equals("")?null:goodId;
+        /*设置分页信息*/
         commoditySearchResult.setPageSize(pageSize);
         commoditySearchResult.setPageNow(pageNow);
         /*搜索*/
-        List<Commodity> commodityList=goodMapper.search(keyword,searchType,minPrice,maxPrice,((pageNow-1)*pageSize),pageSize);
+        List<Commodity> commodityList=goodMapper.search(keyword,searchType,minPrice,maxPrice,((pageNow-1)*pageSize),pageSize,goodId);
         /*转换商品图片URL*/
         for(Commodity commodity:commodityList){
             commodity.setImgsURL(ImageDistribution.formatURLFromImgId(commodity.getImgsURL()));
         }
         commoditySearchResult.setCommodities(commodityList);
         /*统计分页总页数*/
-        int pageCount=goodMapper.searchPageCount(keyword,searchType,minPrice,maxPrice)/pageSize;
+        int pageCount=goodMapper.searchPageCount(keyword,searchType,minPrice,maxPrice,goodId)/pageSize;
         if(pageCount==0){pageCount=1;}
         commoditySearchResult.setPageCount(pageCount);
         return commoditySearchResult;

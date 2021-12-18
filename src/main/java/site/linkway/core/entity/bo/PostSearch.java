@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class PostSearch {
     String keyword;
     String searchType;
+    String goodId;
     MinMax price;
     int pageNow;
     int pageSize;

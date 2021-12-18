@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import site.linkway.core.entity.bo.TestRequestBody;
 import site.linkway.core.entity.vo.ResultMessage;
 import site.linkway.core.entity.vo.StatusResult;
 import site.linkway.core.service.IdentitySecurityService;
@@ -58,6 +57,7 @@ public class IdentitySecurity {
             val userId = userDataService.getUserIdByEmail(sessionAttrId);
             val isAdmin = identitySecurityService.checkIsAdmin(userId);
             statusResult.setAdmin(isAdmin);
+            httpServletRequest.setAttribute("isAdmin",isAdmin);//使用session存储是否为管理员
             return mapper.writeValueAsString(statusResult);
         }
         //进行登录相关操作
@@ -116,7 +116,6 @@ public class IdentitySecurity {
                                  @NonNull @SessionAttribute(name="email") String sessionAttributeEmail,
                                  @NonNull @SessionAttribute(name="emailCode") String sessionAttributeEmailCode
     ) throws JsonProcessingException {
-
         StatusResult statusResult = new StatusResult();
         /*邮箱验证码校验*/
         if (!emailCode.equals(sessionAttributeEmailCode)) {
@@ -130,13 +129,18 @@ public class IdentitySecurity {
         return mapper.writeValueAsString(statusResult);
     }
 
-
-    @PostMapping(value="/testRequestBody",
-                produces = "application/json;charset=utf-8")
+    /*退出登录*/
+    @PostMapping(value = "/logout",produces = "application/json;charset=utf-8")
     @ResponseBody
-    /*测试请求体为json类型*/
-    public String testRequestBody(@RequestBody TestRequestBody testRequestBody) throws JsonProcessingException {
-        System.out.println(testRequestBody);
-        return mapper.writeValueAsString(testRequestBody);
+    public String logout() throws JsonProcessingException {
+        ResultMessage resultMessage=new ResultMessage();
+        resultMessage.setResult(true);
+        resultMessage.setMessage("已退出登录");
+        /*删除全部session 属性*/
+        httpServletRequest.removeAttribute("email");
+        httpServletRequest.removeAttribute("emailCode");
+        httpServletRequest.removeAttribute("id");
+        httpServletRequest.removeAttribute("isAdmin");
+        return mapper.writeValueAsString(resultMessage);
     }
 }
