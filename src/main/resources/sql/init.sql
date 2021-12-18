@@ -37,6 +37,7 @@ CREATE TABLE good(
     stock int unsigned NOT NULL default 0,
     soldSum int unsigned NOT NULL default 0,
     goodTypeId int unsigned NOT NULL,
+    onSale int unsigned NOT NULL check(onSale in (0,1)),
     index(goodTypeId),
 	foreign key(goodTypeId) references goodType(goodTypeId) ON UPDATE cascade ON delete cascade
 );
@@ -151,11 +152,11 @@ INSERT INTO user VALUES('cd0bf38c57fe44d39d4b6a135fb8fc7e','123456','未知','�
 INSERT INTO user VALUES('1','123456789','gaowanlu','男','',10000.0,'2209120827@qq.com');
 INSERT INTO goodType values(1,'手机');
 
-INSERT INTO good values('1',634,'p50','好手机',12,300,1);
+INSERT INTO good values('1',634,'p50','好手机',12,300,1,1);
 INSERT INTO cart VALUES('dsvdfvsdf','1','1',1);
 
 INSERT INTO goodType values(2,'电脑');
-INSERT INTO good values('2',645,'BX505','好电脑',12,300,2);
+INSERT INTO good values('2',645,'BX505','好电脑',12,300,2,1);
 INSERT INTO cart VALUES('dsvdcdscs','2','1',2);
 
 INSERT INTO img VALUES("dsds","csc",234,"");

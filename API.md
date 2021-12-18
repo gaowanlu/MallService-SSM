@@ -220,33 +220,15 @@
 
 * 返回格式 `OrderList` ([数据类型](#返回))
 
----
-
-## 进行中 
-
----
-
-
-  
-### 管理端 
-* 商品管理    
-    上下架、搜索、列表分页、新增商品、删除商品、类别管理  
-   
-* 订单  
-    订单状态管理、待处理列表、订单列表、订单搜索   
-   
-* 用户管理  
-    充值 (提供ID与金额) 
-
-
-### 商品搜索
-以json形式提交、其中有许多字段、采用一个接口、提供多种类型与参数进行搜索限制
-* 根据类别检索
-* 名称关键词检索  
-  {keyword:'',searchType:'',goodTypeId:1,price:{min:1.2,max:12.3}}
 --- 
 
+## 商品搜索
+`POST /api/search/commodity`  
+* 请求格式 josn `PostSearch` ([数据类型](#返回))
+* 返回格式 `CommoditySearchResult` ([数据类型](#返回))
 
+  注:可进行组合查询,当字符串为`''`,数字为`0`时则代表只是用此限制
+--- 
 
 ## 数据类型 
 
@@ -326,7 +308,8 @@ interface Commodity{
     goodId:string;
     stock:number;
     soldSum:number;
-    imgsURL:string[]
+    onSale:number;//0 or 1
+    imgsURL:string[];
 }
 ``` 
 
@@ -409,6 +392,20 @@ interface OrderList {
 }
 ```
 
+##### CommoditySearchResult
+```typescript
+/*商品搜索结果*/
+interface CommoditySearchResult{
+    commodities:Commodity[];
+    pageCount:number; //总页数
+    pageNow:number;//现在所在页号
+    pageSize:number;//每页得的大小
+    pageCount:number;//总共页数
+}
+```
+
+
+
 ### 请求 
 #### PostOrder
 ```typescript
@@ -423,24 +420,38 @@ interface PostOrder
 ```typescript
 /*提交订单商品项*/
 interface OrderGoodItem{
-    goodId:string,
-    num:number
+    goodId:string;
+    num:number;
+}
+```
+
+#### PostSearch
+```typescript
+/*提交搜索*/
+interface PostSearch{
+    keyword:string;//商品名称关键词
+    searchType:string;
+    price:MinMax;
+    pageNow:number;
+    pageSize:number;
+}
+interface MinMax {
+    min:number;
+    max:number;
 }
 ```
 
 ---
 
-## 拟定
+## 进行中
 
-```typescript
+---
+### 管理端
+* 商品管理    
+  上下架、搜索、列表分页、新增商品、删除商品、类别管理
 
-/*商品搜索结果*/
-interface CommoditySearchResult{
-    result:boolean;
-    commodities:Commodity[];
-    pageCount:number; //总页数
-    pageNow:number;//现在所在页号
-    pageSize:number;//每页得的大小
-    pageCount:number;//总共页数
-}
-```
+* 订单  
+  订单状态管理、待处理列表、订单列表、订单搜索
+
+* 用户管理  
+  充值 (提供ID与金额)
