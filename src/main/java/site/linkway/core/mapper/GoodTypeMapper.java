@@ -1,13 +1,16 @@
 package site.linkway.core.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import site.linkway.core.entity.po.GoodType;
+
+import java.util.List;
 
 //table name:goodType  entity:po.GoodType
 @Mapper
 public interface GoodTypeMapper {
-    int insert(GoodType goodType);
-    int update(GoodType goodType);
-    int delete(GoodType goodType);
-    GoodType select(GoodType goodType);
+    List<GoodType> selectAll();
+    int insert(String name);
+    int update(@Param("goodTypeId") int goodTypeId,@Param("name") String name);
+    GoodType selectByName(String name);
 }

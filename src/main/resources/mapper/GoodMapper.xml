@@ -41,10 +41,7 @@
         SELECT price FROM good WHERE goodId=#{goodId}
     </select>
 
-<!--    List<Commodity> search(@Param("keyword") String keyword,-->
-<!--    @Param("searchType") String searchType,-->
-<!--    @Param("minPrice") double minPrice,-->
-<!--    @Param("maxPrice") double maxPrice);-->
+
     <select id="search" resultMap="Commodity">
         SELECT goodType.name AS goodType,
                good.goodTypeId AS goodtypeId,
@@ -58,6 +55,9 @@
         FROM good,goodType
         <where>
             good.goodTypeId=goodType.goodTypeId
+            <if test="goodId != null">
+                and good.goodId = #{goodId}
+            </if>
             <if test="keyword != null">
                and good.name like #{keyword}
             </if>
@@ -91,6 +91,10 @@
             <if test="maxPrice != 0">
                 and good.price &lt;= #{maxPrice}
             </if>
+            <if test="goodId != null">
+                and good.goodId = #{goodId}
+            </if>
         </where>
     </select>
+
 </mapper>

@@ -21,7 +21,6 @@ public class Search {
     @Autowired
     SearchService searchService;
 
-    
     @PostMapping(value = "/commodity",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String searchCommodity(@RequestBody PostSearch postSearch)

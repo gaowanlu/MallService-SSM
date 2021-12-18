@@ -47,5 +47,9 @@
 <!--            bean配置的就是拦截器-->
             <bean class="site.linkway.core.filter.ApiInterceptor"/>
         </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/api/admin/**"/>
+            <bean class="site.linkway.core.filter.AdminInterceptor"/>
+        </mvc:interceptor>
     </mvc:interceptors>
 </beans>

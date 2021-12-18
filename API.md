@@ -21,18 +21,26 @@
     "result": false,
     "message": "（错误消息）"
 }
-```
+``` 
+
+## `请求参数约定` 
+* 给出参数则使用 `application/x-www-form-urlencoded`    
+* 输入请求体为请求数据类型 `application/json`    
+* 带有上传文件的请求 `multipart/form-data`  
+
 
 ---
 
-## `身份安全`
+## `身份安全` 
 
-### 登录
-`POST /api/identitySecurity/login`
+### 登录 
+`POST /api/identitySecurity/login` 
 
 * 参数 `{id, password}` (id 暂时仅支持用户邮箱)
+* 注 返回带有`isAdmin:boolean`字段   
 
-
+### 退出登录 
+`POST /api/identitySecurity/logout`  
 
 ### 注册账号
 `POST /api/identitySecurity/register`
@@ -52,6 +60,8 @@
 `POST /api/identitySecurity/changePassword`
 
 * 参数 `{newPassword, emailCode}`
+
+
 
 ---
 
@@ -141,7 +151,12 @@
 `POST /api/commodity/detail`  
 
 * 参数`{goodId:string}` 
-* 返回格式 `Commodity` [数据类型](#返回) 
+* 返回格式 `Commodity` [数据类型](#返回)  
+
+### 商品类型列表 
+`GET /api/commodity/typeList`    
+* 无参数 暂不页 总量有限   
+* 返回格式 `CommodityTypeList` [数据类型](#返回)
 
 --- 
 
@@ -150,51 +165,51 @@
 ### 根据商品id获得评论列表
 
 `POST /api/comment/fList`
-```
-参数 {goodId:string,pageSize:number,pageNow:number}
-返回格式 CommentList
-```
+
+* 参数 `{goodId:string,pageSize:number,pageNow:number}`
+* 返回格式 `CommentList` [数据类型](#返回)
+
 
 
 
 ### 根据父评论id请求子评论列表
 
 `POST /api/comment/sList`
-```
-参数 {fCommentId:string,pageSize:number,pageNow:number}
-返回格式 CommentList
-```
+
+* 参数 `{fCommentId:string,pageSize:number,pageNow:number}`
+* 返回格式 `CommentList` [数据类型](#返回)
+
 
 ### 根据商品id添加父评论
 `POST /api/comment/add/f`
-```
-参数 {content:string,goodId:string,rate:number(1~5)}
-返回格式 {result:boolean,message:(fCommentId)}
-注：利用message将新的父评论id捎带 如需要改就改
-```
+
+* 参数 `{content:string,goodId:string,rate:number(1~5)} `
+* 返回格式 `{result:boolean,message:(fCommentId)}` 
+* 注：利用message将新的父评论id捎带 如需要改就改
+
 
 ### 根据父评论id增加子评论
 
 `POST /api/comment/add/s`
-```
-参数 {content:string,fCommentId:string}
-返回格式 {result:boolean,message:(sCommentId)}
-```
+
+* 参数 `{content:string,fCommentId:string}`
+* 返回格式 `{result:boolean,message:(sCommentId)}`
+
 
 ### 删除父评论
 `DELETE /api/comment/delete/f`
-```
-参数 {fCommentId:string}
-```
+
+* 参数 `{fCommentId:string}`
+
 
 ### 删除子评论
 `DELETE /api/comment/delete/s`
-```
-参数 {sCommentId:string}
-```
+
+* 参数 `{sCommentId:string}`
+
 ---
 
-## 订单-用户
+## `订单-用户`
 ### 增加新订单
 
 `POST /api/user/order`
@@ -222,7 +237,8 @@
 
 --- 
 
-## 商品搜索
+## `搜索`
+### 商品搜索 
 `POST /api/search/commodity`  
 * 请求格式 josn `PostSearch` ([数据类型](#返回))
 * 返回格式 `CommoditySearchResult` ([数据类型](#返回))
@@ -230,7 +246,7 @@
   注:可进行组合查询,当字符串为`''`,数字为`0`时则代表只是用此限制
 --- 
 
-## 数据类型 
+## `数据类型` 
 
 ### 返回 
 
@@ -404,9 +420,22 @@ interface CommoditySearchResult{
 }
 ```
 
+##### CommodityTypeList 
+```typescript
+/*商品类型列表*/ 
+interface CommodityTypeList{
+    types:CommodityType[];
+}
+/*商品类型*/ 
+interface CommodityType{
+    goodTypeId:number;
+    name:string;
+}
+```
 
 
-### 请求 
+
+### 请求
 #### PostOrder
 ```typescript
 /*提交订单*/
@@ -427,31 +456,70 @@ interface OrderGoodItem{
 
 #### PostSearch
 ```typescript
-/*提交搜索*/
+/*提交搜索
+  注意事项：number:0 string:'' 则代表不使用此属性
+*/
 interface PostSearch{
     keyword:string;//商品名称关键词
-    searchType:string;
-    price:MinMax;
-    pageNow:number;
-    pageSize:number;
+    searchType:string;//类型名称
+    price:MinMax;//价格区间
+    pageNow:number;//现在页码1~n
+    pageSize:number;//每页大小
+    goodId:string;//商品id
 }
 interface MinMax {
-    min:number;
-    max:number;
+    min:number;//最小
+    max:number;//最大
+}
+```
+
+#### PostCommodityType
+```typescript
+interface PostCommodityType {
+    goodTypeId:number;
+    name:string;
+    operator:number;//0 更新操作 1 插入操作
 }
 ```
 
 ---
 
-## 进行中
+## `进行中`  
+### 管理端  
+#### 商品管理
+  -[x] 商品搜索以及获取列表   
+   * 请见搜索模块 
 
----
-### 管理端
-* 商品管理    
-  上下架、搜索、列表分页、新增商品、删除商品、类别管理
+  -[x] 商品类别列表管理  
 
-* 订单  
-  订单状态管理、待处理列表、订单列表、订单搜索
+   * 商品类型列表  
+     * 请见商品浏览模块
+   * 更新属性提交  
+     * 请求格式 `PostCommodityType` [数据类型](#请求)  
+     * 注：会改变原来此类别的商品的类别 
+     * 返回格式  
+       当新增时,利用message:string   
+       捎带新的goodtypeId,注意要parseInt() 
 
-* 用户管理  
-  充值 (提供ID与金额)
+   -[ ] 商品信息与状态修改
+   * 更新文字属性
+   * 相关图片更新
+   -[ ] 新增商品
+   * 属性提交
+
+#### 订单  
+  -[ ] 订单状态管理  
+   * 提交物流信息更改发货状态  
+   * 退款正在退款的订单   
+  -[ ] 待处理列表  
+   * 待发货列表  
+   * 待退款列表 
+  -[ ] 订单列表   
+   * 所有订单列表 
+  -[ ] 订单搜索 
+   * 根据订单号、日期区间搜索得到订单列表 
+
+#### 用户管理  
+  -[x] 充值 (提供ID与金额)  
+  * 提供用户邮箱与金额进行余额增加（注：主要为了模拟）   
+  参数 {email:string,amount:number}

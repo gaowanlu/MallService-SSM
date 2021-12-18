@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import site.linkway.core.controller.ImageDistribution;
 import site.linkway.core.entity.po.Commodity;
+import site.linkway.core.entity.po.GoodType;
 import site.linkway.core.entity.vo.CommodityTipList;
 import site.linkway.core.mapper.GoodMapper;
+import site.linkway.core.mapper.GoodTypeMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +16,8 @@ import java.util.List;
 public class CommodityBrowsingServiceImpl implements CommodityBrowsingService {
     @Autowired
     GoodMapper goodMapper;
-
+    @Autowired
+    GoodTypeMapper goodTypeMapper;
 
 
     @Override
@@ -34,6 +37,12 @@ public class CommodityBrowsingServiceImpl implements CommodityBrowsingService {
         if(commodity!=null)
             formatURIForCommodity(commodity);
         return commodity;
+    }
+
+    //获取商品列表
+    @Override
+    public List<GoodType> goodTypes() {
+        return goodTypeMapper.selectAll();
     }
 
     private void formatURIForCommodity(Commodity commodity){

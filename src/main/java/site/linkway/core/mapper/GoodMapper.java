@@ -23,10 +23,12 @@ public interface GoodMapper {
                            @Param("minPrice") double minPrice,
                            @Param("maxPrice") double maxPrice,
                            @Param("num") int num,
-                           @Param("size") int size);
+                           @Param("size") int size,
+                           @Param("goodId") String goodId);
     /*搜索分页统计页数*/
     int searchPageCount(@Param("keyword") String keyword,
                         @Param("searchType") String searchType,
                         @Param("minPrice") double minPrice,
-                        @Param("maxPrice") double maxPrice);
+                        @Param("maxPrice") double maxPrice,
+                        @Param("goodId") String goodId);
 }
