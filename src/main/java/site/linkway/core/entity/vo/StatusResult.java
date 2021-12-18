@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class StatusResult {
     boolean result;
+    boolean isAdmin;
 
     public StatusResult() {
         this.result = true;

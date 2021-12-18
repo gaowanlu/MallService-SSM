@@ -1,5 +1,6 @@
 package site.linkway.core.service;
 
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,18 @@ public class UserDataServiceImpl implements UserDataService {
         User user = new User();
         user.email = email;
         return userMapper.select(user);
+    }
+
+    /**
+     * 通过邮箱获取用户 id
+     *
+     * @param email 邮箱
+     * @return 用户 id
+     */
+    @Override
+    public String getUserIdByEmail(String email) {
+        val userId = userMapper.selectIdByEmail(email);
+        return userId;
     }
 
     /*更新昵称 性别*/
