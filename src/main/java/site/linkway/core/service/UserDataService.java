@@ -8,6 +8,13 @@ public interface UserDataService {
     /*根据邮箱获得用户信息*/
     User getUserByEmail(String email);
 
+    /**
+     * 通过邮箱获取用户 id
+     * @param email 邮箱
+     * @return 用户 id
+     */
+    String getUserIdByEmail(String email);
+
     /*更新昵称 性别*/
     boolean updateUserData(String email, String name, String sex);
 

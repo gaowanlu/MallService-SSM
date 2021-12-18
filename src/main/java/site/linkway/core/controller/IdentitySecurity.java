@@ -4,6 +4,7 @@ package site.linkway.core.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
+import lombok.val;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import site.linkway.core.entity.bo.TestRequestBody;
 import site.linkway.core.entity.vo.ResultMessage;
 import site.linkway.core.entity.vo.StatusResult;
 import site.linkway.core.service.IdentitySecurityService;
+import site.linkway.core.service.UserDataService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,6 +33,9 @@ public class IdentitySecurity {
     private IdentitySecurityService identitySecurityService;
 
     @Autowired
+    private UserDataService userDataService;
+
+    @Autowired
     HttpServletRequest httpServletRequest;
     @Autowired
     HttpServletResponse httpServletResponse;
@@ -48,13 +53,21 @@ public class IdentitySecurity {
         /*seesion判断 是否存在id 判断是否为登录状态*/
         StatusResult statusResult = new StatusResult();
         if (sessionAttrId!=null&&!sessionAttrId.equals("")) {
-            //直接返回StatusResult
+            System.out.println(sessionAttrId);
+            // 检查是否是管理员
+            val userId = userDataService.getUserIdByEmail(sessionAttrId);
+            val isAdmin = identitySecurityService.checkIsAdmin(userId);
+            statusResult.setAdmin(isAdmin);
             return mapper.writeValueAsString(statusResult);
         }
         //进行登录相关操作
         if (identitySecurityService.checkIdPassword(id, password)) {
             //身份验证成功
             httpSession.setAttribute("id", id);
+            // 检查是否是管理员
+            val userId = userDataService.getUserIdByEmail(id);
+            val isAdmin = identitySecurityService.checkIsAdmin(userId);
+            statusResult.setAdmin(isAdmin);
             return mapper.writeValueAsString(statusResult);
         }
         //身份验证失败
