@@ -1,7 +1,7 @@
 # MallService API 文档
 
 （最新版本/草稿见[此处](https://md.yuuza.net/8db-waSeSdW1NnyYmYZeYw)）
-## 部署版本 git node hash 667ac20fb7ba6cb57b95a4973443968448c8b3b8
+## 部署版本 git node hash 8d6b4ec693d5bfc6309a33706d7f635e876b2657
 ## `返回 JSON 规范`
 
 ### 操作成功时：
