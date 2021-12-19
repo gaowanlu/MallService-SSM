@@ -496,31 +496,55 @@ interface PostCommodityType {
 
 ---
 
-## `进行中`  
-### 管理端  
-#### 商品管理
-  -[x] 商品搜索以及获取列表   
-   * 请见搜索模块 
-
-  -[x] 商品类别列表管理  
-
-   * 商品类型列表  
-     * 请见商品浏览模块
-   * 更新属性提交  
-     * 请求格式 `PostCommodityType` [数据类型](#请求)  
-     * 注：会改变原来此类别的商品的类别 
-     * 返回格式  
-       当新增时,利用message:string   
-       捎带新的goodtypeId,注意要parseInt() 
-
-   -[ ] 商品信息
-   * 更新文字属性
-   * 相关图片更新
-   * 新增商品
+## 管理端  
+### 商品管理
+#### 商品搜索以及获取列表   
+   * 请见商品搜索模块 
 
 
-#### 订单   
-##### 获取订单列表    
+#### 获取类型列表   
+请见商品浏览模块
+#### 更新类型列表  
+* 请求格式 `PostCommodityType` [数据类型](#请求)  
+注：会改变原来此类别的商品的类别 
+* 返回格式  
+当新增时,利用message:string   
+捎带新的goodtypeId,注意要parseInt() 
+
+#### 新增商品 
+格式 multipart/form-data   
+```
+price:价格 number
+name:名称 string
+profile:简介 string
+stock:库存量 number
+goodTypeId:商品类型号 number (可能需要多个、暂为其指定一个类型)  
+onSale:是否进行上架 number(0|1)  
+file:File[] 文件同属性为file  
+```
+#### 更新商品属性    
+`POST /api/admin/commodity/update`   
+```
+goodId:商品号 string  
+price:价格 number
+name:名称 string
+profile:简介 string
+stock:库存量 number
+goodTypeId:商品类型号 number (可能需要多个、暂为其指定一个类型)  
+onSale:是否进行上架 number(0|1)  
+```
+
+#### 商品图片删除  
+  `POST /api/admin/commodity/img/delete` 
+   参数  
+     imgId:string  
+#### 追加商品图片  
+   `POST /api/admin/commodity/img/add` 
+   goodId:商品id  string 
+   file:File[] 商品图片   
+   
+### 订单   
+#### 获取订单列表（订单搜索）     
 `POST /api/admin/order/search`    
 * 提交格式 
 ```typescript
@@ -543,8 +567,12 @@ interface DateMinMax{
 
 `OrderList` [数据类型](#返回) 
 
-##### 发货   
+
+
+## `进行中`  
+
+### 发货  
 修改物流信息同时更改发货状态  
 
-##### 同意退款  
+### 同意退款  
 由退款中状态改为已结束、并将订单金额退还至用户（可能还会存在商品库存量问题）   

@@ -146,6 +146,36 @@ CREATE TABLE orderGood(
 	foreign key(orderId) references orders(orderId) ON UPDATE cascade ON delete cascade
 );
 
+# 触发器 
+# 当新增订单商品时，被买的订单的物品的库存减去相对应的数量,与销量增加
+DELIMITER $$
+CREATE TRIGGER orderGood_after_insert
+    AFTER
+    INSERT
+    ON orderGood
+    FOR EACH ROW
+BEGIN
+    UPDATE good
+    SET stock=good.stock-NEW.num,soldSum=good.soldSum+NEW.num
+    WHERE goodId=NEW.goodId;
+END$$
+DELIMITER ;
+
+# 当新增订单时，将响应用户余额减少为订单总价
+DELIMITER $$
+CREATE TRIGGER orders_after_insert
+    AFTER
+    INSERT
+    ON orders
+    FOR EACH ROW
+BEGIN
+    UPDATE user
+    SET money=money-NEW.priceCount
+    WHERE user.userId=NEW.userId;
+END$$
+DELIMITER ;
+
+
 
 # 用户
 INSERT INTO user VALUES('cd0bf38c57fe44d39d4b6a135fb8fc7e','123456','未知','男','',10000.0,'moezrf@gmail.com');
@@ -155,13 +185,14 @@ INSERT INTO user VALUES('1','123456789','gaowanlu','男','',10000.0,'2209120827@
 INSERT  INTO admin(userId) VALUES('cd0bf38c57fe44d39d4b6a135fb8fc7e');
 INSERT  INTO admin(userId) VALUES('1');
 
+#添加商品类型与商品
 INSERT INTO goodType values(1,'手机');
 
-INSERT INTO good values('1',634,'p50','好手机',12,300,1,1);
+INSERT INTO good values('1',634,'p50','好手机',100,300,1,1);
 INSERT INTO cart VALUES('dsvdfvsdf','1','1',1);
 
 INSERT INTO goodType values(2,'电脑');
-INSERT INTO good values('2',645,'BX505','好电脑',12,300,2,1);
+INSERT INTO good values('2',645,'BX505','好电脑',100,300,2,1);
 INSERT INTO cart VALUES('dsvdcdscs','2','1',2);
 
 INSERT INTO img VALUES("dsds","csc",234,"");
@@ -206,4 +237,6 @@ INSERT INTO orderGood(orderId,goodId,num) values('dscavf1','2',2);
 INSERT INTO orders VALUES('dscavf2','1','待发货','13346637702','桂林市','gaowanlu',now(),'','',123);
 INSERT INTO orders VALUES('dscavf3','1','待发货','13346637702','桂林市','gaowanlu',now(),'','',123);
 INSERT INTO orderGood(orderId,goodId,num) values('dscavf3','1',2);
-INSERT INTO orders VALUES('dscavf4','1','待发货','13346637702','桂林市','gaowanlu',now(),'','',123);
+INSERT INTO orders VALUES('dscavf4','1','待发货','13346637702','桂林市','gaowanlu',now(),'','',123); 
+
+

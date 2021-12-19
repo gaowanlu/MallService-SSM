@@ -34,7 +34,11 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     GoodImgMapper goodImgMapper;
 
-    /*添加新订单*/
+    /*添加新订单
+    * 存在的问题:
+    * 1、当用户提交的商品数量超过库存量时
+    * 2、当选物品已经下架时
+    * */
     @Override
     @Transactional
     public String insert( String email, PostOrder postOrder) {
@@ -64,10 +68,12 @@ public class OrderServiceImpl implements OrderService{
                 orderGood.setOrderId(orderId);
                 orderGood.setNum(orderGoodItem.getNum());
                 orderGoodMapper.insert(orderGood);
+                //在数据库触发器限制了用户提交的购买数量与库存量的限制
+                //问题
+                //如果库存量不够则 insert返回0 ,但其钱还是扣掉了
             }
         }
-        //更新余额
-        userMapper.updateMoney(email,userMoney-goodPriceCount);
+        //更新余额 由数据库触发器控制
         return "true";//消费成功
     }
 

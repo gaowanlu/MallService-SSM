@@ -97,4 +97,13 @@
         </where>
     </select>
 
+    <insert id="insert" parameterType="site.linkway.core.entity.po.Good">
+        INSERT INTO good VALUES(#{goodId},#{price},#{name},#{profile},#{stock},#{soldSum},#{goodTypeId},#{onSale});
+    </insert>
+
+    <update id="update" parameterType="site.linkway.core.entity.po.Good">
+        UPDATE good SET price=#{price},name=#{name},profile=#{profile},stock=#{stock},goodTypeId=#{goodTypeId},onSale=#{onSale}
+        WHERE goodId=#{goodId}
+    </update>
+
 </mapper>

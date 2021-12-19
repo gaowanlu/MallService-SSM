@@ -6,16 +6,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import site.linkway.core.entity.bo.PostCommodity;
 import site.linkway.core.entity.bo.PostCommodityType;
 import site.linkway.core.entity.bo.PostOrderSearch;
+import site.linkway.core.entity.po.Good;
 import site.linkway.core.entity.vo.OrderList;
 import site.linkway.core.entity.vo.ResultMessage;
-import site.linkway.core.service.CommodityTypeService;
-import site.linkway.core.service.OrderService;
-import site.linkway.core.service.UserDataService;
+import site.linkway.core.entity.vo.StatusResult;
+import site.linkway.core.service.*;
+
+import java.io.IOException;
 
 @Controller
-@RequestMapping(value = "/ap/admin")
+@RequestMapping(value = "/api/admin")
 public class Admin {
     private ObjectMapper mapper = new ObjectMapper();
 
@@ -25,7 +29,8 @@ public class Admin {
     UserDataService userDataService;
     @Autowired
     OrderService orderService;
-
+    @Autowired
+    CommodityService commodityService;
 
     /*更新或插入 商品类型选项 一旦插入 母前:只能修改、不能删除、如删除需要检验是否有商品使用此类型*/
     @PostMapping(value = "/commodity/type",produces = "application/json;charset=utf-8")
@@ -42,8 +47,6 @@ public class Admin {
         }
         return mapper.writeValueAsString(resultMessage);
     }
-
-
 
     /*为用户充值 : 为了模拟暂时只实现充值 但可以用负值 做到减余额的效果*/
     @PostMapping(value = "/recharge",produces = "application/json;charset=utf-8")
@@ -64,5 +67,56 @@ public class Admin {
         return  mapper.writeValueAsString(orderList);
     }
 
+    /*新商品发布*/
+    @PostMapping (value = "/commodity/add",produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String addNewCommodity(@RequestParam("price") double price,
+                                @RequestParam("name") String name,
+                                @RequestParam("profile") String profile,
+                                @RequestParam("stock") int stock,
+                                @RequestParam("goodTypeId") int goodTypeId,
+                                @RequestParam("onSale") int onSale,
+                                @RequestParam(name = "file") CommonsMultipartFile file[]
+    ) throws IOException {
+        PostCommodity postCommodity=new PostCommodity(price,name,profile,stock,goodTypeId,onSale,file);
+        StatusResult statusResult=new StatusResult();
+        statusResult.setResult(!commodityService.addNewCommodity(postCommodity).equals("false"));
+        return mapper.writeValueAsString(statusResult);
+    }
+
+    /*商品信息更新*/
+    @PostMapping (value = "/commodity/update",produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String commodityTextUpdate(@RequestParam("price") double price,
+                                      @RequestParam("name") String name,
+                                      @RequestParam("profile") String profile,
+                                      @RequestParam("stock") int stock,
+                                      @RequestParam("goodTypeId") int goodTypeId,
+                                      @RequestParam("onSale") int onSale,
+                                      @RequestParam("goodId") String goodId) throws JsonProcessingException {
+        Good good=new Good(goodId,price,name,profile,stock,0,goodTypeId,onSale);//0为soldSum 不会更新soldSum的
+        StatusResult statusResult=new StatusResult();
+        statusResult.setResult(commodityService.updateCommodityText(good));
+        return mapper.writeValueAsString(statusResult);
+    }
+
+    /*商品图片删除*/
+    @PostMapping(value = "/commodity/img/add",produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String commodityImgPush(@RequestParam("goodId") String goodId,
+                                     @RequestParam("file") CommonsMultipartFile file[]) throws IOException {
+        StatusResult statusResult=new StatusResult();
+        statusResult.setResult(commodityService.addCommodityImg(goodId,file));
+        return mapper.writeValueAsString(statusResult);
+    }
+
+    /*商品图片删除*/
+    @PostMapping(value = "/commodity/img/delete",produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String commodityImgPush(@RequestParam("imgId") String imgId) throws JsonProcessingException {
+        StatusResult statusResult=new StatusResult();
+        statusResult.setResult(commodityService.deleteCommodityImg(imgId));
+        return mapper.writeValueAsString(statusResult);
+    }
 }
 
