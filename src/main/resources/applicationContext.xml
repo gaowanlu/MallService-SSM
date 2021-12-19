@@ -5,5 +5,4 @@
     <import resource="spring-mybatis.xml"/>
     <import resource="spring-mvc.xml"/>
     <import resource="spring-service.xml"/>
-    <import resource="mybean/multipartResolver.xml"/>
 </beans>
