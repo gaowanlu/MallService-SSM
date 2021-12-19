@@ -7,8 +7,6 @@ import java.util.List;
 @Mapper
 public interface GoodImgMapper {
     int insert(GoodImg goodImg);
-    int update(GoodImg goodImg);
-    int delete(GoodImg goodImg);
-    GoodImg select(GoodImg goodImg);
     List<String> selectImgIdByGoodId(String goodId);
+    int deleteByImgId(String imgId);
 }

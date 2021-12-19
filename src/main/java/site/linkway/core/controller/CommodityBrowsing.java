@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import site.linkway.core.entity.po.Commodity;
 import site.linkway.core.entity.vo.CommodityTypeList;
 import site.linkway.core.entity.vo.ResultMessage;
-import site.linkway.core.service.CommodityBrowsingService;
+import site.linkway.core.service.CommodityService;
 
 /*商品相关信息模块
 - 商品随即推荐
@@ -23,20 +23,20 @@ import site.linkway.core.service.CommodityBrowsingService;
 public class CommodityBrowsing {
     private ObjectMapper mapper = new ObjectMapper();
     @Autowired
-    CommodityBrowsingService commodityBrowsingService;
+    CommodityService commodityService;
 
     /*随机推荐商品*/
     @GetMapping(value="/recommendation",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String randomRecommendation() throws JsonProcessingException {
-        return mapper.writeValueAsString(commodityBrowsingService.randomSelectCommodity(20));//最多推荐20个
+        return mapper.writeValueAsString(commodityService.randomSelectCommodity(20));//最多推荐20个
     }
 
     /*根据商品号获得商品详情*/
     @PostMapping(value="/detail",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String commodityDetail(@NonNull String goodId) throws JsonProcessingException {
-        Commodity commodity=commodityBrowsingService.selectCommodityByGoodId(goodId);
+        Commodity commodity= commodityService.selectCommodityByGoodId(goodId);
         if(commodity==null){
             ResultMessage resultMessage=new ResultMessage();
             resultMessage.setResult(false);
@@ -51,7 +51,7 @@ public class CommodityBrowsing {
     @ResponseBody
     public String commodityTypeList() throws JsonProcessingException {
         CommodityTypeList commodityTypeList=new CommodityTypeList();
-        commodityTypeList.setTypes(commodityBrowsingService.goodTypes());
+        commodityTypeList.setTypes(commodityService.goodTypes());
         return mapper.writeValueAsString(commodityTypeList);
     }
 }
