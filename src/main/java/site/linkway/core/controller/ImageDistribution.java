@@ -32,8 +32,8 @@ public class ImageDistribution {
                     @NonNull HttpServletResponse httpServletResponse
                     ) throws Exception {
         Map<String,Object> result=imageService.selectImgById(imgId);
-        InputStream in = new ByteArrayInputStream((byte[]) result.get("img"));
-        long filesize=Long.valueOf((String)result.get("imgSize"));
+        InputStream in = (InputStream) result.get("img");
+        long filesize=(int)result.get("imgSize");
         String filetype=(String) result.get("imgType");
         httpServletResponse.reset();
         /*

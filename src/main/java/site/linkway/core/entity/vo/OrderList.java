@@ -10,4 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderList {
     List<OrderItem> orderItems;
+    int pageNow;
+    int pageSize;
+    int pageCount;
 }

@@ -26,4 +26,7 @@
     <update id="updateMoney">
         UPDATE user SET money=#{money} WHERE email=#{email}
     </update>
+    <update id="updateHeadImg">
+        UPDATE user SET headImgId=#{headImg} WHERE email=#{email}
+    </update>
 </mapper>

@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import site.linkway.core.entity.po.User;
 import site.linkway.core.entity.vo.PersonalData;
@@ -53,7 +54,7 @@ public class UserData {
                 user.userId,
                 user.name,
                 user.sex,
-                "/imgApi?imgId="+user.headImgId,
+                ImageDistribution.formatURLFromImgId(user.headImgId),
                 user.money,
                 user.email
         );
@@ -78,15 +79,16 @@ public class UserData {
 
 
     /*更新头像*/
-    @PutMapping(value = "/avatar",produces = "application/json;charset=utf-8")
+    @PostMapping (value = "/avatar",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String updateHeadImg(@NonNull @SessionAttribute(name="id") String email,
-                                @NonNull @RequestParam("avatar") CommonsMultipartFile file
+                                @RequestParam(name = "file") CommonsMultipartFile file
                                 ) throws IOException {
 
         StatusResult statusResult=new StatusResult();
         //获得上传文件的文件名
         String uploadFileName = file.getOriginalFilename();
+        System.out.println(uploadFileName);
         //如果文件名为空,则直接返回
         if("".equals(uploadFileName)){
             return mapper.writeValueAsString(statusResult);

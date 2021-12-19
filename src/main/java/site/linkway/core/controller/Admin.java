@@ -7,12 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import site.linkway.core.entity.bo.PostCommodityType;
+import site.linkway.core.entity.bo.PostOrderSearch;
+import site.linkway.core.entity.vo.OrderList;
 import site.linkway.core.entity.vo.ResultMessage;
 import site.linkway.core.service.CommodityTypeService;
+import site.linkway.core.service.OrderService;
 import site.linkway.core.service.UserDataService;
 
 @Controller
-@RequestMapping(value = "/api/admin")
+@RequestMapping(value = "/ap/admin")
 public class Admin {
     private ObjectMapper mapper = new ObjectMapper();
 
@@ -20,6 +23,8 @@ public class Admin {
     CommodityTypeService commodityTypeService;
     @Autowired
     UserDataService userDataService;
+    @Autowired
+    OrderService orderService;
 
 
     /*更新或插入 商品类型选项 一旦插入 母前:只能修改、不能删除、如删除需要检验是否有商品使用此类型*/
@@ -49,6 +54,14 @@ public class Admin {
         resultMessage.setResult(result);
         resultMessage.setMessage(result?"充值成功":"充值失败");
         return  mapper.writeValueAsString(resultMessage);
+    }
+
+    /*订单查询*/
+    @PostMapping(value="/order/search",produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String orderSearch(@RequestBody PostOrderSearch postOrderSearch) throws JsonProcessingException {
+        OrderList orderList=orderService.orderSearch(postOrderSearch);
+        return  mapper.writeValueAsString(orderList);
     }
 
 }

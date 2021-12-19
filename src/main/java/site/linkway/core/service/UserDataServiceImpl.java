@@ -62,12 +62,18 @@ public class UserDataServiceImpl implements UserDataService {
         /*首先检索此用户是否已经存在自定义头像*/
         if(user.getUserId()==null||user.getHeadImgId().equals("")){
             //插入新的头像
-            Img img=new Img(UUIDUtils.getUUID(),fileType,fileSize,inputStream);
-            return 1==imgMapper.insert(img);
+            String uuid=UUIDUtils.getUUID();
+            Img img=new Img(uuid,fileType,fileSize,inputStream);
+            int addResult=imgMapper.insert(img);
+            if(1==addResult){
+                //将新的UUID在送进到headImg字段中
+                return 1==userMapper.updateHeadImg(email,uuid);
+            }
         }else{//根据头像id进行更新
             Img img=new Img(user.getHeadImgId(),fileType,fileSize,inputStream);
             return 1==imgMapper.update(img);
         }
+        return false;
     }
 
     /*充值 金额可正可负*/

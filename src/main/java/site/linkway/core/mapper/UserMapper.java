@@ -13,5 +13,6 @@ public interface UserMapper {
     User select(User user);//by email
     User selectByEmailAndPassword(User user);
     String selectIdByEmail(String email);
+    int updateHeadImg(@Param("email") String email,@Param("headImg") String headImg);
     int updateMoney(@Param("email") String email,@Param("money") double money);
 }
