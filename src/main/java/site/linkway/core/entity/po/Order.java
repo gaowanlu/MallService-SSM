@@ -14,7 +14,7 @@ public class Order {
     public String userId;// varchar(32)
     public String status;// varchar(10) '待付款','待发货','已发货','已签收'
     public String phone;// char(11)
-    public Date time;//下单时间
+    public String time;//下单时间
     public String address;// varchar(30)
     public String name;// varchar(14)
     public String logisticsNumber;// varchar(30) 物流单号

@@ -2,7 +2,9 @@ package site.linkway.core.service;
 
 import site.linkway.core.controller.Order;
 import site.linkway.core.entity.bo.PostOrder;
+import site.linkway.core.entity.bo.PostOrderSearch;
 import site.linkway.core.entity.vo.OrderItem;
+import site.linkway.core.entity.vo.OrderList;
 
 import java.util.List;
 
@@ -17,4 +19,6 @@ public interface OrderService {
     OrderItem selectByOrderId(String email,String OrderId);
     /*删除已签收的订单*/
     String delete(String orderId,String email);
+    /*根据订单相关属性、查询订单列表*/
+    OrderList orderSearch(PostOrderSearch postOrderSearch);
 }

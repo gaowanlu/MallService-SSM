@@ -38,5 +38,48 @@
     <delete id="delete">
         DELETE FROM orders WHERE orderId=#{orderId} and userId=#{userId}
     </delete>
+    <select id="orderSearch" resultType="site.linkway.core.entity.po.Order" parameterType="site.linkway.core.entity.bo.PostOrderSearchUnfold">
+        SELECT *
+        FROM orders
+        <where>
+            <if test="orderId != null">
+                orderId=#{orderId}
+            </if>
+            <if test="userId != null">
+                and userId=#{userId}
+            </if>
+            <if test="status != null">
+                and status=#{status}
+            </if>
+            <if test="min != null">
+                and time &gt;= #{min}
+            </if>
+            <if test="max != null">
+                and time &lt;= #{max}
+            </if>
+        </where>
+        LIMIT #{num},#{size}
+    </select>
 
+    <select id="orderSearchCount"  parameterType="site.linkway.core.entity.bo.PostOrderSearchUnfold" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM orders
+        <where>
+            <if test="orderId != null">
+                orderId=#{orderId}
+            </if>
+            <if test="userId != null">
+                and userId=#{userId}
+            </if>
+            <if test="status != null">
+                and status=#{status}
+            </if>
+            <if test="min != null">
+                and time &gt;= #{min}
+            </if>
+            <if test="max != null">
+                and time &lt;= #{max}
+            </if>
+        </where>
+    </select>
 </mapper>

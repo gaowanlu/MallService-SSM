@@ -246,6 +246,15 @@
   注:可进行组合查询,当字符串为`''`,数字为`0`时则代表只是用此限制
 --- 
 
+## `用户管理`
+### 充值 (提供ID与金额)
+`POST /api/admin/recharge`  
+
+注：提供用户邮箱与金额进行余额增减（主要为了生产模拟）   
+参数 {email:string,amount:number}
+
+---
+
 ## `数据类型` 
 
 ### 返回 
@@ -385,14 +394,14 @@ interface OrderItemGood {
 }
 ```
 ##### Order 
-```typescript 
+```typescript
 /*订单*/
 interface Order {
     orderId:string;
     userId:string;
     status:string;//'待付款','待发货','已发货','已签收','退款中'
     phone:string;
-    time:string;
+    time:string;//format YYYY-MM-DD HH:MM:SS  
     address:string;
     name:string;
     logisticsNumber:string;
@@ -401,10 +410,13 @@ interface Order {
 }
 ``` 
 ##### OrderList
-``` typescript 
+```typescript
 /*订单列表*/ 
 interface OrderList {
     orderItems:OrderItem[];
+    pageNow:number;
+    pageSize:number;
+    pageCount:number;
 }
 ```
 
@@ -501,25 +513,38 @@ interface PostCommodityType {
        当新增时,利用message:string   
        捎带新的goodtypeId,注意要parseInt() 
 
-   -[ ] 商品信息与状态修改
+   -[ ] 商品信息
    * 更新文字属性
    * 相关图片更新
-   -[ ] 新增商品
-   * 属性提交
+   * 新增商品
 
-#### 订单  
-  -[ ] 订单状态管理  
-   * 提交物流信息更改发货状态  
-   * 退款正在退款的订单   
-  -[ ] 待处理列表  
-   * 待发货列表  
-   * 待退款列表 
-  -[ ] 订单列表   
-   * 所有订单列表 
-  -[ ] 订单搜索 
-   * 根据订单号、日期区间搜索得到订单列表 
 
-#### 用户管理  
-  -[x] 充值 (提供ID与金额)  
-  * 提供用户邮箱与金额进行余额增加（注：主要为了模拟）   
-  参数 {email:string,amount:number}
+#### 订单   
+##### 获取订单列表    
+`POST /api/admin/order/search`    
+* 提交格式 
+```typescript
+/*订单搜索、string为'' 时代表不适用此属性*/ 
+interface PostOrderSearch{
+    orderId:string;//订单号
+    email:string;//订单所属者email
+    status:string;//订单状态
+    time:DateMinMax;//订单产生时间区间 
+    pageSize:number;//每页多少个 1~20 
+    pageNow:number;//现在所在页码 1~
+}
+/*想要其不适用则放开区间例如2001-12-21 ~ 未来时间*/
+interface DateMinMax{
+    min:Date;
+    max:Date;//Date format pattern = "YYYY-MM-DD HH:MM:SS"  
+}
+``` 
+* 返回格式   
+
+`OrderList` [数据类型](#返回) 
+
+##### 发货   
+修改物流信息同时更改发货状态  
+
+##### 同意退款  
+由退款中状态改为已结束、并将订单金额退还至用户（可能还会存在商品库存量问题）   

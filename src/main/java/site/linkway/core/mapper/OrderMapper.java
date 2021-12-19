@@ -3,6 +3,7 @@ package site.linkway.core.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import site.linkway.core.entity.bo.PostOrderSearchUnfold;
 import site.linkway.core.entity.po.Order;
 import java.util.List;
 
@@ -12,6 +13,7 @@ public interface OrderMapper {
     int insert(Order order);
     Order select(Order order);//select by orderId
     Order selectByOrderIdAndUserId(@Param("orderId") String orderId,@Param("userId") String userId);
+    //获取指定用户的所有订单
     List<Order> selectByUserId(String userId);
     //插入新订单
     int insertByAddressIdAndEmail(@Param("orderId") String orderId,
@@ -24,4 +26,9 @@ public interface OrderMapper {
                      @Param("status") String status);
     //订单删除
     int delete(@Param("orderId") String orderId,@Param("userId") String userId);
+
+    //获取所有服务要求的订单
+    List<Order> orderSearch(PostOrderSearchUnfold postOrderSearchUnfold);
+    //统计符合搜索要求订单的数量
+    int orderSearchCount(PostOrderSearchUnfold postOrderSearchUnfold);
 }

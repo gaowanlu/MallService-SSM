@@ -7,11 +7,14 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import site.linkway.core.controller.ImageDistribution;
 import site.linkway.core.entity.bo.OrderGoodItem;
 import site.linkway.core.entity.bo.PostOrder;
+import site.linkway.core.entity.bo.PostOrderSearch;
+import site.linkway.core.entity.bo.PostOrderSearchUnfold;
 import site.linkway.core.entity.po.Order;
 import site.linkway.core.entity.po.OrderGood;
 import site.linkway.core.entity.po.User;
 import site.linkway.core.entity.vo.OrderItem;
 import site.linkway.core.entity.vo.OrderItemGood;
+import site.linkway.core.entity.vo.OrderList;
 import site.linkway.core.mapper.*;
 import site.linkway.utils.UUIDUtils;
 
@@ -95,10 +98,11 @@ public class OrderServiceImpl implements OrderService{
         }
         return result;
     }
+
     /*根据order获取其OrderItem*/
     private OrderItem getOrderItem(Order order){
         OrderItem orderItem=new OrderItem();
-        orderItem.setOrder(order);
+        orderItem.setOrder(order);//将order装入orderItem
         /*获取此订单内的商品详情*/
         List<OrderItemGood> orderGoods = new ArrayList<>();
         orderGoods = orderGoodMapper.orderItemGoodByOrderId(order.getOrderId());
@@ -112,6 +116,7 @@ public class OrderServiceImpl implements OrderService{
         orderItem.setOrderGoods(orderGoods);
         return orderItem;
     }
+
     /*获得指定用户的订单*/
     @Override
     public List<OrderItem> selectByEmail(String email) {
@@ -155,6 +160,32 @@ public class OrderServiceImpl implements OrderService{
         return "删除失败";
     }
 
-
+    /*根据提供的订单相关属性 查询出order列表*/
+    @Override
+    public OrderList orderSearch(PostOrderSearch postOrderSearch) {
+        /*将postOrderSearch属性展开供mapper使用*/
+        PostOrderSearchUnfold postOrderSearchUnfold=new PostOrderSearchUnfold(postOrderSearch);
+        /*如果提供了email则将其userId找到、在PostOrderSearchUnfold构造函数内进行的校验*/
+        if(null!=postOrderSearchUnfold.getUserId()){
+            postOrderSearchUnfold.setOrderId(userMapper.selectIdByEmail(postOrderSearch.getEmail()));
+        }
+        /*获取所有符合条件的订单*/
+        List<Order> orders=orderMapper.orderSearch(postOrderSearchUnfold);
+        OrderList orderList=new OrderList();
+        /*装配orderList*/
+        //获取所有订单内的商品详情
+        List<OrderItem> orderItemList=new ArrayList<>();
+        //遍历所有订单
+        for(Order order:orders){
+            orderItemList.add(getOrderItem(order));
+        }
+        orderList.setOrderItems(orderItemList);
+        orderList.setPageNow(postOrderSearchUnfold.getPageNow());
+        orderList.setPageSize(postOrderSearchUnfold.getPageSize());
+        int pageCount=orderMapper.orderSearchCount(postOrderSearchUnfold)/ postOrderSearch.getPageSize();
+        if(pageCount==0){pageCount++;}
+        orderList.setPageCount(pageCount);
+        return orderList;
+    }
 
 }

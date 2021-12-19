@@ -197,3 +197,13 @@ INSERT INTO sComment VALUES('vsdfgbs','2wgef','vdsbfgnf',NOW(),'1');
 #插入收货地址 
 INSERT INTO address VALUES('qwertyuioplkjhgfdsazxcv45678','1','13346637702','广西 桂林市 电子科技大学(花江校区)','高万禄');
 INSERT INTO address VALUES('qwertyuioplkjhgfdsazxcv4568','1','13346637702','广西 桂林市 电子科技大学(花江校区)','高万禄');
+
+#添加订单 
+INSERT INTO orders VALUES('dscavf1','1','待发货','13346637702','桂林市','gaowanlu',now(),'','',123);
+#添加订单物品
+INSERT INTO orderGood(orderId,goodId,num) values('dscavf1','1',2);
+INSERT INTO orderGood(orderId,goodId,num) values('dscavf1','2',2);
+INSERT INTO orders VALUES('dscavf2','1','待发货','13346637702','桂林市','gaowanlu',now(),'','',123);
+INSERT INTO orders VALUES('dscavf3','1','待发货','13346637702','桂林市','gaowanlu',now(),'','',123);
+INSERT INTO orderGood(orderId,goodId,num) values('dscavf3','1',2);
+INSERT INTO orders VALUES('dscavf4','1','待发货','13346637702','桂林市','gaowanlu',now(),'','',123);
