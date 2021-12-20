@@ -18,6 +18,7 @@ import site.linkway.core.service.*;
 
 import java.io.IOException;
 
+/*管理端*/
 @Controller
 @RequestMapping(value = "/api/admin")
 public class Admin {
@@ -117,6 +118,30 @@ public class Admin {
         StatusResult statusResult=new StatusResult();
         statusResult.setResult(commodityService.deleteCommodityImg(imgId));
         return mapper.writeValueAsString(statusResult);
+    }
+
+    /*订单发货处理*/
+    @PostMapping(value="/order/ship",produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String orderShip(@RequestParam("orderId") String orderId,
+                            @RequestParam("logisticsNumber") String logisticsNumber,
+                            @RequestParam("logisticsName") String logisticsName) throws JsonProcessingException {
+        ResultMessage resultMessage=new ResultMessage();
+        String result=orderService.orderShip(orderId,logisticsNumber,logisticsName);
+        resultMessage.setResult(result.equals("true"));
+        resultMessage.setMessage(result);
+        return mapper.writeValueAsString(resultMessage);
+    }
+
+    /*订单申请退款处理*/
+    @PostMapping(value="/order/refund",produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String orderRefund(@RequestParam("orderId") String orderId) throws JsonProcessingException {
+        ResultMessage resultMessage=new ResultMessage();
+        String result=orderService.orderRefund(orderId);
+        resultMessage.setResult(result.equals("true"));
+        resultMessage.setMessage(result);
+        return mapper.writeValueAsString(resultMessage);
     }
 }
 

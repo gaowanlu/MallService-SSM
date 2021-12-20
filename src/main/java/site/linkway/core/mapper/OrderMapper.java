@@ -31,4 +31,6 @@ public interface OrderMapper {
     List<Order> orderSearch(PostOrderSearchUnfold postOrderSearchUnfold);
     //统计符合搜索要求订单的数量
     int orderSearchCount(PostOrderSearchUnfold postOrderSearchUnfold);
+    /*订单更新 只更新 status 以及物流信息*/
+    int update(Order order);
 }

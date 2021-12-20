@@ -54,10 +54,10 @@ public class IdentitySecurity {
         if (sessionAttrId!=null&&!sessionAttrId.equals("")) {
             System.out.println(sessionAttrId);
             // 检查是否是管理员
-            val userId = userDataService.getUserIdByEmail(sessionAttrId);
-            val isAdmin = identitySecurityService.checkIsAdmin(userId);
+            String userId = userDataService.getUserIdByEmail(sessionAttrId);
+            Boolean isAdmin = identitySecurityService.checkIsAdmin(userId);
             statusResult.setAdmin(isAdmin);
-            httpServletRequest.setAttribute("isAdmin",isAdmin);//使用session存储是否为管理员
+            httpSession.setAttribute("isAdmin",isAdmin);//使用session存储是否为管理员
             return mapper.writeValueAsString(statusResult);
         }
         //进行登录相关操作
@@ -65,8 +65,9 @@ public class IdentitySecurity {
             //身份验证成功
             httpSession.setAttribute("id", id);
             // 检查是否是管理员
-            val userId = userDataService.getUserIdByEmail(id);
-            val isAdmin = identitySecurityService.checkIsAdmin(userId);
+            String userId = userDataService.getUserIdByEmail(id);
+            Boolean isAdmin = identitySecurityService.checkIsAdmin(userId);
+            httpSession.setAttribute("isAdmin", isAdmin);//使用session存储管理员身份
             statusResult.setAdmin(isAdmin);
             return mapper.writeValueAsString(statusResult);
         }

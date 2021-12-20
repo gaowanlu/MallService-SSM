@@ -21,4 +21,8 @@ public interface OrderService {
     String delete(String orderId,String email);
     /*根据订单相关属性、查询订单列表*/
     OrderList orderSearch(PostOrderSearch postOrderSearch);
+    /*发货处理*/
+    String orderShip(String orderId,String logisticsNumber,String logisticsName);
+    /*退款处理*/
+    String orderRefund(String orderId);
 }

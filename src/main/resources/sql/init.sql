@@ -73,7 +73,7 @@ CREATE TABLE orders(
     orderId VARCHAR(32) NOT NULL unique primary key,
     userId VARCHAR(32) NOT NULL,
     #发货状态
-    status VARCHAR(10) NOT NULL check(status in('待付款','待发货','已发货','已签收','退款中')),
+    status VARCHAR(10) NOT NULL check(status in('待付款','待发货','已发货','已签收','退款中','已退款')),
     #物流联系电话
     phone CHAR(11) NOT NULL,
     #地址

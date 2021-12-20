@@ -29,4 +29,7 @@
     <update id="updateHeadImg">
         UPDATE user SET headImgId=#{headImg} WHERE email=#{email}
     </update>
+    <select id="selectByUserId" resultType="site.linkway.core.entity.po.User">
+        SELECT * FROM user WHERE userId=#{userId}
+    </select>
 </mapper>
