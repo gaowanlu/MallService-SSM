@@ -82,4 +82,9 @@
             </if>
         </where>
     </select>
+
+    <update id="update" parameterType="site.linkway.core.entity.po.Order">
+        UPDATE orders SET status=#{status},logisticsNumber=#{logisticsNumber},logisticsName=#{logisticsName}
+        WHERE orderId=#{orderId}
+    </update>
 </mapper>

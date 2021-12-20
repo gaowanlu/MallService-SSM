@@ -57,9 +57,9 @@ public class IdentitySecurityServiceImpl implements IdentitySecurityService {
      */
     @Override
     public boolean checkIsAdmin(String userId) {
-        System.out.println("userId:" + userId);
+//        System.out.println("userId:" + userId);
         Admin admin = adminMapper.selectByUserId(userId);
-        return admin != null;
+        return null!=admin;
     }
 
     /*参数为邮箱地址

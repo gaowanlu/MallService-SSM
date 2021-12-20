@@ -11,6 +11,7 @@ public interface UserMapper {
     int update(User user);
     int delete(User user);
     User select(User user);//by email
+    User selectByUserId(String userId);
     User selectByEmailAndPassword(User user);
     String selectIdByEmail(String email);
     int updateHeadImg(@Param("email") String email,@Param("headImg") String headImg);

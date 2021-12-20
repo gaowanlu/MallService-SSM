@@ -24,8 +24,10 @@ public class AdminInterceptor implements HandlerInterceptor {
         HttpSession httpSession=httpServletRequest.getSession();
         String email=(String)httpSession.getAttribute("id");
         Boolean isAdmin=(Boolean) httpSession.getAttribute("isAdmin");
-        /*没有管理员身份*/
-        if(httpSession==null||email==null||email.equals("")||null==isAdmin){
+        System.out.println(email);
+        System.out.println(isAdmin);
+        /*没有权限身份*/
+        if(httpSession==null||email==null||email.equals("")||null==isAdmin||isAdmin==false){
             httpServletResponse.setStatus(403);
             httpServletResponse.setCharacterEncoding("utf-8");
             httpServletResponse.setContentType("text/json; charset=utf-8");

@@ -534,15 +534,14 @@ goodTypeId:商品类型号 number (可能需要多个、暂为其指定一个类
 onSale:是否进行上架 number(0|1)  
 ```
 
-#### 商品图片删除  
-  `POST /api/admin/commodity/img/delete` 
-   参数  
-     imgId:string  
+#### 商品图片删除     
+`POST /api/admin/commodity/img/delete`   
+
+参数 `{imgId:string}`  
 #### 追加商品图片  
-   `POST /api/admin/commodity/img/add` 
-   goodId:商品id  string 
-   file:File[] 商品图片   
-   
+`POST /api/admin/commodity/img/add`   
+
+参数 `{goodId:string,file:File[]}`   
 ### 订单   
 #### 获取订单列表（订单搜索）     
 `POST /api/admin/order/search`    
@@ -568,11 +567,17 @@ interface DateMinMax{
 `OrderList` [数据类型](#返回) 
 
 
-
-## `进行中`  
-
-### 发货  
+#### 发货 
+`POST /api/admin/order/ship`  
 修改物流信息同时更改发货状态  
+参数 `{orderId:string,logisticsNumber:string,logisticsName:string}`
 
-### 同意退款  
-由退款中状态改为已结束、并将订单金额退还至用户（可能还会存在商品库存量问题）   
+#### 同意退款 
+`POST /api/admin/order/refund`  
+由退款中状态改为已结束、并将订单金额退还至用户（可能还会存在商品库存量问题）  
+参数 `{orderId:string} `  
+
+
+---
+
+

@@ -1,5 +1,6 @@
 package site.linkway.core.service;
 
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -194,4 +195,67 @@ public class OrderServiceImpl implements OrderService{
         return orderList;
     }
 
+    /*订单发货、成功返回 "true" 否则返回失败原因*/
+    @Override
+    @Transactional
+    public String orderShip(@NonNull String orderId,
+                            @NonNull String logisticsNumber,
+                            @NonNull String logisticsName) {
+        /*根据提供的orderId寻找订单*/
+        Order order=new Order();order.setOrderId(orderId);
+        order=orderMapper.select(order);
+        if(null==order){
+            return "无此订单";
+        }
+        /*判断订单状态是否可发货*/
+        if(!(order.getStatus().equals("待发货")||order.getStatus().equals("已发货"))){
+            return "订单状态为不可发货状态";
+        }
+        /*检查物流号与物流名是否为空*/
+        if(logisticsNumber.replace(" ","").equals("")){
+            return "物流号不能为空";
+        }
+        if(logisticsName.replace(" ","").equals("")){
+            return "物流名称不能为空";
+        }
+        /*修改订单状态*/
+        order.setLogisticsName(logisticsName);
+        order.setLogisticsNumber(logisticsNumber);
+        order.setStatus("已发货");
+        return 1==orderMapper.update(order)?"true":"更新订单失败 未知错误";
+    }
+
+    /*订单退款处理、成功返回 "true" 否则返回失败原因 */
+    @Override
+    @Transactional
+    public String orderRefund(@NonNull String orderId) {
+        /*根据提供的orderId寻找订单*/
+        Order order=new Order();order.setOrderId(orderId);
+        order=orderMapper.select(order);
+        if(null==order){
+            return "无此订单";
+        }
+        /*检查订单状态*/
+        if(!order.status.equals("退款中")){
+            return "订单不可退款";
+        }
+        /*订单状态更新，并将订单的金额返回给用户*/
+        order.setStatus("已退款");
+        int line=orderMapper.update(order);
+        if(1!=line){
+            return "退款失败 未知错误";
+        }
+        /*将金额返回至用户*/
+        double priceCount=order.getPriceCount();
+        String userId=order.getUserId();
+        User user=userMapper.selectByUserId(userId);
+        if(null==user){
+            return "没有此订单的用户";
+        }
+        line=userMapper.updateMoney(user.getEmail(),user.getMoney()+priceCount);
+        if(1!=line){
+            return "返回金额失败";
+        }
+        return "true";
+    }
 }
