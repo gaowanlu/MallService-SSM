@@ -49,25 +49,15 @@ public class IdentitySecurity {
                         @SessionAttribute(name = "id",required = false) String sessionAttrId
     ) throws JsonProcessingException {
         System.out.println(id+password);
-        /*seesion判断 是否存在id 判断是否为登录状态*/
+        // seesion判断 是否存在id 判断是否为登录状态
         StatusResult statusResult = new StatusResult();
-        if (sessionAttrId!=null&&!sessionAttrId.equals("")) {
-            System.out.println(sessionAttrId);
-            // 检查是否是管理员
-            String userId = userDataService.getUserIdByEmail(sessionAttrId);
-            Boolean isAdmin = identitySecurityService.checkIsAdmin(userId);
-            statusResult.setAdmin(isAdmin);
-            httpSession.setAttribute("isAdmin",isAdmin);//使用session存储是否为管理员
-            return mapper.writeValueAsString(statusResult);
-        }
-        //进行登录相关操作
-        if (identitySecurityService.checkIdPassword(id, password)) {
-            //身份验证成功
-            httpSession.setAttribute("id", id);
-            // 检查是否是管理员
+        if (sessionAttrId != null && !sessionAttrId.equals("") || identitySecurityService.checkIdPassword(id, password)) {
+            id = sessionAttrId != null ? sessionAttrId : id;
             String userId = userDataService.getUserIdByEmail(id);
-            Boolean isAdmin = identitySecurityService.checkIsAdmin(userId);
-            httpSession.setAttribute("isAdmin", isAdmin);//使用session存储管理员身份
+            // 检查是否是管理员
+            boolean isAdmin = identitySecurityService.checkIsAdmin(userId);
+            httpSession.setAttribute("id", id);
+            httpSession.setAttribute("isAdmin",isAdmin);//使用session存储是否为管理员
             statusResult.setAdmin(isAdmin);
             return mapper.writeValueAsString(statusResult);
         }
