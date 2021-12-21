@@ -44,6 +44,7 @@ public class ResizeImg {
         if((size *1024* 1.0) / fileSize<1.0){
             rate=(size *1024* 1.0) / fileSize;
         }
+        resp.setContentType(imgType);
         OutputStream outs=resp.getOutputStream();
         String realType=imgType.split("/")[1];
         BufferedImage bufImg = ImageIO.read(ins);
