@@ -37,5 +37,9 @@
 	<!--Session过期时间-->
 	<session-config>
 		<session-timeout>30</session-timeout>
+		<cookie-config>
+			<http-only>false</http-only>
+<!--			<secure>false</secure>-->
+		</cookie-config>
 	</session-config>
 </web-app>
