@@ -60,7 +60,7 @@ public class UserDataServiceImpl implements UserDataService {
         User user = getUserByEmail(email);
         if (user == null) return false;
         /*首先检索此用户是否已经存在自定义头像*/
-        if(user.getUserId()==null||user.getHeadImgId().equals("")){
+        if(user.getUserId()==null||user.getHeadImgId().equals("default")){//SQL插入时默认字段为default
             //插入新的头像
             String uuid=UUIDUtils.getUUID();
             Img img=new Img(uuid,fileType,fileSize,inputStream);

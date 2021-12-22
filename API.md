@@ -1,7 +1,7 @@
 # MallService API 文档
 
 （最新版本/草稿见[此处](https://md.yuuza.net/8db-waSeSdW1NnyYmYZeYw)）
-## 部署版本 git node hash 8d6b4ec693d5bfc6309a33706d7f635e876b2657
+## 部署版本 git node hash 91c110c79e7a71a91276d80ddfa31ba761ef068c
 ## `返回 JSON 规范`
 
 ### 操作成功时：
@@ -84,7 +84,7 @@
 ### 更新头像
 `PUT /api/user/avatar`
 
-* 表单文件属性 `"avatar": file`
+* 表单文件属性 `"file": file`
 
 ---
 

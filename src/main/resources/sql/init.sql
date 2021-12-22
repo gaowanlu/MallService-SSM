@@ -8,7 +8,7 @@ CREATE TABLE user(
     password VARCHAR(25) NOT NULL,
     name VARCHAR(15) NOT NULL default '',
     sex varchar(2) NOT NULL check(sex in('男','女','其他')),
-    headImgId varchar(32) NOT NULL,    #UUID
+    headImgId varchar(32) NOT NULL default 'default',    #UUID
     money double NOT NULL default 0.0,
     email VARCHAR(25) NOT NULL
 );
@@ -178,8 +178,8 @@ DELIMITER ;
 
 
 # 用户
-INSERT INTO user VALUES('cd0bf38c57fe44d39d4b6a135fb8fc7e','123456','未知','男','',10000.0,'moezrf@gmail.com');
-INSERT INTO user VALUES('1','123456789','gaowanlu','男','',10000.0,'2209120827@qq.com');
+INSERT INTO user VALUES('cd0bf38c57fe44d39d4b6a135fb8fc7e','123456','未知','男','default',10000.0,'moezrf@gmail.com');
+INSERT INTO user VALUES('1','123456789','gaowanlu','男','default',10000.0,'2209120827@qq.com');
 
 # 添加为管理员 
 INSERT  INTO admin(userId) VALUES('cd0bf38c57fe44d39d4b6a135fb8fc7e');

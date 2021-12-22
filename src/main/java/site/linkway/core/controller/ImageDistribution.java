@@ -11,9 +11,9 @@ import site.linkway.core.service.ImageService;
 import site.linkway.utils.ResizeImg;
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Map;
 import java.util.List;
 
@@ -25,12 +25,33 @@ public class ImageDistribution {
 
     @Autowired
     private ImageService imageService;
+    //默认图片路径
+    private static String defaultResourcePath="/WEB-INF/classes/default/avatar.png";
 
     /*获取图像*/
     @GetMapping(value = "/img")
     public void img(@NonNull String imgId,
-                    @NonNull HttpServletResponse httpServletResponse
+                    @NonNull HttpServletResponse httpServletResponse,
+                    @NonNull HttpServletRequest httpServletRequest
                     ) throws Exception {
+        /*判断提交的图像imgId 如果为空字符串则 返回默认*/
+        if(imgId.equals("default")){//返回默认
+            String path=httpServletRequest.getServletContext().getRealPath(defaultResourcePath);
+            File file = new File(path);
+            InputStream input=new FileInputStream(file);
+            OutputStream outs=httpServletResponse.getOutputStream();
+            byte[] buff =new byte[1024];
+            int index=0;
+            httpServletResponse.setContentType("image/png");
+            while((index= input.read(buff))!= -1){
+                outs.write(buff, 0, index);
+                outs.flush();
+            }
+            input.close();
+            outs.close();
+            return;
+        }
+        /*从数据库中检索*/
         Map<String,Object> result=imageService.selectImgById(imgId);
         InputStream in = (InputStream) result.get("img");
         long filesize=(int)result.get("imgSize");
