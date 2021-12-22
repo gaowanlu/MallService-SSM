@@ -139,6 +139,11 @@ public class CommodityServiceImpl implements CommodityService {
         return false;
     }
 
+    @Override
+    public List<Good> getCommodities(int limit, int page) {
+        return null;
+    }
+
 
     //转换商品图片地址 由imgId到URL的转换
     private void formatURIForCommodity(Commodity commodity){

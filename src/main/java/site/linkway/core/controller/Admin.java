@@ -17,6 +17,7 @@ import site.linkway.core.entity.vo.StatusResult;
 import site.linkway.core.service.*;
 
 import java.io.IOException;
+import java.util.List;
 
 /*管理端*/
 @Controller
@@ -66,6 +67,21 @@ public class Admin {
     public String orderSearch(@RequestBody PostOrderSearch postOrderSearch) throws JsonProcessingException {
         OrderList orderList=orderService.orderSearch(postOrderSearch);
         return  mapper.writeValueAsString(orderList);
+    }
+
+    /**
+     * 获取商品列表
+     * @param limit 商品数量
+     * @param page 页号
+     * @throws IOException
+     */
+    @GetMapping(value = "/commodity/list",produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String getCommodityList(
+            @RequestParam(defaultValue = "10", value = "limit") int limit,
+            @RequestParam(defaultValue = "1", value = "page") int page) {
+        List<Good> goodsList = commodityService.getCommodities(limit, page);
+        return null;
     }
 
     /*新商品发布*/
