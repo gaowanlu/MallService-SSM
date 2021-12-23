@@ -142,6 +142,11 @@ public class CommodityServiceImpl implements CommodityService {
         return false;
     }
 
+    @Override
+    public boolean deleteCommodity(String goodId) {
+        return goodMapper.delete(goodId) == 1;
+    }
+
 
     //转换商品图片地址 由imgId到URL的转换
     private void formatURIForCommodity(Commodity commodity){

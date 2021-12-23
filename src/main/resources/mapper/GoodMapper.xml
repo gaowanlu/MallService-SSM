@@ -106,4 +106,8 @@
         WHERE goodId=#{goodId}
     </update>
 
+    <delete id="delete" parameterType="java.lang.String">
+        DELETE FROM good WHERE goodId=#{goodId}
+    </delete>
+
 </mapper>

@@ -102,7 +102,21 @@ public class Admin {
         return mapper.writeValueAsString(statusResult);
     }
 
-    /*商品图片删除*/
+    /**
+     * 删除商品
+      * @param goodId 商品 id
+     * @return 操作结果
+     * @throws JsonProcessingException
+     */
+    @PostMapping(value = "/commodity/delete",produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String deleteCommodity(@RequestParam("goodId") String goodId) throws JsonProcessingException {
+        StatusResult statusResult=new StatusResult();
+        statusResult.setResult(commodityService.deleteCommodity(goodId));
+        return mapper.writeValueAsString(statusResult);
+    }
+
+    /*商品图片增加*/
     @PostMapping(value = "/commodity/img/add",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String commodityImgPush(@RequestParam("goodId") String goodId,
