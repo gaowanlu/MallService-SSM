@@ -73,6 +73,9 @@ public class CommodityServiceImpl implements CommodityService {
         int line=goodMapper.insert(good);
         if(1==line){//新增商品成功
             CommonsMultipartFile files[]=postCommodity.getFile();
+            if(null==files){//file可以先不提交,为null则空数组，不添加图片
+                files=new CommonsMultipartFile[0];
+            }
             for(CommonsMultipartFile file:files){
                 InputStream is = file.getInputStream(); //文件输入流
                 String fileType=file.getContentType();

@@ -17,6 +17,7 @@ import site.linkway.core.entity.vo.StatusResult;
 import site.linkway.core.service.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /*管理端*/
 @Controller
@@ -77,7 +78,7 @@ public class Admin {
                                 @RequestParam("stock") int stock,
                                 @RequestParam("goodTypeId") int goodTypeId,
                                 @RequestParam("onSale") int onSale,
-                                @RequestParam(name = "file") CommonsMultipartFile file[]
+                                @RequestParam(name = "file",required = false) CommonsMultipartFile file[]
     ) throws IOException {
         PostCommodity postCommodity=new PostCommodity(price,name,profile,stock,goodTypeId,onSale,file);
         StatusResult statusResult=new StatusResult();
