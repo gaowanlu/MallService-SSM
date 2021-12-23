@@ -84,7 +84,7 @@
 ### 更新头像
 `PUT /api/user/avatar`
 
-* 表单文件属性 `"avatar": file`
+* 表单文件属性 `"file": file`
 
 ---
 
