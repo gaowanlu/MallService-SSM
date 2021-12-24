@@ -17,4 +17,5 @@ public class Good {
     public int soldSum;//销量
     public int goodTypeId;//商品类型id
     public int onSale;
+    public String detail;
 }

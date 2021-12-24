@@ -70,6 +70,7 @@ public class CommodityServiceImpl implements CommodityService {
         good.setSoldSum(0);//初始销量为0
         good.setGoodTypeId(postCommodity.getGoodTypeId());//商品类型id
         good.setOnSale(postCommodity.getOnSale());//商品是否上架
+        good.setDetail(postCommodity.getDetail());
         int line=goodMapper.insert(good);
         if(1==line){//新增商品成功
             CommonsMultipartFile files[]=postCommodity.getFile();
