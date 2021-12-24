@@ -240,5 +240,6 @@ INSERT INTO orders VALUES('dscavf3','1','待发货','13346637702','桂林市','g
 INSERT INTO orderGood(orderId,goodId,num) values('dscavf3','1',2);
 INSERT INTO orders VALUES('dscavf4','1','待发货','13346637702','桂林市','gaowanlu',now(),'','',123); 
 
-
-ALTER TABLE good ADD detail TEXT NOT NULL default '';
+USE MALL;
+ALTER TABLE good ADD detail TEXT NOT NULL;
+ALTER TABLE good ADD detailImgId VARCHAR(32) NOT NULL default 'defaultDetail';

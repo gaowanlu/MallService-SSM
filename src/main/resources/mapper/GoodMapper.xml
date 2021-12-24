@@ -13,7 +13,8 @@
                stock,
                soldSum,
                onSale,
-               detail
+               detail,
+               detailImgId as detailsImg
         FROM good,goodType
         WHERE good.goodTypeId=goodType.goodTypeId
         ORDER BY rand() limit #{maxSize}
@@ -28,13 +29,15 @@
                stock,
                soldSum,
                onSale,
-               detail
+               detail,
+               detailImgId as detailsImg
         FROM good,goodType
         WHERE good.goodId=#{goodId} AND good.goodTypeId=goodType.goodTypeId
     </select>
     <select id="imgIdByGoodId" resultType="java.lang.String">
         select imgId from goodImg WHERE goodId=#{id}
     </select>
+
     <resultMap id="Commodity" type="site.linkway.core.entity.po.Commodity">
         <collection property="imgsURL" javaType="ArrayList" ofType="java.lang.String" column="{id=goodId}"
                     select="imgIdByGoodId"/>
@@ -55,7 +58,8 @@
                stock,
                soldSum,
                onSale,
-               detail
+               detail,
+               detailImgId as detailsImg
         FROM good,goodType
         <where>
             good.goodTypeId=goodType.goodTypeId
@@ -102,18 +106,22 @@
     </select>
 
     <insert id="insert" parameterType="site.linkway.core.entity.po.Good">
-        INSERT INTO good
+        INSERT INTO good(goodId,price,name,profile,stock,soldSum,goodTypeId,onSale,detail)
         VALUES(#{goodId},#{price},#{name},#{profile},#{stock},#{soldSum},#{goodTypeId},#{onSale},#{detail});
     </insert>
 
     <update id="update" parameterType="site.linkway.core.entity.po.Good">
         UPDATE good SET
-        price=#{price},name=#{name},profile=#{profile},stock=#{stock},goodTypeId=#{goodTypeId},onSale=#{onSale},detail=#{detail}
+        price=#{price},name=#{name},profile=#{profile},stock=#{stock},goodTypeId=#{goodTypeId},onSale=#{onSale},detail=#{detail},detailImgId=#{detailImgId}
         WHERE goodId=#{goodId}
     </update>
 
     <delete id="delete" parameterType="java.lang.String">
         DELETE FROM good WHERE goodId=#{goodId}
     </delete>
+
+    <select id="select" parameterType="site.linkway.core.entity.po.Good" resultType="site.linkway.core.entity.po.Good">
+        SELECT * FROM good WHERE goodId=#{goodId}
+    </select>
 
 </mapper>

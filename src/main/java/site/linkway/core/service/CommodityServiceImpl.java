@@ -56,10 +56,12 @@ public class CommodityServiceImpl implements CommodityService {
         return goodTypeMapper.selectAll();
     }
 
+
     //新增商品
     @Override
     @Transactional
     public String addNewCommodity(PostCommodity postCommodity) throws IOException {
+        //装配
         Good good=new Good();
         String UUID= UUIDUtils.getUUID();
         good.setName(postCommodity.getName());//商品名称
@@ -71,16 +73,18 @@ public class CommodityServiceImpl implements CommodityService {
         good.setGoodTypeId(postCommodity.getGoodTypeId());//商品类型id
         good.setOnSale(postCommodity.getOnSale());//商品是否上架
         good.setDetail(postCommodity.getDetail());
+        //插入商品
         int line=goodMapper.insert(good);
         if(1==line){//新增商品成功
+            //插入商品展示图片
             CommonsMultipartFile files[]=postCommodity.getFile();
             if(null==files){//file可以先不提交,为null则空数组，不添加图片
                 files=new CommonsMultipartFile[0];
             }
             for(CommonsMultipartFile file:files){
                 InputStream is = file.getInputStream(); //文件输入流
-                String fileType=file.getContentType();
-                int fileSize= (int)file.getSize();
+                String fileType=file.getContentType();//文件类型
+                int fileSize= (int)file.getSize();//获得文件大小
                 String imgId=UUIDUtils.getUUID();//图片ID
                 Img img=new Img(imgId,fileType,fileSize,is);
                 if(1!=imgMapper.insert(img)){
@@ -93,11 +97,31 @@ public class CommodityServiceImpl implements CommodityService {
                     return "false";
                 }
             }
+            //插入商品详情图片
+            CommonsMultipartFile detailImg=postCommodity.getDetailImg();
+            if(null!=detailImg){
+                //插入商品详情图片
+                InputStream is = detailImg.getInputStream(); //文件输入流
+                String fileType=detailImg.getContentType();//文件类型
+                int fileSize= (int)detailImg.getSize();//获得文件大小
+                String imgId=UUIDUtils.getUUID();//图片ID
+                Img img=new Img(imgId,fileType,fileSize,is);
+                if(1!=imgMapper.insert(img)){
+                    return "false";
+                }
+                is.close();//更新good的detailImgId
+                good.setDetailImgId(imgId);
+                if(1!=goodMapper.update(good)){
+                    return "false";
+                }
+            }
         }else{//商品项插入失败
             return "false";
         }
         return UUID;//如果成功则返回物品id
     }
+
+
 
     //商品相关文字信息更新
     @Override
@@ -143,18 +167,47 @@ public class CommodityServiceImpl implements CommodityService {
         return false;
     }
 
+    //删除商品
     @Override
     public boolean deleteCommodity(String goodId) {
         return goodMapper.delete(goodId) == 1;
     }
 
+    //更新商品详情图片
+    @Override
+    @Transactional
+    public boolean updateDetailsImg(String goodId, CommonsMultipartFile detailsImg) throws IOException {
+        Good good=new Good();good.setGoodId(goodId);
+        good=goodMapper.select(good);
+        InputStream is = detailsImg.getInputStream(); //文件输入流
+        String fileType=detailsImg.getContentType();
+        int fileSize= (int)detailsImg.getSize();
+        if(good.getDetailImgId().equals("defaultDetail")){
+            //插入
+            String imgId=UUIDUtils.getUUID();//图片ID
+            Img img=new Img(imgId,fileType,fileSize,is);
+            if(1!=imgMapper.insert(img)){
+                return false;
+            }
+            good.setDetailImgId(imgId);
+            return 1==goodMapper.update(good);
+        }else {
+            //更新
+            Img img = new Img(good.getDetailImgId(), fileType, fileSize, is);
+            return 1 == imgMapper.update(img);
+        }
+    }
+
 
     //转换商品图片地址 由imgId到URL的转换
     private void formatURIForCommodity(Commodity commodity){
+        //展示图
         List<String> imgs=commodity.getImgsURL();
         for(int i=0;i<imgs.size();i++){
             imgs.set(i,ImageDistribution.formatURLFromImgId(imgs.get(i)));
         }
+        //详情图id=>URL
+        commodity.setDetailsImg(ImageDistribution.formatURLFromImgId(commodity.getDetailsImg()));
     }
 
     private void formatURIForCommodity(List<Commodity> commodities){

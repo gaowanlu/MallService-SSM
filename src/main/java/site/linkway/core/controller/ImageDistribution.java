@@ -14,8 +14,10 @@ import site.linkway.utils.ResizeImg;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
+import java.util.Objects;
 
 /*图片分发*/
 @Controller
@@ -25,18 +27,24 @@ public class ImageDistribution {
 
     @Autowired
     private ImageService imageService;
-    //默认图片路径
-    private static String defaultResourcePath="/WEB-INF/classes/default/avatar.png";
-
+    //默认头像路径
+    private static String defaultAvatarResourcePath="/default/avatar.png";
+    //默认商品详情图路径
+    private static String defaultDetailImgResourcePath= "/default/default_detail.png";
     /*获取图像*/
     @GetMapping(value = "/img")
     public void img(@NonNull String imgId,
                     @NonNull HttpServletResponse httpServletResponse,
                     @NonNull HttpServletRequest httpServletRequest
                     ) throws Exception {
+        HashMap<String,String> map=new HashMap<>();
+        map.put("default",defaultAvatarResourcePath);//默认头像
+        map.put("defaultDetail",defaultDetailImgResourcePath);//默认商品详情图
         /*判断提交的图像imgId 如果为空字符串则 返回默认*/
-        if(imgId.equals("default")){//返回默认
-            String path=httpServletRequest.getServletContext().getRealPath(defaultResourcePath);
+        if(map.containsKey(imgId)){//返回默认
+            System.out.println(map.get(imgId));
+            String path= Objects.requireNonNull(this.getClass().getClassLoader().getResource(map.get(imgId))).getPath();
+            System.out.println("PATH=>"+path);
             File file = new File(path);
             InputStream input=new FileInputStream(file);
             OutputStream outs=httpServletResponse.getOutputStream();

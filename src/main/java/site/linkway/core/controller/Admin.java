@@ -79,9 +79,10 @@ public class Admin {
                                 @RequestParam("goodTypeId") int goodTypeId,
                                   @RequestParam("onSale") int onSale,
                                   @RequestParam("detail") String detail,
-                                @RequestParam(name = "file",required = false) CommonsMultipartFile file[]
+                                @RequestParam(name = "file",required = false) CommonsMultipartFile file[],
+                                  @RequestParam(name="detailsImg",required = false) CommonsMultipartFile detailImg//商品详情图片
     ) throws IOException {
-        PostCommodity postCommodity=new PostCommodity(price,name,profile,stock,goodTypeId,onSale,detail,file);
+        PostCommodity postCommodity=new PostCommodity(price,name,profile,stock,goodTypeId,onSale,detail,file,detailImg);
         StatusResult statusResult=new StatusResult();
         statusResult.setResult(!commodityService.addNewCommodity(postCommodity).equals("false"));
         return mapper.writeValueAsString(statusResult);
@@ -98,11 +99,25 @@ public class Admin {
                                       @RequestParam("onSale") int onSale,
                                       @RequestParam("detail") String detail,
                                       @RequestParam("goodId") String goodId) throws JsonProcessingException {
-        Good good=new Good(goodId,price,name,profile,stock,0,goodTypeId,onSale, detail);//0为soldSum 不会更新soldSum的
+        Good good=new Good(goodId,price,name,profile,stock,0,goodTypeId,onSale, detail,"");
+        //0为soldSum 不会更新soldSum的
+        //deailImgId "" 不更新
         StatusResult statusResult=new StatusResult();
         statusResult.setResult(commodityService.updateCommodityText(good));
         return mapper.writeValueAsString(statusResult);
     }
+
+    /*商品详细图片更新*/
+    @PostMapping(value="/commodity/detailsImg",produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String commodityDetailsUpdate(@RequestParam("detailsImg") CommonsMultipartFile file,
+                                         @RequestParam("goodId") String goodId) throws IOException {
+        StatusResult statusResult=new StatusResult();
+        statusResult.setResult(commodityService.updateDetailsImg(goodId,file));
+        return mapper.writeValueAsString(statusResult);
+    }
+
+
 
     /**
      * 删除商品
