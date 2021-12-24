@@ -18,4 +18,5 @@ public class Good {
     public int goodTypeId;//商品类型id
     public int onSale;
     public String detail;
+    public String detailImgId;//详情图片Id
 }

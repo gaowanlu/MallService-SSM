@@ -13,7 +13,16 @@ public class PostCommodity {
     int onSale;
     String detail;
     CommonsMultipartFile file[];
-    public PostCommodity(double price, String name, String profile, int stock, int goodTypeId, int onSale, String detail, CommonsMultipartFile[] file) {
+    CommonsMultipartFile detailImg;
+    public PostCommodity(double price,
+                         String name,
+                         String profile,
+                         int stock,
+                         int goodTypeId,
+                         int onSale,
+                         String detail,
+                         CommonsMultipartFile[] file,
+                         CommonsMultipartFile detailImg) {
         this.price = price;
         this.name = name;
         this.profile = profile;
@@ -22,6 +31,7 @@ public class PostCommodity {
         this.onSale = onSale;
         this.detail = detail;
         this.file = file;
+        this.detailImg=detailImg;
     }
     public PostCommodity(){
 

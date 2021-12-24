@@ -340,6 +340,7 @@ interface Commodity{
     soldSum:number;
     onSale:number;//0 or 1
     imgsURL:string[];
+    detailsImg:string;//商品详情图片URL
 }
 ``` 
 
@@ -526,6 +527,7 @@ stock:库存量 number
 goodTypeId:商品类型号 number (可能需要多个、暂为其指定一个类型)  
 onSale:是否进行上架 number(0|1)  
 file:File[] 文件同属性为file  
+detailsImg:File 可为空 
 ```
 #### 更新商品属性    
 `POST /api/admin/commodity/update`   
@@ -550,6 +552,7 @@ onSale:是否进行上架 number(0|1)
 ### 订单   
 #### 获取订单列表（订单搜索）     
 `POST /api/admin/order/search`    
+
 * 提交格式 
 ```typescript
 /*订单搜索、string为'' 时代表不适用此属性*/ 
@@ -582,6 +585,11 @@ interface DateMinMax{
 由退款中状态改为已结束、并将订单金额退还至用户（可能还会存在商品库存量问题）  
 参数 `{orderId:string} `  
 
+
+#### 更新商品详情图片 
+`POST /api/admin/commodity/detailsImg`  
+
+参数 `{goodId:string,detailsImg:File}`  
 
 ---
 

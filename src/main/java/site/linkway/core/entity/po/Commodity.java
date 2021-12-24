@@ -20,4 +20,6 @@ public class Commodity {
     int soldSum;
     int onSale;
     List<String> imgsURL=new ArrayList<>();
+    String detail;
+    String detailsImg;
 }
