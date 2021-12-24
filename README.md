@@ -70,6 +70,17 @@ Spring、SpringMVC、Mybatis 、MySQL
 ## API 文档
 [查看详情](https://md.yuuza.net/8db-waSeSdW1NnyYmYZeYw)
 
+## Docker 部署
+
+```bash
+docker run -it -p 1234:8080 \
+  -e CATALINA_OPTS="-Djdbc.url=jdbc:mysql://__DB_SERVER__:3306/__DB_NAME__ -Djdbc.username=__USERNAME__ -Djdbc.password=__PASSWORD__" \
+  --name mallservice \
+  yuuza/mallservice
+```
+
+其中，`1234` 为监听端口号，`__DB_SERVER__` / `__DB_NAME__` / `__USERNAME__` / `__PASSWORD__` 为数据库连接配置。
+
 ## 版本
 
 |  version   |  date  | changed content |  
