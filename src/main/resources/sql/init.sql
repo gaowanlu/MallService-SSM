@@ -38,6 +38,7 @@ CREATE TABLE good(
     soldSum int unsigned NOT NULL default 0,
     goodTypeId int unsigned NOT NULL,
     onSale int unsigned NOT NULL check(onSale in (0,1)),
+--    detail TEXT NOT NULL default '',
     index(goodTypeId),
 	foreign key(goodTypeId) references goodType(goodTypeId) ON UPDATE cascade ON delete cascade
 );
@@ -240,3 +241,4 @@ INSERT INTO orderGood(orderId,goodId,num) values('dscavf3','1',2);
 INSERT INTO orders VALUES('dscavf4','1','待发货','13346637702','桂林市','gaowanlu',now(),'','',123); 
 
 
+ALTER TABLE good ADD detail TEXT NOT NULL default '';

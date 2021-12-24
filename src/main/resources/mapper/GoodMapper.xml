@@ -12,7 +12,8 @@
                good.goodId as goodId,
                stock,
                soldSum,
-               onSale
+               onSale,
+               detail
         FROM good,goodType
         WHERE good.goodTypeId=goodType.goodTypeId
         ORDER BY rand() limit #{maxSize}
@@ -26,7 +27,8 @@
                good.goodId as goodId,
                stock,
                soldSum,
-               onSale
+               onSale,
+               detail
         FROM good,goodType
         WHERE good.goodId=#{goodId} AND good.goodTypeId=goodType.goodTypeId
     </select>
@@ -34,7 +36,8 @@
         select imgId from goodImg WHERE goodId=#{id}
     </select>
     <resultMap id="Commodity" type="site.linkway.core.entity.po.Commodity">
-        <collection property="imgsURL" javaType="ArrayList" ofType="java.lang.String" column="{id=goodId}" select="imgIdByGoodId"/>
+        <collection property="imgsURL" javaType="ArrayList" ofType="java.lang.String" column="{id=goodId}"
+                    select="imgIdByGoodId"/>
     </resultMap>
 
     <select id="selectPriceByGoodId" resultType="java.lang.Double">
@@ -51,7 +54,8 @@
                good.goodId AS goodId,
                stock,
                soldSum,
-               onSale
+               onSale,
+               detail
         FROM good,goodType
         <where>
             good.goodTypeId=goodType.goodTypeId
@@ -59,10 +63,10 @@
                 and good.goodId = #{goodId}
             </if>
             <if test="keyword != null">
-               and good.name like #{keyword}
+                and good.name like #{keyword}
             </if>
             <if test="searchType != null">
-               and goodType.name like #{searchType}
+                and goodType.name like #{searchType}
             </if>
             <if test="minPrice != 0">
                 and good.price &gt;= #{minPrice}
@@ -98,11 +102,13 @@
     </select>
 
     <insert id="insert" parameterType="site.linkway.core.entity.po.Good">
-        INSERT INTO good VALUES(#{goodId},#{price},#{name},#{profile},#{stock},#{soldSum},#{goodTypeId},#{onSale});
+        INSERT INTO good
+        VALUES(#{goodId},#{price},#{name},#{profile},#{stock},#{soldSum},#{goodTypeId},#{onSale},#{detail});
     </insert>
 
     <update id="update" parameterType="site.linkway.core.entity.po.Good">
-        UPDATE good SET price=#{price},name=#{name},profile=#{profile},stock=#{stock},goodTypeId=#{goodTypeId},onSale=#{onSale}
+        UPDATE good SET
+        price=#{price},name=#{name},profile=#{profile},stock=#{stock},goodTypeId=#{goodTypeId},onSale=#{onSale},detail=#{detail}
         WHERE goodId=#{goodId}
     </update>
 
