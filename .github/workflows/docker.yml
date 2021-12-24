@@ -1,0 +1,20 @@
+name: Docker Build
+
+on:
+  push:
+
+jobs:
+  docker_build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: Build image
+        run: |
+          docker build . -t mallservice:latest
+        
+      - name: Upload image
+        uses: ishworkh/docker-image-artifact-upload@v1
+        with:
+          image: "mallservice:latest"
