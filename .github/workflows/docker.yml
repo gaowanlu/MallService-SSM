@@ -1,0 +1,58 @@
+name: Docker Build
+
+on:
+  push:
+
+env:
+  IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/mallservice
+
+jobs:
+  docker_build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: cache-${{hashFiles('pom.xml')}}-${{ github.sha }}
+          restore-keys: |
+            cache-${{hashFiles('pom.xml')}}-${{ github.sha }}
+            cache-${{hashFiles('pom.xml')}}
+            cache
+
+      - name: Create tag
+        run: |
+          SHA=${{ github.sha }}
+          TAG=${IMAGE}:$(TZ=UTC-9 date '+%Y%m')-${SHA:0:7}
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            TAG="${IMAGE}:latest"
+          fi
+          echo "TAG=$TAG" >> $GITHUB_ENV
+          echo TAG $TAG
+            
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build image
+        run: |
+          docker build . -t ${{ env.TAG }}
+      
+      - name: Push image
+        run: |
+          docker push ${{ env.TAG }}
+
+      - name: Get war file from image
+        run: |
+          id=$(docker create ${{ env.TAG }})
+          docker cp $id:/usr/local/tomcat/webapps/ROOT.war /tmp/app.war
+
+      - name: Upload war
+        uses: actions/upload-artifact@v2
+        with:
+          path: /tmp/app.war

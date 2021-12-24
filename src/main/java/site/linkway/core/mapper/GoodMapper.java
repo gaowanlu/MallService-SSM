@@ -11,7 +11,7 @@ import java.util.List;
 public interface GoodMapper {
     int insert(Good good);
     int update(Good good);
-    int delete(Good good);
+    int delete(String good);
     Good select(Good good);
     List<Commodity> randomCommodities(int maxSize);
     Commodity commodityByGoodId(String goodId);

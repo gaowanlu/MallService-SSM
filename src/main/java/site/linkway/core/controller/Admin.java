@@ -77,10 +77,11 @@ public class Admin {
                                 @RequestParam("profile") String profile,
                                 @RequestParam("stock") int stock,
                                 @RequestParam("goodTypeId") int goodTypeId,
-                                @RequestParam("onSale") int onSale,
+                                  @RequestParam("onSale") int onSale,
+                                  @RequestParam("detail") String detail,
                                 @RequestParam(name = "file",required = false) CommonsMultipartFile file[]
     ) throws IOException {
-        PostCommodity postCommodity=new PostCommodity(price,name,profile,stock,goodTypeId,onSale,file);
+        PostCommodity postCommodity=new PostCommodity(price,name,profile,stock,goodTypeId,onSale,detail,file);
         StatusResult statusResult=new StatusResult();
         statusResult.setResult(!commodityService.addNewCommodity(postCommodity).equals("false"));
         return mapper.writeValueAsString(statusResult);
@@ -95,14 +96,29 @@ public class Admin {
                                       @RequestParam("stock") int stock,
                                       @RequestParam("goodTypeId") int goodTypeId,
                                       @RequestParam("onSale") int onSale,
+                                      @RequestParam("detail") String detail,
                                       @RequestParam("goodId") String goodId) throws JsonProcessingException {
-        Good good=new Good(goodId,price,name,profile,stock,0,goodTypeId,onSale);//0为soldSum 不会更新soldSum的
+        Good good=new Good(goodId,price,name,profile,stock,0,goodTypeId,onSale, detail);//0为soldSum 不会更新soldSum的
         StatusResult statusResult=new StatusResult();
         statusResult.setResult(commodityService.updateCommodityText(good));
         return mapper.writeValueAsString(statusResult);
     }
 
-    /*商品图片删除*/
+    /**
+     * 删除商品
+      * @param goodId 商品 id
+     * @return 操作结果
+     * @throws JsonProcessingException
+     */
+    @PostMapping(value = "/commodity/delete",produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String deleteCommodity(@RequestParam("goodId") String goodId) throws JsonProcessingException {
+        StatusResult statusResult=new StatusResult();
+        statusResult.setResult(commodityService.deleteCommodity(goodId));
+        return mapper.writeValueAsString(statusResult);
+    }
+
+    /*商品图片增加*/
     @PostMapping(value = "/commodity/img/add",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String commodityImgPush(@RequestParam("goodId") String goodId,

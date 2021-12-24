@@ -70,7 +70,7 @@
 ### 获得个人信息
 `GET /api/user/myData`
 
-* 返回格式 `PersonalData` [数据类型](#返回)
+* 返回格式 [PersonalData](#PersonalData)
 
 
 
@@ -106,7 +106,7 @@
 ### 获得购物车全部条项
 `GET /api/user/cart`
 
-* 返回格式 `CartList` [数据类型](#返回)
+* 返回格式 [CartList](#CartList)
 
 ---
 
@@ -116,7 +116,7 @@
 `GET /api/user/addresses`
 
 
-* 返回格式 `AddressList` [数据类型](#返回)
+* 返回格式 [AddressList](#AddressList)
 
 
 
@@ -124,7 +124,7 @@
 `DELETE /api/user/addresses` 
 
 * 参数`{addressId}`
-* 返回格式 `AddressList` [数据类型](#返回)
+* 返回格式 [AddressList](#AddressList)
 
 ### 添加地址 
 `POST /api/user/addresses` 
@@ -145,29 +145,34 @@
   
 `GET /api/commodity/recommendation`  
 
-* 返回格式  `CommodityTipList` [数据类型](#返回)
+* 返回格式  [CommodityTipList](#CommodityTipList)
 
 ### 浏览商品  
 `POST /api/commodity/detail`  
 
 * 参数`{goodId:string}` 
-* 返回格式 `Commodity` [数据类型](#返回)  
+* 返回格式 [Commodity](#Commodity)  
 
 ### 商品类型列表 
 `GET /api/commodity/typeList`    
 * 无参数 暂不页 总量有限   
-* 返回格式 `CommodityTypeList` [数据类型](#返回)
+* 返回格式 [CommodityTypeList](#CommodityTypeList)
 
 --- 
 
-## `商品评论`
+## `商品评论`   
+
+### 现存问题   
+1. 没有买过的东西也可以评论   
+2. 一个商品可以有多个同一个用户的一级评论   
+3. 暂时只是简单的实现了评论的功能、能像一个小小的社交功能   
 
 ### 根据商品id获得评论列表
 
 `POST /api/comment/fList`
 
 * 参数 `{goodId:string,pageSize:number,pageNow:number}`
-* 返回格式 `CommentList` [数据类型](#返回)
+* 返回格式 [CommentList](#CommentList)
 
 
 
@@ -177,7 +182,7 @@
 `POST /api/comment/sList`
 
 * 参数 `{fCommentId:string,pageSize:number,pageNow:number}`
-* 返回格式 `CommentList` [数据类型](#返回)
+* 返回格式 [CommentList](#CommentList)
 
 
 ### 根据商品id添加父评论
@@ -214,14 +219,14 @@
 
 `POST /api/user/order`
 
-* 请求格式 `PostOrder` ([数据类型](#请求))
+* 请求格式 [PostOrder](#PostOrder)
 
 
 ### 查看已有订单详情
 `POST /order/detail`
 
 * 请求参数 `{orderId}`  
-* 返回格式 `OrderItem`
+* 返回格式 [OrderItem](#OrderItem)
 
 ### 更新订单状态
 
@@ -233,15 +238,15 @@
 ### 获得用户订单列表
 `GET /api/user/order`
 
-* 返回格式 `OrderList` ([数据类型](#返回))
+* 返回格式 [OrderList](#OrderList)
 
 --- 
 
 ## `搜索`
 ### 商品搜索 
 `POST /api/search/commodity`  
-* 请求格式 josn `PostSearch` ([数据类型](#返回))
-* 返回格式 `CommoditySearchResult` ([数据类型](#返回))
+* 请求格式 [PostSearch](#PostSearch)
+* 返回格式 [CommoditySearchResult](#CommoditySearchResult)
 
   注:可进行组合查询,当字符串为`''`,数字为`0`时则代表只是用此限制
 --- 
@@ -505,7 +510,7 @@ interface PostCommodityType {
 #### 获取类型列表   
 请见商品浏览模块
 #### 更新类型列表  
-* 请求格式 `PostCommodityType` [数据类型](#请求)  
+* 请求格式 [PostCommodityType](#PostCommodityType)  
 注：会改变原来此类别的商品的类别 
 * 返回格式  
 当新增时,利用message:string   
@@ -564,7 +569,7 @@ interface DateMinMax{
 ``` 
 * 返回格式   
 
-`OrderList` [数据类型](#返回) 
+  [OrderList](#OrderList) 
 
 
 #### 发货 
