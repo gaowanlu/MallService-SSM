@@ -72,11 +72,13 @@ Spring、SpringMVC、Mybatis 、MySQL
 
 ## Docker 部署
 
+[![Docker][docker-shield]][docker-url]
+
 ```bash
 docker run -it -p 1234:8080 \
   -e CATALINA_OPTS="-Djdbc.url=jdbc:mysql://__DB_SERVER__:3306/__DB_NAME__ -Djdbc.username=__USERNAME__ -Djdbc.password=__PASSWORD__" \
   --name mallservice \
-  yuuza/mallservice
+  gaowanlu/mallservice
 ```
 
 其中，`1234` 为监听端口号，`__DB_SERVER__` / `__DB_NAME__` / `__USERNAME__` / `__PASSWORD__` 为数据库连接配置。
@@ -103,3 +105,5 @@ Address 桂林电子科技大学
 [issues-url]: https://github.com/gaowanlu/MallService-SSM/issues
 [license-shield]: https://img.shields.io/github/license/gaowanlu/MallService-SSM.svg?style=for-the-badge
 [license-url]: https://github.com/gaowanlu/MallService-SSM/blob/master/LICENSE.txt
+[docker-shield]: https://img.shields.io/docker/image-size/gaowanlu/mallservice/latest?style=for-the-badge
+[docker-url]: https://hub.docker.com/r/gaowanlu/mallservice
