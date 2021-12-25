@@ -7,7 +7,9 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import site.linkway.core.entity.po.Address;
 import site.linkway.core.entity.vo.AddressList;
+import site.linkway.core.entity.vo.StatusResult;
 import site.linkway.core.service.ReceivingAddressService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -66,6 +68,22 @@ public class ReceivingAddress {
         AddressList addressList=new AddressList();
         addressList.setAddresses(receivingAddressService.getAll(email));
         return mapper.writeValueAsString(addressList);
+    }
+
+    /*更新收货地址*/
+    @PutMapping(value = "/addresses",produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String addressUpdate(@SessionAttribute("id") String email,
+                                @RequestParam("addressId") String addressId,
+                                @RequestParam("phone") String phone,
+                                @RequestParam("name") String name,
+                                @RequestParam("address") String address) throws JsonProcessingException {
+        //注意此处将email放在了userId的属性位置
+        Address addressPo=new Address(addressId,email,phone,address,name);
+        boolean result=receivingAddressService.update(addressPo);
+        StatusResult statusResult=new StatusResult();
+        statusResult.setResult(result);
+        return mapper.writeValueAsString(statusResult);
     }
 
 }
