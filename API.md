@@ -603,12 +603,16 @@ interface DateMinMax{
 
 #### 发货 
 `POST /api/admin/order/ship`  
+
 修改物流信息同时更改发货状态  
+
 参数 `{orderId:string,logisticsNumber:string,logisticsName:string}`
 
 #### 同意退款 
 `POST /api/admin/order/refund`  
+
 由退款中状态改为已结束、并将订单金额退还至用户（可能还会存在商品库存量问题）  
+
 参数 `{orderId:string} `  
 
 
@@ -617,6 +621,23 @@ interface DateMinMax{
 
 参数 `{goodId:string,detailsImg:File}`  
 
+### 图片上传  
+`POST /api/admin/img/upload`  
+* 参数 `{file:File[]}`  
+* 返回格式  
+```json
+{
+  "result": true,
+  "imgId": [
+    "d76647d277ea4073acc8ebca0aa69040",
+    "d0a37861bc6d4eb6827ea6df7fb52ef0"
+  ],
+  "imgURL": [
+    "/api/img?imgId=d76647d277ea4073acc8ebca0aa69040",
+    "/api/img?imgId=d0a37861bc6d4eb6827ea6df7fb52ef0"
+  ]
+}
+```
 ---
 
 

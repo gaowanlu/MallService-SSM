@@ -2,10 +2,16 @@ package site.linkway.core.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import site.linkway.core.entity.po.Img;
 import site.linkway.core.mapper.ImgMapper;
+import site.linkway.utils.UUIDUtils;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -25,6 +31,25 @@ public class ImageServiceImpl implements ImageService{
         result.put("imgType",fined.getImgType());
         result.put("imgSize",fined.getImgSize());
         result.put("img",fined.getImg());
+        return result;
+    }
+
+    @Override
+    public List<String> storeImg(CommonsMultipartFile[] files) throws IOException {
+        List<String> result=new ArrayList<>();
+        //遍历所有文件,存储图片并把每个图片的Id存储起来
+        for(CommonsMultipartFile file:files){
+            String UUID= UUIDUtils.getUUID();
+            InputStream is = file.getInputStream(); //文件输入流
+            String fileType=file.getContentType();//文件类型
+            int fileSize= (int)file.getSize();//获得文件大小
+            String imgId=UUIDUtils.getUUID();//图片ID
+            Img img=new Img(imgId,fileType,fileSize,is);
+            if(1!=imgMapper.insert(img)){
+                return result;
+            }
+            result.add(UUID);
+        }
         return result;
     }
 }
