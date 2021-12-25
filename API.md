@@ -112,7 +112,14 @@
 
 `PUT /api/user/cart`  
 
-* 请求格式 [CartItem](#CartItem)
+* 请求格式 [CartItem](#CartItem)  
+
+### 购物车覆盖 
+
+`PUT /api/user/cart/cover`  
+* 参数 Array [PostCart](#PostCart)  
+* 返回格式 [CartList](#CartList) 
+
 ---
 
 ## `收货地址`
@@ -499,7 +506,7 @@ interface MinMax {
     min:number;//最小
     max:number;//最大
 }
-```
+```  
 
 #### PostCommodityType
 ```typescript
@@ -509,6 +516,15 @@ interface PostCommodityType {
     operator:number;//0 更新操作 1 插入操作
 }
 ```
+
+#### PostCart
+```typescript
+interface PostCart{
+    goodId:string;
+    num:number;
+}
+```
+
 
 ---
 
