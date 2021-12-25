@@ -1,7 +1,6 @@
 # MallService API 文档
 
 （最新版本/草稿见[此处](https://md.yuuza.net/8db-waSeSdW1NnyYmYZeYw)）
-## 部署版本 git node hash 91c110c79e7a71a91276d80ddfa31ba761ef068c
 ## `返回 JSON 规范`
 
 ### 操作成功时：
@@ -106,8 +105,14 @@
 ### 获得购物车全部条项
 `GET /api/user/cart`
 
-* 返回格式 [CartList](#CartList)
+* 返回格式 [CartList](#CartList)  
 
+### 购物车条项更新 
+注：更新num字段  
+
+`PUT /api/user/cart`  
+
+* 请求格式 [CartItem](#CartItem)
 ---
 
 ## `收货地址`

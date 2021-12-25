@@ -28,6 +28,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
     @Autowired
     GoodImgMapper goodImgMapper;
 
+    //添加购物车条项
     @Override
     public boolean addCart(String goodId, String email, int num) {
         String userId=userMapper.selectIdByEmail(email);
@@ -35,6 +36,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
         return 1==cartMapper.insert(inertCart);
     }
 
+    //删除购物车条项
     @Override
     public boolean deleteCart(String cartId, String email) {
         //根据邮箱寻找用户
@@ -46,7 +48,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
         return 1==cartMapper.delete(delCart);
     }
 
-
+    //根据邮箱检索出用户的所有购物车条项
     @Override
     public List<CartItem> getCartsByEmail(String email) {
         //根据邮箱寻找用户
@@ -70,6 +72,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
         return cartItemList;
     }
 
+    //更新购物车条项，实际只有num字段需要更新
+    @Override
+    public boolean updateCart(String email,CartItem cartItem) {
+        String userId=userMapper.selectIdByEmail(email);
+        return 1==cartMapper.update(cartItem.cartId,cartItem.num,userId);
+    }
 
 
 }

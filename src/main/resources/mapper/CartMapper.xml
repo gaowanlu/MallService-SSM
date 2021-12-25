@@ -10,7 +10,7 @@
     <delete id="delete" parameterType="site.linkway.core.entity.po.Cart">
         DELETE FROM cart WHERE userId=#{userId} and cartId=#{cartId}
     </delete>
-    <update id="update" parameterType="site.linkway.core.entity.po.Cart">
+    <update id="update">
         UPDATE cart SET num=#{num}
         WHERE cartId = #{cartId} and userId=#{userId}
     </update>
