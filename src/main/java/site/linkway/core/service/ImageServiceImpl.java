@@ -39,7 +39,6 @@ public class ImageServiceImpl implements ImageService{
         List<String> result=new ArrayList<>();
         //遍历所有文件,存储图片并把每个图片的Id存储起来
         for(CommonsMultipartFile file:files){
-            String UUID= UUIDUtils.getUUID();
             InputStream is = file.getInputStream(); //文件输入流
             String fileType=file.getContentType();//文件类型
             int fileSize= (int)file.getSize();//获得文件大小
@@ -48,7 +47,7 @@ public class ImageServiceImpl implements ImageService{
             if(1!=imgMapper.insert(img)){
                 return result;
             }
-            result.add(UUID);
+            result.add(imgId);
         }
         return result;
     }
