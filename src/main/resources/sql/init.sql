@@ -149,6 +149,9 @@ CREATE TABLE orderGood(
 
 # 触发器 
 # 当新增订单商品时，被买的订单的物品的库存减去相对应的数量,与销量增加
+DROP TRIGGER IF EXISTS orderGood_after_insert;
+DROP TRIGGER IF EXISTS orders_after_insert;
+
 DELIMITER $$
 CREATE TRIGGER orderGood_after_insert
     AFTER
