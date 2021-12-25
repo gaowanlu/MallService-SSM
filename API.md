@@ -131,6 +131,11 @@
 
 * 参数 `{phone, name, address}` 
 
+### 收货地址更新  
+`PUT /api/user/addresses`   
+
+* 参数 `{addressId, phone, name, address}`  
+
 ---
 
 ## `图片分发`

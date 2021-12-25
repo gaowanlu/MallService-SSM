@@ -9,6 +9,7 @@ import java.util.List;
 public interface AddressMapper {
     int insert(Address address);
     int delete(Address address);
+    //update by Id
     int update(Address address);
     /*By userId*/
     List<Address> select(Address address);

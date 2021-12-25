@@ -22,6 +22,7 @@ public class ReceivingAddressServiceImpl implements ReceivingAddressService{
     private AddressMapper addressMapper;
     private UserMapper userMapper;
 
+    /*添加新的收货地址*/
     @Override
     public boolean add(String email, String phone, String name, String address) {
         //根据用户email找到其userId
@@ -31,6 +32,7 @@ public class ReceivingAddressServiceImpl implements ReceivingAddressService{
         return 1==addressMapper.insert(insertAddress);
     }
 
+    /*删除收货地址*/
     @Override
     public boolean del(String email, String addressId) {
         User user=new User();user.setEmail(email);
@@ -41,6 +43,7 @@ public class ReceivingAddressServiceImpl implements ReceivingAddressService{
         return 1==addressMapper.delete(delAddress);
     }
 
+    /*获得用户所有收货地址*/
     @Override
     public List<Address> getAll(String email) {
         User user=new User();user.setEmail(email);
@@ -53,5 +56,13 @@ public class ReceivingAddressServiceImpl implements ReceivingAddressService{
             addresses=new ArrayList<>();
         }
         return addresses;
+    }
+
+    /*更新收货地址*/
+    @Override
+    public boolean update(Address address) {
+        String userId=userMapper.selectIdByEmail(address.getUserId());//获得userId
+        address.setUserId(userId);
+        return 1==addressMapper.update(address);
     }
 }
