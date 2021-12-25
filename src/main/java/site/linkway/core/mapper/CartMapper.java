@@ -17,5 +17,6 @@ public interface CartMapper {
     int delete(Cart cart);
     List<Cart> select(Cart cart);
     List<CartItem> selectCartsDetail(String email);//根据用户id检索其购物车
+    int deleteByUserId(String userId);
 }
 

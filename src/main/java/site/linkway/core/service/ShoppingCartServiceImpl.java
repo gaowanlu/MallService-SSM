@@ -2,7 +2,9 @@ package site.linkway.core.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import site.linkway.core.controller.ImageDistribution;
+import site.linkway.core.entity.bo.PostCart;
 import site.linkway.core.entity.po.Cart;
 import site.linkway.core.entity.po.GoodImg;
 import site.linkway.core.entity.po.User;
@@ -77,6 +79,22 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
     public boolean updateCart(String email,CartItem cartItem) {
         String userId=userMapper.selectIdByEmail(email);
         return 1==cartMapper.update(cartItem.cartId,cartItem.num,userId);
+    }
+
+    /*购物车条项，覆盖更新*/
+    @Override
+    @Transactional
+    public boolean cover(String email,PostCart[] postCart) {
+        String userId=userMapper.selectIdByEmail(email);
+        /*删除此用户的购物车所有项*/
+        cartMapper.deleteByUserId(userId);
+        /*重新插入*/
+        for(PostCart item:postCart){
+            if(false==addCart(item.getGoodId(),email, item.getNum())){
+                return false;
+            }
+        }
+        return true;
     }
 
 

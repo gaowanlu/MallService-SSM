@@ -36,4 +36,7 @@
         cart.goodId=good.goodId AND
         goodType.goodTypeId=good.goodTypeId;
     </select>
+    <delete id="deleteByUserId">
+        DELETE FROM cart WHERE userId=#{userId}
+    </delete>
 </mapper>

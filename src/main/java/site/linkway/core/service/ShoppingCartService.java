@@ -1,5 +1,6 @@
 package site.linkway.core.service;
 
+import site.linkway.core.entity.bo.PostCart;
 import site.linkway.core.entity.po.CartItem;
 
 import java.util.List;
@@ -13,4 +14,6 @@ public interface ShoppingCartService {
     List<CartItem> getCartsByEmail(String email);
     /*购物车条项更新*/
     boolean updateCart(String email,CartItem cartItem);
+    /*购物车覆盖*/
+    boolean cover(String email,PostCart postCart[]);
 }

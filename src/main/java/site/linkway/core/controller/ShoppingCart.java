@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import site.linkway.core.entity.bo.PostCart;
 import site.linkway.core.entity.po.Cart;
 import site.linkway.core.entity.po.CartItem;
 import site.linkway.core.entity.vo.CartList;
@@ -82,5 +83,16 @@ public class ShoppingCart {
         return mapper.writeValueAsString(statusResult);
     }
 
+    /*购物车覆盖更新*/
+    @PutMapping(value="/cart/cover",produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String coverCart(@SessionAttribute("id") String email,
+                            @RequestBody PostCart postCart[]) throws JsonProcessingException {
+        boolean result= shoppingCartService.cover(email,postCart);
+        CartList cartList=new CartList();
+        cartList.setResult(result);
+        cartList.setCarts(shoppingCartService.getCartsByEmail(email));
+        return mapper.writeValueAsString(cartList);
+    }
 
 }
