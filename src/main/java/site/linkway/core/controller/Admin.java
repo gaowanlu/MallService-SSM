@@ -11,6 +11,8 @@ import site.linkway.core.entity.bo.PostCommodity;
 import site.linkway.core.entity.bo.PostCommodityType;
 import site.linkway.core.entity.bo.PostOrderSearch;
 import site.linkway.core.entity.po.Good;
+import site.linkway.core.entity.po.Img;
+import site.linkway.core.entity.vo.ImgUploadResult;
 import site.linkway.core.entity.vo.OrderList;
 import site.linkway.core.entity.vo.ResultMessage;
 import site.linkway.core.entity.vo.StatusResult;
@@ -18,6 +20,7 @@ import site.linkway.core.service.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /*管理端*/
 @Controller
@@ -33,6 +36,8 @@ public class Admin {
     OrderService orderService;
     @Autowired
     CommodityService commodityService;
+    @Autowired
+    ImageService imageService;
 
     /*更新或插入 商品类型选项 一旦插入 母前:只能修改、不能删除、如删除需要检验是否有商品使用此类型*/
     @PostMapping(value = "/commodity/type",produces = "application/json;charset=utf-8")
@@ -174,6 +179,24 @@ public class Admin {
         resultMessage.setResult(result.equals("true"));
         resultMessage.setMessage(result);
         return mapper.writeValueAsString(resultMessage);
+    }
+
+    /*管理员 图片上传、返回imgId*/
+    @PostMapping(value="/img/upload",produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String imgUpload(@RequestParam(name="file",required = false) CommonsMultipartFile files[]) throws IOException {
+        if(null==files){
+            files=new CommonsMultipartFile[0];
+        }
+        ImgUploadResult imgUploadResult=new ImgUploadResult();
+        imgUploadResult.setImgId(imageService.storeImg(files));
+        List<String> imgURL=new ArrayList<>();
+        List<String> imgId=imgUploadResult.getImgId();
+        for(int i=0;i<imgId.size();i++){
+            imgURL.add(ImageDistribution.formatURLFromImgId(imgId.get(i)));
+        }
+        imgUploadResult.setImgURL(imgURL);
+        return mapper.writeValueAsString(imgUploadResult);
     }
 }
 
