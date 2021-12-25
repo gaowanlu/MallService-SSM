@@ -12,7 +12,7 @@ public class PostCommodity {
     int goodTypeId;
     int onSale;
     String detail;
-    CommonsMultipartFile file[];
+    String file[];//图片的Id
     CommonsMultipartFile detailImg;
     public PostCommodity(double price,
                          String name,
@@ -21,7 +21,7 @@ public class PostCommodity {
                          int goodTypeId,
                          int onSale,
                          String detail,
-                         CommonsMultipartFile[] file,
+                         String[] file,
                          CommonsMultipartFile detailImg) {
         this.price = price;
         this.name = name;

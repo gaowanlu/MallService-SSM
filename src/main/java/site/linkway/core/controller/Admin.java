@@ -84,7 +84,7 @@ public class Admin {
                                 @RequestParam("goodTypeId") int goodTypeId,
                                   @RequestParam("onSale") int onSale,
                                   @RequestParam("detail") String detail,
-                                @RequestParam(name = "file",required = false) CommonsMultipartFile file[],
+                                @RequestParam(name = "file",required = false) String file[],
                                   @RequestParam(name="detailsImg",required = false) CommonsMultipartFile detailImg//商品详情图片
     ) throws IOException {
         PostCommodity postCommodity=new PostCommodity(price,name,profile,stock,goodTypeId,onSale,detail,file,detailImg);
@@ -111,6 +111,7 @@ public class Admin {
         statusResult.setResult(commodityService.updateCommodityText(good));
         return mapper.writeValueAsString(statusResult);
     }
+
 
     /*商品详细图片更新*/
     @PostMapping(value="/commodity/detailsImg",produces = "application/json;charset=utf-8")
