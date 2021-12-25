@@ -77,22 +77,13 @@ public class CommodityServiceImpl implements CommodityService {
         int line=goodMapper.insert(good);
         if(1==line){//新增商品成功
             //插入商品展示图片
-            CommonsMultipartFile files[]=postCommodity.getFile();
+            String files[]=postCommodity.getFile();//获得管理员已经上传到平台图片的Id
             if(null==files){//file可以先不提交,为null则空数组，不添加图片
-                files=new CommonsMultipartFile[0];
+                files=new String[0];
             }
-            for(CommonsMultipartFile file:files){
-                InputStream is = file.getInputStream(); //文件输入流
-                String fileType=file.getContentType();//文件类型
-                int fileSize= (int)file.getSize();//获得文件大小
-                String imgId=UUIDUtils.getUUID();//图片ID
-                Img img=new Img(imgId,fileType,fileSize,is);
-                if(1!=imgMapper.insert(img)){
-                    return "false";
-                }
-                is.close();
+            for(String file:files){
                 //将图片添加到goodImg
-                GoodImg goodImg=new GoodImg(UUIDUtils.getUUID(),imgId,UUID);
+                GoodImg goodImg=new GoodImg(UUIDUtils.getUUID(),file,UUID);
                 if(1!=goodImgMapper.insert(goodImg)){
                     return "false";
                 }

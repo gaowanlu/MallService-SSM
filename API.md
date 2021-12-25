@@ -552,7 +552,7 @@ profile:简介 string
 stock:库存量 number
 goodTypeId:商品类型号 number (可能需要多个、暂为其指定一个类型)  
 onSale:是否进行上架 number(0|1)  
-file:File[] 文件同属性为file  
+file:string[] 已经上传的图片的imgId数组序列 可为空
 detailsImg:File 可为空 
 ```
 #### 更新商品属性    
