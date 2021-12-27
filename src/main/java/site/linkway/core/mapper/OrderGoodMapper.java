@@ -8,6 +8,17 @@ import java.util.List;
 
 @Mapper
 public interface OrderGoodMapper {
+    /**
+     * 插入订单物品
+     * @param orderGood 订单物品
+     * @return 插入行
+     */
     int insert(OrderGood orderGood);
+
+    /**
+     * 获得订单项物品列表
+     * @param orderId 订单id
+     * @return 订单项物品列表
+     */
     List<OrderItemGood> orderItemGoodByOrderId(String orderId);
 }

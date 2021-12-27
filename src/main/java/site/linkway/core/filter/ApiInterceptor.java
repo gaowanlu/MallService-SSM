@@ -12,14 +12,21 @@ import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
 
 /*
-* 登录身份拦截器
-* 拦截资源 /api/user/**
+* 用户登录身份拦截器
 * */
 public class ApiInterceptor implements HandlerInterceptor {
     static Logger logger= Logger.getLogger(ApiInterceptor.class);
     private ObjectMapper mapper = new ObjectMapper();
 
-    //在请求处理的方法之前执行
+    /**
+     * 用户登录身份拦截器
+     * 拦截路由 /api/user/**
+     * @param httpServletRequest
+     * @param httpServletResponse
+     * @param o
+     * @return
+     * @throws Exception
+     */
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         /*如果身份错误将会 返回json信息*/
         StatusResult statusResult=new StatusResult();
