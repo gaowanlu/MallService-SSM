@@ -6,29 +6,33 @@
     <select id="commentListByFCommentId" resultType="site.linkway.core.entity.po.Comment">
         SELECT sComment.sCommentId as commentId,
                content,
-               sComment.userId as userId,
-               user.name as userName,
-               user.headImgId as avatarURL,
+               sComment.userId     as userId,
+               user.name           as userName,
+               user.headImgId      as avatarURL,
                sComment.time as time
-        FROM sComment,user
-        WHERE sComment.fCommentId=#{fCommentId} AND sComment.userId=user.userId
+        FROM sComment, user
+        WHERE sComment.fCommentId=#{fCommentId} AND sComment.userId= user.userId
         ORDER BY sComment.time
-        LIMIT #{num},#{size}
+            LIMIT #{num}, #{size}
     </select>
     <select id="countByfCommentId" resultType="java.lang.Long">
-        SELECT COUNT(*) from sComment WHERE fCommentId=#{fCommentId}
+        SELECT COUNT(*)
+        from sComment
+        WHERE fCommentId = #{fCommentId}
     </select>
 
     <insert id="insert">
-        INSERT INTO sComment(sCommentId,fCommentId,content,time,userId)
-        VALUES(
-        #{sCommentId},
-        #{fCommentId},
-        #{content},
-        now(),
-        (SELECT userId FROM user WHERE email=#{email}));
+        INSERT INTO sComment(sCommentId, fCommentId, content, time, userId)
+        VALUES (#{sCommentId},
+                #{fCommentId},
+                #{content},
+                now(),
+                (SELECT userId FROM user WHERE email = #{email}));
     </insert>
     <delete id="delete">
-        DELETE FROM sComment WHERE sCommentId=#{sCommentId} AND userId=(SELECT userId FROM user WHERE email=#{email});
+        DELETE
+        FROM sComment
+        WHERE sCommentId = #{sCommentId}
+          AND userId = (SELECT userId FROM user WHERE email = #{email});
     </delete>
 </mapper>

@@ -2,7 +2,6 @@ package site.linkway.core.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jodd.madvoc.meta.method.DELETE;
 import lombok.NonNull;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/api/user")
 public class Order {
-    static Logger logger= Logger.getLogger(CommentSystem.class);
+    static Logger logger= Logger.getLogger(Comment.class);
     private ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
