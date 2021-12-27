@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResultMessage {
-    boolean result;
-    String message;
+    boolean result;//操作结果
+    String message;//捎带信息
 
     public ResultMessage(String message) {
         this.result = false;

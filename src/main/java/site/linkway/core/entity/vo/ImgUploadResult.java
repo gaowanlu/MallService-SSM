@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ImgUploadResult {
-    boolean result=true;
-    List<String> imgId=new ArrayList<>();
-    List<String> imgURL=new ArrayList<>();
+    boolean result=true;//操作结果
+    List<String> imgId=new ArrayList<>();//图片id列表
+    List<String> imgURL=new ArrayList<>();//图片URL列表
 }

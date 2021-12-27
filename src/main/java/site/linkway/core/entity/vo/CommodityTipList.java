@@ -11,6 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommodityTipList {
-    boolean result=true;
-    List<Commodity> commodities=new ArrayList<>();
+    boolean result=true;//操作结果
+    List<Commodity> commodities=new ArrayList<>();//商品列表
 }

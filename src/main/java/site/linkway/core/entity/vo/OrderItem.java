@@ -11,6 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderItem {
-    List<OrderItemGood> orderGoods;
-    Order order;
+    List<OrderItemGood> orderGoods;//订单物品列表
+    Order order;//订单详情
 }

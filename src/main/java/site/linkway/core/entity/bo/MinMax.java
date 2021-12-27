@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MinMax {
-    double min;
-    double max;
+    double min;//最小值
+    double max;//最大值
 }

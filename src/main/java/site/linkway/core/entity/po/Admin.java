@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 //管理员
 public class Admin {
-    public String adminId;
-    public String userId;
+    public String adminId;//管理员id
+    public String userId;//管理员账号id
 }

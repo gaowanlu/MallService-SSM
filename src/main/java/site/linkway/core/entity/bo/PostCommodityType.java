@@ -13,7 +13,7 @@ public class PostCommodityType {
                 '}';
     }
 
-    int goodTypeId;
-    String name;
+    int goodTypeId;//物品类型id
+    String name;//物品名称
     int operator;//0 更新操作 1 插入操作
 }

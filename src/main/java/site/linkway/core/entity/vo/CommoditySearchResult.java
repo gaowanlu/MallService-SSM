@@ -10,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommoditySearchResult {
-    List<Commodity> commodities;
+    List<Commodity> commodities;//商品列表
     int pageCount; //总页数
     int pageNow;//现在所在页号
     int pageSize;//每页得的大小

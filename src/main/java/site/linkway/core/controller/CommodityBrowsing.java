@@ -13,11 +13,11 @@ import site.linkway.core.entity.po.Commodity;
 import site.linkway.core.entity.vo.CommodityTypeList;
 import site.linkway.core.entity.vo.ResultMessage;
 import site.linkway.core.service.CommodityService;
-
-/*商品相关信息模块
-- 商品随即推荐
-- 根据商品序列号或得商品详情
-* */
+/**
+ * 商品随机推荐
+ * 商品相关信息模块
+ * 据商品序列号或得商品详情
+ */
 @Controller
 @RequestMapping("/api/commodity")
 public class CommodityBrowsing {
@@ -25,14 +25,24 @@ public class CommodityBrowsing {
     @Autowired
     CommodityService commodityService;
 
-    /*随机推荐商品*/
+    /**
+     * 随机推荐商品列表
+     * @return CommodityTipList
+     * @throws JsonProcessingException
+     */
     @GetMapping(value="/recommendation",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String randomRecommendation() throws JsonProcessingException {
         return mapper.writeValueAsString(commodityService.randomSelectCommodity(20));//最多推荐20个
     }
 
-    /*根据商品号获得商品详情*/
+
+    /**
+     * 根据商品号获得商品详情
+     * @param goodId 商品id
+     * @return Commodity
+     * @throws JsonProcessingException
+     */
     @PostMapping(value="/detail",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String commodityDetail(@NonNull String goodId) throws JsonProcessingException {
@@ -46,7 +56,11 @@ public class CommodityBrowsing {
         return mapper.writeValueAsString(commodity);
     }
 
-    /*获取商品类型列表*/
+    /**
+     * 获取商品类型列表
+     * @return CommodityTypeList
+     * @throws JsonProcessingException
+     */
     @RequestMapping(value = "/typeList",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String commodityTypeList() throws JsonProcessingException {

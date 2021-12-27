@@ -10,8 +10,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class CartList {
-    public boolean result=true;
-    public List<CartItem> carts;
+    public boolean result=true;//操作结果
+    public List<CartItem> carts;//购物车列表
     public CartList(){
         this.carts=new ArrayList<>();
     }

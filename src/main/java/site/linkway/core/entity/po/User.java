@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 //用户
 public class User {
-    public String userId;
-    public String password;
-    public String name;
-    public String sex;
-    public String headImgId;
-    public double money;
-    public String email;
+    public String userId;//用户id
+    public String password;//密码
+    public String name;//昵称
+    public String sex;//性别
+    public String headImgId;//头像id
+    public double money;//余额
+    public String email;//邮箱
 }

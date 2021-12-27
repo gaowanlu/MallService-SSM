@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostCart {
-    String goodId;
-    int num;
+    String goodId;//物品id
+    int num;//物品数量
 }

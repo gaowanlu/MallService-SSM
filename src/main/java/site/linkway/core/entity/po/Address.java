@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 //用户收货地址
 public class Address {
-    public String addressId;
-    public String userId;
-    public String phone;
-    public String address;
-    public String name;
+    public String addressId;//收货地址id
+    public String userId;//用户id
+    public String phone;//手机号
+    public String address;//收货地址
+    public String name;//收货人姓名
 }

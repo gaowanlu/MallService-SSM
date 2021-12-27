@@ -13,8 +13,8 @@ public class PostOrderSearchUnfold {
     int pageNow;//现在所在页码 1~
     int size;//每页多少个 1~20
     int num;//检索起点
-    Date min;
-    Date max;
+    Date min;//最小日期
+    Date max;//最大日期
     public PostOrderSearchUnfold(PostOrderSearch postOrderSearch){
         this.orderId=postOrderSearch.getOrderId();
         this.userId= postOrderSearch.getEmail();

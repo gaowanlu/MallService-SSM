@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 //商品展示图
 public class GoodImg {
-    public String goodImgId;// varchar(32) PK
-    public String imgId;// varchar(32)
-    public String goodId;// varchar(32)
+    public String goodImgId;//展示图id
+    public String imgId;// 图片id
+    public String goodId;// 商品id
 }
