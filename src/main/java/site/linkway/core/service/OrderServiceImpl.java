@@ -45,44 +45,36 @@ public class OrderServiceImpl implements OrderService{
     public String insert( String email, PostOrder postOrder) {
         User user=new User();user.setEmail(email);
         user=userMapper.select(user);/*根据邮箱获得用户*/
-        double userMoney=user.getMoney();/*用户余额*/
         List<OrderGoodItem> orderItemList=postOrder.getGoods();/*获取所购买商品的id与数量*/
         String addressId=postOrder.getAddressId();/*获得收货地址id*/
-        /*首先将商品对应的商品详情检索出来、进行总价与余额的比对如果*/
+        String mark=postOrder.getMark();//订单备注
+        /*计算订单总价格*/
         double goodPriceCount=0f;
         for(OrderGoodItem orderGoodItem:orderItemList){
             goodPriceCount+=goodMapper.selectPriceByGoodId(orderGoodItem.getGoodId())*orderGoodItem.getNum();
         }
-        /*金额不允许*/
-        if(userMoney-goodPriceCount<0d){
-            return "您的余额: "+userMoney+"本次消费金额需: "+goodPriceCount;
-        }
-        /* 金额允许 对新订单与新订单内的商品条项进行注入*/
         //插入新的订单
         String orderId= UUIDUtils.getUUID();//新订单号
-        int orderInsert=orderMapper.insertByAddressIdAndEmail(orderId,addressId,user.userId,goodPriceCount);
+        int orderInsert=orderMapper.insertByParam(orderId,addressId,user.userId,goodPriceCount,mark);
         //新订单插入成功 插入新的订单项
-        if(1==orderInsert){
-            for(OrderGoodItem orderGoodItem:orderItemList){
+        if(1==orderInsert) {
+            for (OrderGoodItem orderGoodItem : orderItemList) {
                 OrderGood orderGood = new OrderGood();
                 orderGood.setGoodId(orderGoodItem.getGoodId());
                 orderGood.setOrderId(orderId);
                 orderGood.setNum(orderGoodItem.getNum());
                 orderGoodMapper.insert(orderGood);
-                //在数据库触发器限制了用户提交的购买数量与库存量的限制
-                //问题
-                //如果库存量不够则 insert返回0 ,但其钱还是扣掉了
             }
         }
-        //更新余额 由数据库触发器控制
-        return "true";//消费成功
+        return "true";//添加订单成功
     }
 
-    /*用户申请取消订单*/
+    /*用户更改订单状态*/
     @Override
     public String updateStatus(String email,String orderId,String status,boolean admin){
         String result="true";
-        String userId=userMapper.selectIdByEmail(email);
+        User user=new User();user.setEmail(email);
+        user=userMapper.select(user);/*根据邮箱获得用户*/
         Order order=new Order();
         order.setOrderId(orderId);
         order=orderMapper.select(order);
@@ -90,18 +82,31 @@ public class OrderServiceImpl implements OrderService{
         if(admin){//管理员
 
         }else{//普通用户
-            System.out.println(status+"---------------");
-            if(!(status.equals("已签收")||status.equals("退款中")))
-                return "不允许此操作";
-            if(status.equals("已签收")&&!order.status.equals("已发货"))
-                return "不允许此操作";
-            if(status.equals("退款中")&&!order.status.equals("已发货"))
-                return "不允许此操作";
-            //进行状态更新
-            int line=orderMapper.statusUpdate(orderId,userId,status);
-            if(1!=line){
-                result="更新失败";
+            //付款结算
+            /*待付款=>待发货*/
+            if(status.equals("待发货")&&order.status.equals("待付款")){
+                double userMoney=user.getMoney();/*用户余额*/
+                double money=userMoney-order.getPriceCount();//剩余金额
+                if(money<0d||1!=userMapper.updateMoney(email,money)){
+                    return "您的余额: "+userMoney+"本次消费金额需: "+order.getPriceCount();
+                }
+                //进行状态更新
+                int line=orderMapper.statusUpdate(orderId,user.getUserId(),status);
+                if(1!=line){
+                    result="订单状态更新失败";
+                }
+                return result;
             }
+            //退款申请
+            /*待发货=>退款中||已发货=>退款中*/
+            if(status.equals("退款中")&&(order.status.equals("待发货")||order.status.equals("已发货"))){
+                int line=orderMapper.statusUpdate(orderId,user.getUserId(),status);
+                if(1!=line){
+                    result="订单状态更新失败";
+                }
+                return result;
+            }
+            result="不允许此操作";
         }
         return result;
     }
@@ -158,7 +163,8 @@ public class OrderServiceImpl implements OrderService{
     public String delete(String orderId, String email) {
         String userId=userMapper.selectIdByEmail(email);
         Order order=orderMapper.selectByOrderIdAndUserId(orderId,userId);
-        if(order.status.equals("已签收")){
+        //只有已签收或者待付款的订单可以删除操作
+        if(order.status.equals("已签收")||order.status.equals("待付款")){
             //删除
             if(1==orderMapper.delete(orderId,userId)){
                 return "true";

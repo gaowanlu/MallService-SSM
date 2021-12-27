@@ -1,6 +1,5 @@
 package site.linkway.core.service;
 
-import site.linkway.core.controller.Order;
 import site.linkway.core.entity.bo.PostOrder;
 import site.linkway.core.entity.bo.PostOrderSearch;
 import site.linkway.core.entity.vo.OrderItem;

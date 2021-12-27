@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class PostOrder {
     List<OrderGoodItem> goods;
     String addressId;
-
+    String mark;
     @Override
     public String toString() {
         return "PostOrder{" +
