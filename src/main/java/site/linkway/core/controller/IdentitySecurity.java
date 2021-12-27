@@ -41,7 +41,14 @@ public class IdentitySecurity {
     @Autowired
     HttpSession httpSession;
 
-    /*登录*/
+    /**
+     * 登录
+     * @param id 用户提供身份标识
+     * @param password 用户输入密码
+     * @param sessionAttrId session Id 字段
+     * @return ResultMessage
+     * @throws JsonProcessingException
+     */
     @PostMapping(value = "/login", produces = "application/json;charset=utf-8")
     @ResponseBody
     public String login(@NonNull String id,
@@ -66,7 +73,16 @@ public class IdentitySecurity {
         return mapper.writeValueAsString(new ResultMessage("用户名或密码错误"));
     }
 
-    /*注册账号*/
+
+    /**
+     * 注册账号
+     * @param password 用户输入密码
+     * @param emailCode 用户输入邮箱验证码
+     * @param sessionAttributeEmail  session Email字段
+     * @param sessionAttributeEmailCode session EmailCode字段
+     * @return StatusResult
+     * @throws JsonProcessingException
+     */
     @PostMapping(value = "/register", produces = "application/json;charset=utf-8")
     @ResponseBody
     public String register(@NonNull String password,
@@ -87,7 +103,13 @@ public class IdentitySecurity {
         return mapper.writeValueAsString(statusResult);
     }
 
-    /*邮箱验证码身份验证::根据邮箱发送验证码*/
+
+    /**
+     * 邮箱验证码身份验证::根据邮箱发送验证码
+     * @param email 用户输入邮箱
+     * @return StatusResult
+     * @throws JsonProcessingException
+     */
     @PostMapping(value = "/sendEmailCode", produces = "application/json;charset=utf-8")
     @ResponseBody
     public String sendEmailCode(@NonNull String email) throws JsonProcessingException {
@@ -99,7 +121,16 @@ public class IdentitySecurity {
         return mapper.writeValueAsString(statusResult);
     }
 
-    /*修改密码*/
+
+    /**
+     * 修改密码
+     * @param emailCode 邮箱验证码
+     * @param newPassword  新密码
+     * @param sessionAttributeEmail seesion Email字段
+     * @param sessionAttributeEmailCode session EmailCode 真正验证码
+     * @return
+     * @throws JsonProcessingException
+     */
     @PostMapping(value = "/changePassword", produces = "application/json;charset=utf-8")
     @ResponseBody
     public String changePassword(@NonNull String emailCode,
@@ -120,7 +151,12 @@ public class IdentitySecurity {
         return mapper.writeValueAsString(statusResult);
     }
 
-    /*退出登录*/
+
+    /**
+     * 退出登录
+     * @return ResultMessage
+     * @throws JsonProcessingException
+     */
     @PostMapping(value = "/logout",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String logout() throws JsonProcessingException {

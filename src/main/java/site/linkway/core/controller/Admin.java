@@ -39,7 +39,14 @@ public class Admin {
     @Autowired
     ImageService imageService;
 
-    /*更新或插入 商品类型选项 一旦插入 母前:只能修改、不能删除、如删除需要检验是否有商品使用此类型*/
+    /**
+     *
+     * 更新或插入 商品类型选项 一旦插入 目前:只能修改、不能删除、如删除需要检验是否有商品使用此类型
+     *
+     * @param postCommodityType json请求体
+     * @return ResultMessage
+     * @throws JsonProcessingException
+     */
     @PostMapping(value = "/commodity/type",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String insertOrUpdateType(@RequestBody PostCommodityType postCommodityType) throws JsonProcessingException {
@@ -55,7 +62,14 @@ public class Admin {
         return mapper.writeValueAsString(resultMessage);
     }
 
-    /*为用户充值 : 为了模拟暂时只实现充值 但可以用负值 做到减余额的效果*/
+
+    /**
+     * 为用户充值 : 为了模拟暂时只实现充值 但可以用负值 做到减余额的效果
+     * @param amount 充值金额
+     * @param email 用户邮箱
+     * @return ResultMessage
+     * @throws JsonProcessingException
+     */
     @PostMapping(value = "/recharge",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String recharge(@RequestParam("amount") double amount,@RequestParam("email") String email) throws JsonProcessingException {
@@ -66,7 +80,14 @@ public class Admin {
         return  mapper.writeValueAsString(resultMessage);
     }
 
-    /*订单查询*/
+    /**
+     *
+     * 订单查询
+     *
+     * @param postOrderSearch
+     * @return  OrderList
+     * @throws JsonProcessingException
+     */
     @PostMapping(value="/order/search",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String orderSearch(@RequestBody PostOrderSearch postOrderSearch) throws JsonProcessingException {
@@ -74,7 +95,22 @@ public class Admin {
         return  mapper.writeValueAsString(orderList);
     }
 
-    /*新商品发布*/
+    /**
+     *
+     * 新商品发布
+     *
+     * @param price 价格
+     * @param name 名称
+     * @param profile 简介
+     * @param stock 库存量
+     * @param goodTypeId 商品类型
+     * @param onSale 是否上架
+     * @param detail 商品详情描述
+     * @param file 商品展示图
+     * @param detailImg 商品详情图片
+     * @return PostCommodity
+     * @throws IOException
+     */
     @PostMapping (value = "/commodity/add",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String addNewCommodity(@RequestParam("price") double price,
@@ -93,7 +129,19 @@ public class Admin {
         return mapper.writeValueAsString(statusResult);
     }
 
-    /*商品信息更新*/
+    /**
+     *
+     * @param price 价格
+     * @param name 名称
+     * @param profile 简介
+     * @param stock 库存
+     * @param goodTypeId 商品类型
+     * @param onSale 是否上架
+     * @param detail 详情文字
+     * @param goodId 商品id
+     * @return StatusResult
+     * @throws JsonProcessingException
+     */
     @PostMapping (value = "/commodity/update",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String commodityTextUpdate(@RequestParam("price") double price,
@@ -113,7 +161,15 @@ public class Admin {
     }
 
 
-    /*商品详细图片更新*/
+    /**
+     *
+     * 商品详细图片更新
+     *
+     * @param file 文件图片
+     * @param goodId 商品id
+     * @return
+     * @throws IOException
+     */
     @PostMapping(value="/commodity/detailsImg",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String commodityDetailsUpdate(@RequestParam("detailsImg") CommonsMultipartFile file,
@@ -139,7 +195,15 @@ public class Admin {
         return mapper.writeValueAsString(statusResult);
     }
 
-    /*商品图片增加*/
+    /**
+     *
+     * 商品图片增加
+     *
+     * @param goodId 商品id
+     * @param file 文件
+     * @return StatusResult
+     * @throws IOException
+     */
     @PostMapping(value = "/commodity/img/add",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String commodityImgPush(@RequestParam("goodId") String goodId,
@@ -149,7 +213,13 @@ public class Admin {
         return mapper.writeValueAsString(statusResult);
     }
 
-    /*商品图片删除*/
+
+    /**
+     * 商品图片删除
+     * @param imgId 图片id
+     * @return StatusResult
+     * @throws JsonProcessingException
+     */
     @PostMapping(value = "/commodity/img/delete",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String commodityImgPush(@RequestParam("imgId") String imgId) throws JsonProcessingException {
@@ -158,7 +228,14 @@ public class Admin {
         return mapper.writeValueAsString(statusResult);
     }
 
-    /*订单发货处理*/
+    /**
+     * 订单发货处理
+     * @param orderId 订单id
+     * @param logisticsNumber 物流号码
+     * @param logisticsName 物流名称
+     * @return ResultMessage
+     * @throws JsonProcessingException
+     */
     @PostMapping(value="/order/ship",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String orderShip(@RequestParam("orderId") String orderId,
@@ -171,7 +248,12 @@ public class Admin {
         return mapper.writeValueAsString(resultMessage);
     }
 
-    /*订单申请退款处理*/
+    /**
+     * 订单申请退款处理
+     * @param orderId 订单 id
+     * @return ResultMessage
+     * @throws JsonProcessingException
+     */
     @PostMapping(value="/order/refund",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String orderRefund(@RequestParam("orderId") String orderId) throws JsonProcessingException {
@@ -182,7 +264,13 @@ public class Admin {
         return mapper.writeValueAsString(resultMessage);
     }
 
-    /*管理员 图片上传、返回imgId*/
+
+    /**
+     * 管理员 图片上传、返回imgId
+     * @param files 图片文件
+     * @return ImgUploadResult
+     * @throws IOException
+     */
     @PostMapping(value="/img/upload",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String imgUpload(@RequestParam(name="file",required = false) CommonsMultipartFile files[]) throws IOException {

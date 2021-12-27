@@ -34,7 +34,14 @@ public class ShoppingCart {
     @Autowired
     HttpSession httpSession;
 
-    /*新增购物车条项*/
+    /**
+     * 新增购物车条项
+     * @param goodId 物品id
+     * @param email 用户邮箱
+     * @param num 商品数量
+     * @return StatusResult
+     * @throws JsonProcessingException
+     */
     @PostMapping (value = "/cart",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String addCart(@NonNull String goodId,
@@ -46,7 +53,13 @@ public class ShoppingCart {
         return mapper.writeValueAsString(statusResult);
     }
 
-    /*删除购物车条项 同时返回现有条项*/
+    /**
+     * 删除购物车条项 同时返回现有条项
+     * @param cartId 购物车条项id
+     * @param email 用户邮箱
+     * @return CartList
+     * @throws JsonProcessingException
+     */
     @DeleteMapping(value = "/cart",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String addCart(@NonNull String cartId,
@@ -61,7 +74,13 @@ public class ShoppingCart {
         return mapper.writeValueAsString(cartList);
     }
 
-    /*获取购物车全部条项*/
+
+    /**
+     * 获取购物车全部条项
+     * @param email 用户邮箱
+     * @return CartList
+     * @throws JsonProcessingException
+     */
     @GetMapping(value = "/cart",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String addCart(@SessionAttribute(value = "id") String email) throws JsonProcessingException {
@@ -71,7 +90,14 @@ public class ShoppingCart {
         return mapper.writeValueAsString(cartList);
     }
 
-    /*购物车条项更新 客户端将购物车条项修改后再进行提交 进行更新处理*/
+
+    /**
+     * 购物车条项更新 客户端将购物车条项修改后再进行提交 进行更新处理
+     * @param email 用户邮箱
+     * @param cart 购物车条项
+     * @return StatusResult
+     * @throws JsonProcessingException
+     */
     @PutMapping(value = "/cart",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String updateCart(@SessionAttribute("id") String email,
@@ -83,7 +109,13 @@ public class ShoppingCart {
         return mapper.writeValueAsString(statusResult);
     }
 
-    /*购物车覆盖更新*/
+    /**
+     * 购物车覆盖更新
+     * @param email 用户邮箱
+     * @param postCart 请求体
+     * @return CartList
+     * @throws JsonProcessingException
+     */
     @PutMapping(value="/cart/cover",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String coverCart(@SessionAttribute("id") String email,

@@ -25,9 +25,15 @@ public class Order {
     @Autowired
     OrderService orderService;
 
+    /**
+     * 用户提交订单
+     * @param email 用户邮箱
+     * @param postOrder 请求体 json
+     * @return
+     * @throws JsonProcessingException
+     */
     @PostMapping(value="/order",produces = "application/json;charset=utf-8")
     @ResponseBody
-    /*用户提交订单*/
     public String addOrder(@SessionAttribute("id") String email,
                            @RequestBody @NonNull PostOrder postOrder) throws JsonProcessingException {
         logger.info(postOrder);
@@ -38,9 +44,14 @@ public class Order {
         return mapper.writeValueAsString(resultMessage);
     }
 
+    /**
+     * 用户获得自己的所有订单包括详情
+     * @param email 用户邮箱
+     * @return  OrderList
+     * @throws JsonProcessingException
+     */
     @GetMapping(value="/order", produces = "application/json;charset=utf-8")
     @ResponseBody
-    /*用户获得自己的所有订单包括详情*/
     public String orderList(@SessionAttribute("id") String email) throws JsonProcessingException {
         List<OrderItem> orderItemList=orderService.selectByEmail(email);
         OrderList orderList=new OrderList();
@@ -48,9 +59,15 @@ public class Order {
         return mapper.writeValueAsString(orderList);
     }
 
+    /**
+     * 根据订单id返回订单详情
+     * @param email 用户邮箱
+     * @param orderId 订单id
+     * @return OrderItem
+     * @throws JsonProcessingException
+     */
     @PostMapping(value="/order/detail", produces = "application/json;charset=utf-8")
     @ResponseBody
-    /*根据订单id返回详情*/
     public String orderDetail(@SessionAttribute("id") String email,
                               @NonNull String orderId
                               ) throws JsonProcessingException {
@@ -58,6 +75,14 @@ public class Order {
         return mapper.writeValueAsString(orderItem);
     }
 
+    /**
+     *
+     * @param email 用户邮箱
+     * @param orderId 订单id
+     * @param status 订单状态
+     * @return ResultMessage
+     * @throws JsonProcessingException
+     */
     @PutMapping(value="/order/update",produces = "application/json;charset=utf-8")
     @ResponseBody
     /*更新订单状态*/
@@ -72,9 +97,15 @@ public class Order {
         return mapper.writeValueAsString(resultMessage);
     }
 
+    /**
+     * 删除已签收的订单
+     * @param email 用户邮箱
+     * @param orderId 订单id
+     * @return ResultMessage
+     * @throws JsonProcessingException
+     */
     @DeleteMapping(value="/order",produces = "application/json;charset=utf-8")
     @ResponseBody
-    /*删除已签收的订单*/
     public String orderDelete(@SessionAttribute("id") String email,
             @RequestParam("orderId") @NonNull String orderId
     ) throws JsonProcessingException {
