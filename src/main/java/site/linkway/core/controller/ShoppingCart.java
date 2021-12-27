@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import site.linkway.core.entity.bo.PostCart;
-import site.linkway.core.entity.po.Cart;
 import site.linkway.core.entity.po.CartItem;
 import site.linkway.core.entity.vo.CartList;
 import site.linkway.core.entity.vo.StatusResult;
@@ -21,7 +20,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/api/user")
 public class ShoppingCart {
-    static Logger logger= Logger.getLogger(ShoppingCart.class);
+    static Logger logger = Logger.getLogger(ShoppingCart.class);
     private ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
@@ -44,12 +43,12 @@ public class ShoppingCart {
      */
     @PostMapping (value = "/cart",produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String addCart(@NonNull String goodId,
-                          @SessionAttribute(value = "id") String email,
+    public String addCart(@SessionAttribute(value = "id") String email,
+                          @NonNull String goodId,
                           @NonNull int num) throws JsonProcessingException {
-        StatusResult statusResult=new StatusResult();
-        //添加购物车条项
-        statusResult.setResult(shoppingCartService.addCart(goodId,email,num));
+        StatusResult statusResult = new StatusResult();
+        // 添加购物车条项并写入结果
+        statusResult.setResult(shoppingCartService.addCart(goodId, email, num));
         return mapper.writeValueAsString(statusResult);
     }
 
@@ -64,13 +63,13 @@ public class ShoppingCart {
     @ResponseBody
     public String addCart(@NonNull String cartId,
                           @SessionAttribute(value = "id") String email
-                          ) throws JsonProcessingException {
-        CartList cartList=new CartList();
-        //删除购物车条项 result为此次操作是否成功
-        cartList.result=shoppingCartService.deleteCart(cartId,email);
-        //获取此用户的购物车条项
+    ) throws JsonProcessingException {
+        CartList cartList = new CartList();
+        // 删除购物车条项并写入操作结果
+        cartList.result = shoppingCartService.deleteCart(cartId, email);
+        // 获取此用户的购物车条项
         cartList.setCarts(shoppingCartService.getCartsByEmail(email));
-        //结果返回
+        // 结果返回
         return mapper.writeValueAsString(cartList);
     }
 
@@ -84,43 +83,26 @@ public class ShoppingCart {
     @GetMapping(value = "/cart",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String addCart(@SessionAttribute(value = "id") String email) throws JsonProcessingException {
-        CartList cartList=new CartList();
-        //获取购物车条项
+        CartList cartList = new CartList();
+        // 获取购物车条项
         cartList.setCarts(shoppingCartService.getCartsByEmail(email));
         return mapper.writeValueAsString(cartList);
-    }
-
-
-    /**
-     * 购物车条项更新 客户端将购物车条项修改后再进行提交 进行更新处理
-     * @param email 用户邮箱
-     * @param cart 购物车条项
-     * @return StatusResult
-     * @throws JsonProcessingException
-     */
-    @PutMapping(value = "/cart",produces = "application/json;charset=utf-8")
-    @ResponseBody
-    public String updateCart(@SessionAttribute("id") String email,
-                             @RequestBody CartItem cart) throws JsonProcessingException {
-        /*只更新 数量*/
-        boolean result=shoppingCartService.updateCart(email,cart);
-        StatusResult statusResult=new StatusResult();
-        statusResult.setResult(result);
-        return mapper.writeValueAsString(statusResult);
     }
 
     /**
      * 购物车覆盖更新
      * @param email 用户邮箱
-     * @param postCart 请求体
+     * @param postCart 请求体 购物车列表
      * @return CartList
      * @throws JsonProcessingException
      */
     @PutMapping(value="/cart/cover",produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String coverCart(@SessionAttribute("id") String email,
+    public String updateCart(@SessionAttribute("id") String email,
                             @RequestBody PostCart postCart[]) throws JsonProcessingException {
-        boolean result= shoppingCartService.cover(email,postCart);
+        // 使用提交的购物车条项更新旧的购物车数据
+        boolean result= shoppingCartService.update(email,postCart);
+        // 返回操作结果
         CartList cartList=new CartList();
         cartList.setResult(result);
         cartList.setCarts(shoppingCartService.getCartsByEmail(email));

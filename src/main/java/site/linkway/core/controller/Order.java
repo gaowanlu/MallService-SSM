@@ -39,8 +39,10 @@ public class Order {
         logger.info(postOrder);
         ResultMessage resultMessage =new ResultMessage();
         String result=orderService.insert(email,postOrder);
-        resultMessage.setResult(result.equals("true"));
-        resultMessage.setMessage(result);
+        if (result != null) {
+            resultMessage.setResult(true);
+            resultMessage.setMessage(result);
+        }
         return mapper.writeValueAsString(resultMessage);
     }
 
