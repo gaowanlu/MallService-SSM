@@ -5,6 +5,11 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 public class RequestUtils {
+    /**
+     * 获得请求者ip
+     * @param request
+     * @return ip
+     */
     public static String getIpAddr(HttpServletRequest request) {
         String ipAddress = request.getHeader("x-forwarded-for");
         if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {

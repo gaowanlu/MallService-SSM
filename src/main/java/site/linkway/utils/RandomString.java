@@ -3,6 +3,10 @@ package site.linkway.utils;
 import java.util.Random;
 
 public class RandomString {
+    /**
+     * 创建随机4位验证码
+     * @return
+     */
     public static String CreateVerificationCode(){
         String verificationCode="";
         String  allCh="1234567890zxcvbnmasdfghjklqwertyuiop";
@@ -15,6 +19,11 @@ public class RandomString {
         return verificationCode;
     }
     private static final String cookieAllCh="ZXCVBNMASDFGHJKLQWERTYUIOP1234567890zxcvbnmasdfghjklqwertyuiop";
+
+    /**
+     * 125位随机字符串生成
+     * @return
+     */
     public static String cookieStringCreator(){
         String cookie="";
         Random ran = new Random();
