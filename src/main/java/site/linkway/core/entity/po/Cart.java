@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 //购物车条项
 public class Cart {
-    public String cartId;
-    public String goodId;
-    public String userId;
-    public int num;
+    public String cartId;//购物车id
+    public String goodId;//物品id
+    public String userId;//用户账号id
+    public int num;//物品数量
 }

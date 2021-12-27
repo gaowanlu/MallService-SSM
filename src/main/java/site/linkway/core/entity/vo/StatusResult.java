@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 public class StatusResult {
-    boolean result;
-    boolean isAdmin;
+    boolean result;//操作结果
+    boolean isAdmin;//是否为管理员
 
     public StatusResult() {
         this.result = true;

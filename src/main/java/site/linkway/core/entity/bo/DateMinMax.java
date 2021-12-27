@@ -14,8 +14,8 @@ import java.util.Date;
 public class DateMinMax {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    Date min;
+    Date min;//最小日期
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    Date max;
+    Date max;//最大日期
 }
