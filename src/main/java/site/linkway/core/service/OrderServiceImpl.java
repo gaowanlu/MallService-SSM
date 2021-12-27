@@ -65,8 +65,10 @@ public class OrderServiceImpl implements OrderService{
                 orderGood.setNum(orderGoodItem.getNum());
                 orderGoodMapper.insert(orderGood);
             }
+        } else {
+            return null;
         }
-        return "true";//添加订单成功
+        return orderId;//添加订单成功
     }
 
     /*用户更改订单状态*/
@@ -87,6 +89,7 @@ public class OrderServiceImpl implements OrderService{
             if(status.equals("待发货")&&order.status.equals("待付款")){
                 double userMoney=user.getMoney();/*用户余额*/
                 double money=userMoney-order.getPriceCount();//剩余金额
+                System.out.println("剩余金额:"+money);
                 if(money<0d||1!=userMapper.updateMoney(email,money)){
                     return "您的余额: "+userMoney+"本次消费金额需: "+order.getPriceCount();
                 }
