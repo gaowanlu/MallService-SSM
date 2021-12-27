@@ -19,12 +19,11 @@ public class CommentServiceImpl implements CommentService {
     SCommentMapper sCommentMapper;
 
     /**
-     * 获取评论列表
+     * 检索父评论列表
      *
-     * @param goodId   商品 id
-     * @param pageSize 每页大小
-     * @param pageNow  当前页
-     * @return 评论列表
+     * @param goodId   物品id
+     * @param pageSize 分页大小
+     * @param pageNow  此时页码
      */
     @Override
     public CommentList fCommentListByGoodId(String goodId, int pageSize, int pageNow) {
@@ -43,17 +42,17 @@ public class CommentServiceImpl implements CommentService {
     }
 
     /**
-     * 根据父评论 id 获取子评论列表
+     * 检索子评论列表
      *
-     * @param fCommentId 父评论 id
-     * @param pageSize   每页大小
-     * @param pageNow    当前页
-     * @return 子评论列表
+     * @param fCommentId 父评论id
+     * @param pageSize   页大小
+     * @param pageNow    此时页码
+     * @return 评论列表
      */
     @Override
     public CommentList sCommentServiceByFCommentId(String fCommentId, int pageSize, int pageNow) {
-        List<Comment> commentList = sCommentMapper.commentListByFCommentId(fCommentId, ((pageNow - 1) * pageSize), pageSize);
-        CommentList result = new CommentList();
+        List<Comment> commentList=sCommentMapper.commentListByFCommentId(fCommentId,((pageNow-1)*pageSize),pageSize);
+        CommentList result=new CommentList();
         result.setComments(commentList);
         result.setPageNow(pageNow);
         result.setPageSize(pageSize);
@@ -62,18 +61,18 @@ public class CommentServiceImpl implements CommentService {
     }
 
     /**
-     * 添加新的父评论
+     * 添加父评论
      *
-     * @param content 父评论内容
-     * @param goodId  商品 id
-     * @param email   用户 email
-     * @param rate    商品评分
-     * @return 是否添加成功
+     * @param content 评论内容
+     * @param goodId  物品id
+     * @param email   邮箱
+     * @param rate    评星
+     * @return UUID or null
      */
     @Override
     public String insertFComment(String content, String goodId, String email, int rate) {
-        String UUID = UUIDUtils.getUUID();
-        if (1 == fCommentMapper.insert(UUID, content, goodId, email, rate)) {
+        String UUID= UUIDUtils.getUUID();
+        if(1==fCommentMapper.insert(UUID,content,goodId,email,rate)){
             return UUID;
         } else {
             return null;
@@ -121,4 +120,5 @@ public class CommentServiceImpl implements CommentService {
     public boolean deleteSComment(String sCommentId, String email) {
         return 1 == sCommentMapper.delete(sCommentId, email);
     }
+
 }

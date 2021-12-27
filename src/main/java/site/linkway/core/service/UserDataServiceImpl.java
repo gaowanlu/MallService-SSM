@@ -23,7 +23,12 @@ public class UserDataServiceImpl implements UserDataService {
     private UserMapper userMapper;
     private ImgMapper imgMapper;
 
-    /*根据邮箱获得用户信息*/
+    /**
+     * 根据邮箱获取用户信息
+     *
+     * @param email 邮箱
+     * @return 用户
+     */
     @Override
     public User getUserByEmail(String email) {
         User user = new User();
@@ -43,7 +48,14 @@ public class UserDataServiceImpl implements UserDataService {
         return userId;
     }
 
-    /*更新昵称 性别*/
+    /**
+     * 更新性别 昵称
+     *
+     * @param email 邮箱
+     * @param name  昵称
+     * @param sex   性别
+     * @return 更新结果
+     */
     @Override
     @Transactional
     public boolean updateUserData(String email, String name, String sex) {
@@ -53,7 +65,15 @@ public class UserDataServiceImpl implements UserDataService {
         return 1 == userMapper.update(user);
     }
 
-    /*更新头像 直接根据图片id进行对图片的二进制数据进行更新*/
+    /**
+     * 更新头像
+     *
+     * @param email       邮箱
+     * @param inputStream 文件输入流
+     * @param fileSize    文件大小
+     * @param fileType    文件类型
+     * @return 更新结果
+     */
     @Override
     @Transactional
     public boolean updateHeadImg(String email, InputStream inputStream, int fileSize, String fileType) {
@@ -76,9 +96,14 @@ public class UserDataServiceImpl implements UserDataService {
         return false;
     }
 
-    /*充值 金额可正可负*/
+    /**
+     * 充值 金额可正可负
+     *
+     * @param email  邮箱
+     * @param amount 充值金额
+     * @return 充值结果
+     */
     @Override
-    @Transactional
     public boolean recharge(String email, double amount) {
         User user=new User();user.setEmail(email);
         user=userMapper.select(user);
@@ -90,4 +115,5 @@ public class UserDataServiceImpl implements UserDataService {
         int line=userMapper.updateMoney(email,balance);
         return 1==line;
     }
+
 }
