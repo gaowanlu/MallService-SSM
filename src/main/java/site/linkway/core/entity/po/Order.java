@@ -20,4 +20,5 @@ public class Order {
     public String logisticsNumber;// varchar(30) 物流单号
     public String logisticsName;// varchar(20) 物流名称
     public double priceCount;//订单总金额
+    public String mark;//订单备注
 }

@@ -2,6 +2,7 @@ package site.linkway.core.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jodd.madvoc.meta.method.DELETE;
 import lombok.NonNull;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class Order {
         return mapper.writeValueAsString(orderList);
     }
 
-    @GetMapping(value="/order/detail", produces = "application/json;charset=utf-8")
+    @PostMapping(value="/order/detail", produces = "application/json;charset=utf-8")
     @ResponseBody
     /*根据订单id返回详情*/
     public String orderDetail(@SessionAttribute("id") String email,
@@ -57,7 +58,7 @@ public class Order {
         return mapper.writeValueAsString(orderItem);
     }
 
-    @PostMapping(value="/order/update",produces = "application/json;charset=utf-8")
+    @PutMapping(value="/order/update",produces = "application/json;charset=utf-8")
     @ResponseBody
     /*更新订单状态*/
     public String orderStatus(@SessionAttribute("id") String email,
@@ -71,7 +72,7 @@ public class Order {
         return mapper.writeValueAsString(resultMessage);
     }
 
-    @PostMapping(value="/order/delete",produces = "application/json;charset=utf-8")
+    @DeleteMapping(value="/order",produces = "application/json;charset=utf-8")
     @ResponseBody
     /*删除已签收的订单*/
     public String orderDelete(@SessionAttribute("id") String email,

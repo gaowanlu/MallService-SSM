@@ -236,27 +236,33 @@
 
 `POST /api/user/order`
 
-* 请求格式 [PostOrder](#PostOrder)
+* 请求格式 [PostOrder](#PostOrder)  
+* 注：订单默认状态为 待付款
 
 
 ### 查看已有订单详情
-`POST /order/detail`
+`POST /api/user/order/detail`
 
 * 请求参数 `{orderId}`  
 * 返回格式 [OrderItem](#OrderItem)
 
-### 更新订单状态
+### 更新订单状态（付款|退款申请）
 
-`POST /api/user/order/update`
+`PUT /api/user/order`
 
 * 请求参数 `{orderId,status}`   
-* 参数详情 status in ('已签收','退款中')
+* 参数详情 status in ('已签收','退款中','待发货')  
+* 注：三种状态分别代表了 签收、申请退款、以及付款几种功能  
 
 ### 获得用户订单列表
 `GET /api/user/order`
 
-* 返回格式 [OrderList](#OrderList)
+* 返回格式 [OrderList](#OrderList)  
 
+### 删除订单    
+`DELETE /api/user/order`  
+* 参数 `{orderId}`  
+* 注：订单状态为 待付款、已签收的订单可以被删除  
 --- 
 
 ## `搜索`
@@ -430,6 +436,7 @@ interface Order {
     logisticsNumber:string;
     logisticsName:string;
     priceCount:double;
+    mark:string;
 }
 ``` 
 ##### OrderList
@@ -478,6 +485,7 @@ interface PostOrder
 {
     goods:OrderGoodItem[];
     addressId:string;
+    mark:string;
 }
 ```
 #### OrderGoodItem

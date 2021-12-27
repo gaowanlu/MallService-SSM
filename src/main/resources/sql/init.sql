@@ -74,7 +74,7 @@ CREATE TABLE orders(
     orderId VARCHAR(32) NOT NULL unique primary key,
     userId VARCHAR(32) NOT NULL,
     #发货状态
-    status VARCHAR(10) NOT NULL check(status in('待付款','待发货','已发货','已签收','退款中','已退款')),
+    status VARCHAR(10) NOT NULL check(status in('待付款','待发货','已发货','已签收','退款中','已退款')) default '待付款',
     #物流联系电话
     phone CHAR(11) NOT NULL,
     #地址
@@ -152,32 +152,32 @@ CREATE TABLE orderGood(
 DROP TRIGGER IF EXISTS orderGood_after_insert;
 DROP TRIGGER IF EXISTS orders_after_insert;
 
-DELIMITER $$
-CREATE TRIGGER orderGood_after_insert
-    AFTER
-    INSERT
-    ON orderGood
-    FOR EACH ROW
-BEGIN
-    UPDATE good
-    SET stock=good.stock-NEW.num,soldSum=good.soldSum+NEW.num
-    WHERE goodId=NEW.goodId;
-END$$
-DELIMITER ;
+-- DELIMITER $$
+-- CREATE TRIGGER orderGood_after_insert
+--     AFTER
+--     INSERT
+--     ON orderGood
+--     FOR EACH ROW
+-- BEGIN
+--     UPDATE good
+--     SET stock=good.stock-NEW.num,soldSum=good.soldSum+NEW.num
+--     WHERE goodId=NEW.goodId;
+-- END$$
+-- DELIMITER ;
 
-# 当新增订单时，将响应用户余额减少为订单总价
-DELIMITER $$
-CREATE TRIGGER orders_after_insert
-    AFTER
-    INSERT
-    ON orders
-    FOR EACH ROW
-BEGIN
-    UPDATE user
-    SET money=money-NEW.priceCount
-    WHERE user.userId=NEW.userId;
-END$$
-DELIMITER ;
+-- # 当新增订单时，将响应用户余额减少为订单总价
+-- DELIMITER $$
+-- CREATE TRIGGER orders_after_insert
+--     AFTER
+--     INSERT
+--     ON orders
+--     FOR EACH ROW
+-- BEGIN
+--     UPDATE user
+--     SET money=money-NEW.priceCount
+--     WHERE user.userId=NEW.userId;
+-- END$$
+-- DELIMITER ;
 
 
 
@@ -241,8 +241,10 @@ INSERT INTO orderGood(orderId,goodId,num) values('dscavf1','2',2);
 INSERT INTO orders VALUES('dscavf2','1','待发货','13346637702','桂林市','gaowanlu',now(),'','',123);
 INSERT INTO orders VALUES('dscavf3','1','待发货','13346637702','桂林市','gaowanlu',now(),'','',123);
 INSERT INTO orderGood(orderId,goodId,num) values('dscavf3','1',2);
-INSERT INTO orders VALUES('dscavf4','1','待发货','13346637702','桂林市','gaowanlu',now(),'','',123); 
+INSERT INTO orders VALUES('dscavf4','1','待付款','13346637702','桂林市','gaowanlu',now(),'','',123); 
 
 USE MALL;
 ALTER TABLE good ADD detail TEXT NOT NULL;
 ALTER TABLE good ADD detailImgId VARCHAR(32) NOT NULL default 'defaultDetail';
+#订单表增加备注列 
+ALTER TABLE orders ADD  mark TEXT NOT NULL;

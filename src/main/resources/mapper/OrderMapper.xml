@@ -4,20 +4,21 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.linkway.core.mapper.OrderMapper">
     <insert id="insert" parameterType="site.linkway.core.entity.po.Order">
-        INSERT INTO orders VALUES(#{orderId},#{userId},#{status},#{phone},#{address},#{name},NOW(),#{logisticsNumber},#{logisticsName},#{priceCount})
+        INSERT INTO orders VALUES(#{orderId},#{userId},#{status},#{phone},#{address},#{name},NOW(),#{logisticsNumber},#{logisticsName},#{priceCount},#{mark})
     </insert>
-    <insert id="insertByAddressIdAndEmail">
+    <insert id="insertByParam">
         INSERT INTO orders VALUES (
         #{orderId},
         #{userId},
-        '待发货',
+        '待付款',
         (SELECT phone FROM address WHERE addressId=#{addressId} AND userId=#{userId}),
         (SELECT address FROM address WHERE addressId=#{addressId} AND userId=#{userId}),
         (SELECT name FROM address WHERE addressId=#{addressId} AND userId=#{userId}),
         NOW(),
         '',
         '',
-        #{priceCount}
+        #{priceCount},
+        #{mark}
         );
     </insert>
 

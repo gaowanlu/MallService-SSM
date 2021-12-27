@@ -12,18 +12,21 @@ import java.util.List;
 public interface OrderMapper {
     int insert(Order order);
     Order select(Order order);//select by orderId
-    Order selectByOrderIdAndUserId(@Param("orderId") String orderId,@Param("userId") String userId);
+    Order selectByOrderIdAndUserId(@Param("orderId") String orderId,
+                                   @Param("userId") String userId);
     //获取指定用户的所有订单
     List<Order> selectByUserId(String userId);
     //插入新订单
-    int insertByAddressIdAndEmail(@Param("orderId") String orderId,
-                                  @Param("addressId") String addressId,
-                                  @Param("userId") String userId,
-                                  @Param("priceCount") double priceCount);
+    int insertByParam(@Param("orderId") String orderId,
+                      @Param("addressId") String addressId,
+                      @Param("userId") String userId,
+                      @Param("priceCount") double priceCount,
+                      @Param("mark") String mark);
     //更新订单状态
     int statusUpdate(@Param("orderId") String orderId,
                      @Param("userId") String userId,
                      @Param("status") String status);
+
     //订单删除
     int delete(@Param("orderId") String orderId,@Param("userId") String userId);
 
