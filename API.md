@@ -107,16 +107,10 @@
 
 * 返回格式 [CartList](#CartList)  
 
-### 购物车条项更新 
-注：更新num字段  
+
+### 购物车更新（覆盖） 
 
 `PUT /api/user/cart`  
-
-* 请求格式 [CartItem](#CartItem)  
-
-### 购物车覆盖 
-
-`PUT /api/user/cart/cover`  
 * 参数 Array [PostCart](#PostCart)  
 * 返回格式 [CartList](#CartList) 
 
