@@ -41,17 +41,11 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="datasource"/>
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
-<!--        配置单个mapper xml-->
-<!--        <property name="mapperLocations" value="classpath:mapper/AddressMapper.xml"/> -->
         <!-- 配置多个xml文件 -->
         <property name="mapperLocations">
             <list>
                 <value>classpath:mapper/*.xml</value>
             </list>
-<!--            <array>-->
-<!--                <value>classpath:mapper/AddressMapper.xml</value>-->
-<!--                <value>classpath:mapper/UserMapper.xml</value>-->
-<!--            </array>-->
         </property>
     </bean>
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
