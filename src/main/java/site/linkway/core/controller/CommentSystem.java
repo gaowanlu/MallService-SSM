@@ -22,8 +22,14 @@ public class CommentSystem {
     @Autowired
     CommentService commentService;
 
-
-    /*根据商品id获得评论列表*/
+    /**
+     * 根据商品id获得评论列表
+     * @param goodId 商品id
+     * @param pageSize 分页大小
+     * @param pageNow 现在页码
+     * @return CommentList
+     * @throws JsonProcessingException
+     */
     @PostMapping(value="/fList", produces = "application/json;charset=utf-8")
     @ResponseBody
     public String fList(@NonNull String goodId,
@@ -36,7 +42,14 @@ public class CommentSystem {
     }
 
 
-    /*根据父评论id请求子评论列表*/
+    /**
+     * 根据父评论id请求子评论列表
+     * @param fCommentId 父评论id
+     * @param pageSize 分页大小
+     * @param pageNow 此时页码
+     * @return CommentList
+     * @throws JsonProcessingException
+     */
     @PostMapping(value="/sList",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String sList(@NonNull String fCommentId,
@@ -49,7 +62,15 @@ public class CommentSystem {
     }
 
 
-    /*根据商品id添加父评论*/
+    /**
+     * 根据商品id添加父评论
+     * @param content 评论内容
+     * @param email 用户邮箱
+     * @param goodId 商品id
+     * @param rate 评星等级
+     * @return ResultMessage
+     * @throws JsonProcessingException
+     */
     @PostMapping(value="/add/f",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String addFComment(@NonNull String content,
@@ -64,8 +85,14 @@ public class CommentSystem {
         return mapper.writeValueAsString(resultMessage);
     }
 
-
-    /*根据父评论id增加子评论*/
+    /**
+     * 根据父评论id增加子评论
+     * @param content 评论内容
+     * @param fCommentId 父评论id
+     * @param email 邮箱
+     * @return ResultMessage
+     * @throws JsonProcessingException
+     */
     @PostMapping(value="/add/s",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String addSComment(@NonNull String content,
@@ -80,7 +107,14 @@ public class CommentSystem {
     }
 
 
-    /*删除父评论*/
+
+    /**
+     * 删除父评论
+     * @param fCommentId 父评论id
+     * @param email 邮箱
+     * @return ResultMessage
+     * @throws JsonProcessingException
+     */
     @DeleteMapping(value="/delete/f",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String deleteFComment(@NonNull String fCommentId,
@@ -92,7 +126,13 @@ public class CommentSystem {
     }
 
 
-    /*删除子评论*/
+    /**
+     * 删除子评论
+     * @param sCommentId 子评论id
+     * @param email 用户邮箱
+     * @return ResultMessage
+     * @throws JsonProcessingException
+     */
     @DeleteMapping(value="/delete/s",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String deleteSComment(@NonNull String sCommentId,
@@ -103,7 +143,12 @@ public class CommentSystem {
         return mapper.writeValueAsString(resultMessage);
     }
 
-    /*限制分页大小*/
+
+    /**
+     * 工具函数、限制分页大小
+     * @param size 分页大小
+     * @return int 分页大小
+     */
     private static int limitSplitPageSize(int size){
         return size>20?20:size;
     }

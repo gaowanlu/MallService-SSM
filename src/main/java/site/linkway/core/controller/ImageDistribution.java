@@ -31,7 +31,15 @@ public class ImageDistribution {
     private static String defaultAvatarResourcePath="/default/avatar.png";
     //默认商品详情图路径
     private static String defaultDetailImgResourcePath= "/default/default_detail.png";
-    /*获取图像*/
+
+
+    /**
+     * 获取图像
+     * @param imgId 图像id
+     * @param httpServletResponse
+     * @param httpServletRequest
+     * @throws Exception
+     */
     @GetMapping(value = "/img")
     public void img(@NonNull String imgId,
                     @NonNull HttpServletResponse httpServletResponse,
@@ -74,7 +82,12 @@ public class ImageDistribution {
         ResizeImg.zoomImage(httpServletResponse,in,500,filesize,filetype);
     }
 
-    /*格式化URI*/
+
+    /**
+     * 格式化URL From imgId => imgURL
+     * @param imgId 图片id
+     * @return
+     */
     public static String formatURLFromImgId(String imgId){
         return "/api/img?imgId="+imgId;
     }

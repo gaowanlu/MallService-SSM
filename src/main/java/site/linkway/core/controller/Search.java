@@ -21,6 +21,12 @@ public class Search {
     @Autowired
     SearchService searchService;
 
+    /**
+     * 商品搜索
+     * @param postSearch 请求体
+     * @return CommoditySearchResult
+     * @throws JsonProcessingException
+     */
     @PostMapping(value = "/commodity",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String searchCommodity(@RequestBody PostSearch postSearch)

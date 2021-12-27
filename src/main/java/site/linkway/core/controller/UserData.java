@@ -42,7 +42,12 @@ public class UserData {
     private UserDataService userDataService;
 
 
-    /*已经登陆的用户获得自己的个人信息*/
+    /**
+     * 已经登陆的用户获得自己的个人信息
+     * @param email 用户邮箱
+     * @return PersonalData
+     * @throws JsonProcessingException
+     */
     @GetMapping(value = "/myData",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String getSelfData(@NonNull @SessionAttribute(name="id") String email)
@@ -62,7 +67,14 @@ public class UserData {
     }
 
 
-    /*已经登录的用户更新个人信息*/
+    /**
+     * 已经登录的用户更新个人信息
+     * @param name 姓名
+     * @param sex 性别
+     * @param email 用户邮箱
+     * @return
+     * @throws JsonProcessingException
+     */
     @PutMapping(value = "/myData",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String updateMyData(@NonNull String name,
@@ -78,7 +90,13 @@ public class UserData {
     }
 
 
-    /*更新头像*/
+    /**
+     * 用户头像更新
+     * @param email 用户邮箱
+     * @param file 头像图片文件
+     * @return StatusResult
+     * @throws IOException
+     */
     @PostMapping (value = "/avatar",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String updateHeadImg(@NonNull @SessionAttribute(name="id") String email,

@@ -32,7 +32,15 @@ public class ReceivingAddress {
     @Autowired
     HttpSession httpSession;
 
-    /*添加新收货地址*/
+    /**
+     * 添加新收货地址
+     * @param phone 手机号码
+     * @param name 收货人姓名
+     * @param address 收货人地址
+     * @param email 邮箱
+     * @return AddressList
+     * @throws JsonProcessingException
+     */
     @PostMapping(value = "/addresses",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String addAddress(@NonNull String phone,
@@ -46,7 +54,13 @@ public class ReceivingAddress {
         return mapper.writeValueAsString(addressList);
     }
 
-    /*删除收货地址*/
+    /**
+     * 删除收货地址
+     * @param addressId 地址id
+     * @param email 用户邮箱
+     * @return AddressList
+     * @throws JsonProcessingException
+     */
     @DeleteMapping(value = "/addresses",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String deleteAddress(@NonNull String addressId,
@@ -59,7 +73,13 @@ public class ReceivingAddress {
 
     }
 
-    /*获得自己存储的收货地址*/
+
+    /**
+     * 获得自己存储的收货地址
+     * @param email 用户邮箱
+     * @return AddressList
+     * @throws JsonProcessingException
+     */
     @GetMapping(value = "/addresses",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String getMyAddress(@SessionAttribute("id") String email
@@ -70,7 +90,17 @@ public class ReceivingAddress {
         return mapper.writeValueAsString(addressList);
     }
 
-    /*更新收货地址*/
+
+    /**
+     * 更新收货地址
+     * @param email 邮箱
+     * @param addressId 用户收货地址id
+     * @param phone 手机号码
+     * @param name 姓名
+     * @param address 地址
+     * @return
+     * @throws JsonProcessingException
+     */
     @PutMapping(value = "/addresses",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String addressUpdate(@SessionAttribute("id") String email,
