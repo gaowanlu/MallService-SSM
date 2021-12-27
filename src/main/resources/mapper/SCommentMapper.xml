@@ -29,6 +29,7 @@
                 now(),
                 (SELECT userId FROM user WHERE email = #{email}));
     </insert>
+
     <delete id="delete">
         DELETE
         FROM sComment
