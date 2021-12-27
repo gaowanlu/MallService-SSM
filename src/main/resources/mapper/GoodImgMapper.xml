@@ -6,9 +6,11 @@
     <select id="selectImgIdByGoodId" resultType="java.lang.String">
         select imgId from goodImg where goodId=#{goodId}
     </select>
+
     <insert id="insert" parameterType="site.linkway.core.entity.po.GoodImg">
         INSERT INTO goodImg VALUES(#{goodImgId},#{imgId},#{goodId})
     </insert>
+
     <delete id="deleteByImgId">
         DELETE FROM goodImg WHERE imgId=#{imgId}
     </delete>
