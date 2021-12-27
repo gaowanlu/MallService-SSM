@@ -103,7 +103,6 @@ public class CommentSystem {
         return mapper.writeValueAsString(resultMessage);
     }
 
-
     /*限制分页大小*/
     private static int limitSplitPageSize(int size){
         return size>20?20:size;
