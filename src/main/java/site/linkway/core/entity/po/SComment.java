@@ -11,9 +11,9 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SComment {
-    public String sCommentId;// varchar(32) PK
-    public String fCommentId;// varchar(32)
-    public String content;// varchar(20)
-    public Date time;// datetime
-    public String userId;// varchar(32)
+    public String sCommentId;// 子评论id
+    public String fCommentId;// 父评论id
+    public String content;// 评论内容
+    public Date time;// 评论时间
+    public String userId;// 用户id
 }

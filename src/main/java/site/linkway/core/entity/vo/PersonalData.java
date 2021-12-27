@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PersonalData {
-    public String userId;
-    public String name;
-    public String sex;
-    public String profilePhotoURL;
-    public double money;
-    public String email;
+    public String userId;//用户id
+    public String name;//用户昵称
+    public String sex;//性别
+    public String profilePhotoURL;//头像URL
+    public double money;//余额
+    public String email;//用户邮箱
 }

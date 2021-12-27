@@ -10,8 +10,8 @@ import java.io.InputStream;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Img {
-    public String imgId;// varchar(32) PK
-    public String imgType;// varchar(20)
-    public int imgSize;// int UN
-    public InputStream img;// mediumblob
+    public String imgId;// 图片id
+    public String imgType;// 图片类型
+    public int imgSize;// 图片大小
+    public InputStream img;// 图片输入流
 }

@@ -12,6 +12,6 @@ public class OrderGoodItem {
                 '}';
     }
 
-    String goodId;
-    int num;
+    String goodId;//物品id
+    int num;//物品数量
 }

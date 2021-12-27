@@ -12,6 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddressList {
-    boolean result=true;
-    public List<Address> addresses=new ArrayList<>();
+    boolean result=true;//操作结果
+    public List<Address> addresses=new ArrayList<>();//地址列表
 }

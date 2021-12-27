@@ -11,10 +11,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderItemGood {
-    public int num;
-    public String goodId;
-    public double price;
-    public String name;
-    public String profile;
-    public List<String> imgsURL=new ArrayList<>();
+    public int num;//订单物品数量
+    public String goodId;//物品id
+    public double price;//价格
+    public String name;//物品名称
+    public String profile;//简介
+    public List<String> imgsURL=new ArrayList<>();//展示图id
 }

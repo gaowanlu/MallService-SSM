@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 //商品类型
 public class GoodType {
-    public int goodTypeId;
-    public String name;
+    public int goodTypeId;//商品类型id
+    public String name;//商品类型名称
 }

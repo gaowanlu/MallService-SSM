@@ -11,9 +11,9 @@ import java.util.Date;
 @NoArgsConstructor
 //商品父评论条项
 public class FComment {
-    public String fCommentId;
-    public String goodId;
-    public String Content;
-    public Date time;
-    public String userId;
+    public String fCommentId;//父评论id
+    public String goodId;//物品id
+    public String Content;//评论内容
+    public Date time;//评论时间
+    public String userId;//用户账号id
 }

@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentList {
-    boolean result=true;
+    boolean result=true;//操作结果
     List<Comment> comments=new ArrayList<>();//评论列表
     int pageNow;//现在所在页号
     int pageSize;//每页得的大小

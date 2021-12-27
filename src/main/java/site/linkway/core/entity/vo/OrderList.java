@@ -9,8 +9,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderList {
-    List<OrderItem> orderItems;
-    int pageNow;
-    int pageSize;
-    int pageCount;
+    List<OrderItem> orderItems;//订单项列表
+    int pageNow;//此时页码
+    int pageSize;//分页大小
+    int pageCount;//共有多少页
 }

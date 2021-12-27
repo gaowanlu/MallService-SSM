@@ -8,5 +8,5 @@ import java.util.List;
 
 @Data
 public class CommodityTypeList {
-    List<GoodType> types=new ArrayList<>();
+    List<GoodType> types=new ArrayList<>();//商品类型列表
 }

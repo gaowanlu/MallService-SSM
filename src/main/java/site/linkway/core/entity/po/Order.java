@@ -10,15 +10,15 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Order {
-    public String orderId;// varchar(32) PK
-    public String userId;// varchar(32)
-    public String status;// varchar(10) '待付款','待发货','已发货','已签收'
-    public String phone;// char(11)
+    public String orderId;// 订单id
+    public String userId;// 用户id
+    public String status;// 订单状态 in '待付款','待发货','已发货','已签收'
+    public String phone;// 手机号码
     public String time;//下单时间
-    public String address;// varchar(30)
-    public String name;// varchar(14)
-    public String logisticsNumber;// varchar(30) 物流单号
-    public String logisticsName;// varchar(20) 物流名称
+    public String address;// 收货地址
+    public String name;// 姓名
+    public String logisticsNumber;//  物流单号
+    public String logisticsName;//  物流名称
     public double priceCount;//订单总金额
     public String mark;//订单备注
 }

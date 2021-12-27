@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderGood {
-    int orderGoodId;//自增id
-    String orderId;//订单id
-    String goodId;//商品id
-    int num;//商品数量
+    int orderGoodId;//自增id 订单物品id
+    String orderId;//订单id 订单id
+    String goodId;//商品id 物品id
+    int num;//商品数量 商品数量
 }
