@@ -24,7 +24,13 @@ public class IdentitySecurityServiceImpl implements IdentitySecurityService {
     private UserMapper userMapper;
     private AdminMapper adminMapper;
 
-    /*根据邮箱与密码检查身份是否匹配*/
+    /**
+     * 检查账号密码是否匹配
+     *
+     * @param email    邮箱
+     * @param password 密码
+     * @return 匹配结果
+     */
     @Override
     public boolean checkIdPassword(String email, String password) {
         User user = new User();
@@ -34,9 +40,13 @@ public class IdentitySecurityServiceImpl implements IdentitySecurityService {
         return user != null;
     }
 
-    /*
-     *更新用户密码
-     *开启事务管理*/
+    /**
+     * 修改密码
+     *
+     * @param email       邮箱
+     * @param newPassword 新密码
+     * @return 修改结果
+     */
     @Override
     @Transactional
     public boolean changePassword(String email, String newPassword) {
@@ -47,23 +57,24 @@ public class IdentitySecurityServiceImpl implements IdentitySecurityService {
         return 1 == userMapper.update(user);
     }
 
-
     /**
      * 检查是否是管理员
      *
-     * @param userId
-     * @return
-     * @author: fronz
+     * @param userId 用户 id
+     * @return 是否是管理员
      */
     @Override
     public boolean checkIsAdmin(String userId) {
-//        System.out.println("userId:" + userId);
         Admin admin = adminMapper.selectByUserId(userId);
         return null!=admin;
     }
 
-    /*参数为邮箱地址
-     * 返回发送过去的验证码字符串*/
+    /**
+     * 发送验证码
+     *
+     * @param email 邮箱
+     * @return 验证码
+     */
     @Override
     public String sendEmailCode(String email) {
         String code = RandomString.CreateVerificationCode();
@@ -71,7 +82,13 @@ public class IdentitySecurityServiceImpl implements IdentitySecurityService {
         return code;
     }
 
-    /*提供邮箱与密码添加新用户*/
+    /**
+     * 注册账号
+     *
+     * @param email    邮箱
+     * @param password 密码
+     * @return 注册结果
+     */
     @Override
     public boolean register(String email, String password) {
         User newUser = new User();

@@ -18,7 +18,15 @@ public class CommentServiceImpl implements CommentService{
     @Autowired
     SCommentMapper sCommentMapper;
 
-    /*获得父评论列表*/
+
+    /**
+     * 检索父评论列表
+     *
+     * @param goodId   物品id
+     * @param pageSize 分页大小
+     * @param pageNow  此时页码
+     * @return 评论列表
+     */
     @Override
     public CommentList fCommentListByGoodId(String goodId, int pageSize, int pageNow) {
         /*根据商品号获得评论列表*/
@@ -35,9 +43,16 @@ public class CommentServiceImpl implements CommentService{
         return result;
     }
 
-    /*获得子评论列表*/
+    /**
+     * 检索子评论列表
+     *
+     * @param fCommentId 父评论id
+     * @param pageSize   页大小
+     * @param pageNow    此时页码
+     * @return 评论列表
+     */
     @Override
-    public CommentList sCommentServiceByFCommentId(String fCommentId,int pageSize,int pageNow){
+    public CommentList sCommentServiceByFCommentId(String fCommentId, int pageSize, int pageNow) {
         List<Comment> commentList=sCommentMapper.commentListByFCommentId(fCommentId,((pageNow-1)*pageSize),pageSize);
         CommentList result=new CommentList();
         result.setComments(commentList);
@@ -47,9 +62,17 @@ public class CommentServiceImpl implements CommentService{
         return result;
     }
 
-    /*添加新的父评论*/
+    /**
+     * 添加父评论
+     *
+     * @param content 评论内容
+     * @param goodId  物品id
+     * @param email   邮箱
+     * @param rate    评星
+     * @return UUID or null
+     */
     @Override
-    public String insertFComment(String content, String goodId, String email,int rate) {
+    public String insertFComment(String content, String goodId, String email, int rate) {
         String UUID= UUIDUtils.getUUID();
         if(1==fCommentMapper.insert(UUID,content,goodId,email,rate)){
             return UUID;
@@ -58,7 +81,14 @@ public class CommentServiceImpl implements CommentService{
         }
     }
 
-    /*添加新的子评论*/
+    /**
+     * 添加子评论
+     *
+     * @param content    评论内容
+     * @param fCommentId 父评论id
+     * @param email      邮箱
+     * @return UUID or null
+     */
     @Override
     public String insertSComment(String content, String fCommentId, String email) {
         String UUID=UUIDUtils.getUUID();
@@ -69,15 +99,28 @@ public class CommentServiceImpl implements CommentService{
         }
     }
 
-    /*删除父评论*/
+    /**
+     * 删除父评论
+     *
+     * @param fCommentId 父评论id
+     * @param email      邮箱
+     * @return true or false
+     */
     @Override
     public boolean deleteFComment(String fCommentId, String email) {
         return 1==fCommentMapper.delete(fCommentId,email);
     }
 
-    /*删除子评论*/
+    /**
+     * 删除子评论
+     *
+     * @param sCommentId 子评论id
+     * @param email      邮箱
+     * @return true or false
+     */
     @Override
     public boolean deleteSComment(String sCommentId, String email) {
         return 1==sCommentMapper.delete(sCommentId,email);
     }
+
 }
