@@ -4,14 +4,21 @@ import jodd.mail.*;
 import java.util.Date;
 
 public class EmailUtils {
-    public static String HOST="SMTP.qq.com";
-    public static String USERNAME="";
-    public static String PASSWORD="";
+    public static String HOST="SMTP.qq.com";//邮箱域名主机
+    public static String USERNAME="";//邮箱地址
+    public static String PASSWORD="";//STMP密钥
     public static final SmtpServer smtpServer= MailServer.create()
     .ssl(true)
     .host(HOST).port(25).auth(USERNAME,PASSWORD).buildSmtpMailServer();
 
-    //向邮箱发送验证码
+    /**
+     * 向邮箱发送验证码
+     * @param user 目标邮箱
+     * @param subject 主题
+     * @param message 消息
+     * @param process 为什么发消息：：操作
+     * @return true
+     */
     public static boolean SendVerificationCode(String user,String subject,String message,String process){
         boolean back=false;
         SendMailSession session = smtpServer.createSession();

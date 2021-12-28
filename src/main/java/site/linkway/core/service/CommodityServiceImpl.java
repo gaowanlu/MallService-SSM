@@ -29,7 +29,36 @@ public class CommodityServiceImpl implements CommodityService {
     @Autowired
     GoodImgMapper goodImgMapper;
 
-    /*随机推荐商品列表*/
+    /**
+     * 转换商品图片地址 由imgId到URL的转换
+     * @param commodity 商品
+     */
+    private void formatURIForCommodity(Commodity commodity){
+        //展示图
+        List<String> imgs=commodity.getImgsURL();
+        for(int i=0;i<imgs.size();i++){
+            imgs.set(i,ImageDistribution.formatURLFromImgId(imgs.get(i)));
+        }
+        //详情图id=>URL
+        commodity.setDetailsImg(ImageDistribution.formatURLFromImgId(commodity.getDetailsImg()));
+    }
+
+    /**
+     * 转换商品图片地址 由imgId转到URL的转换
+     * @param commodities 商品列表
+     */
+    private void formatURIForCommodity(List<Commodity> commodities){
+        for(Commodity commodity:commodities){
+            formatURIForCommodity(commodity);
+        }
+    }
+
+    /**
+     * 随机推荐商品列表
+     *
+     * @param maxSize 大小
+     * @return 商品推荐列表
+     */
     @Override
     public CommodityTipList randomSelectCommodity(int maxSize) {
         CommodityTipList result=new CommodityTipList();
@@ -41,7 +70,12 @@ public class CommodityServiceImpl implements CommodityService {
         return result;
     }
 
-    /*根据商品Id获取商品详情*/
+    /**
+     * 根据商品Id获取商品详情
+     *
+     * @param goodId 商品id
+     * @return 商品
+     */
     @Override
     public Commodity selectCommodityByGoodId(String goodId) {
         Commodity commodity=goodMapper.commodityByGoodId(goodId);
@@ -50,16 +84,24 @@ public class CommodityServiceImpl implements CommodityService {
         return commodity;
     }
 
-    //获取商品列表
+    /**
+     * 获取商品类型列表
+     *
+     * @return 商品类型列表
+     */
     @Override
     public List<GoodType> goodTypes() {
         return goodTypeMapper.selectAll();
     }
 
-
-    //新增商品
+    /**
+     * 新增商品
+     *
+     * @param postCommodity 提交商品信息
+     * @return UUID or "false"
+     * @throws IOException
+     */
     @Override
-    @Transactional
     public String addNewCommodity(PostCommodity postCommodity) throws IOException {
         //装配
         Good good=new Good();
@@ -98,6 +140,9 @@ public class CommodityServiceImpl implements CommodityService {
                 String imgId=UUIDUtils.getUUID();//图片ID
                 Img img=new Img(imgId,fileType,fileSize,is);
                 if(1!=imgMapper.insert(img)){
+                    if(is!=null){
+                        is.close();
+                    }
                     return "false";
                 }
                 is.close();//更新good的detailImgId
@@ -112,17 +157,28 @@ public class CommodityServiceImpl implements CommodityService {
         return UUID;//如果成功则返回物品id
     }
 
-
-
-    //商品相关文字信息更新
+    /**
+     * 更新商品属性 相关文字信息
+     *
+     * @param good 商品
+     * @return true or false
+     */
     @Override
     public boolean updateCommodityText(Good good) {
         return 1==goodMapper.update(good);
     }
 
-    //为商品追加商品图片
+    /**
+     * 为商品追加展示图
+     *
+     * @param goodId 商品id
+     * @param files  文件
+     * @return true or false
+     * @throws IOException
+     */
     @Override
-    public boolean addCommodityImg(String goodId,CommonsMultipartFile files[]) throws IOException {
+    @Transactional
+    public boolean addCommodityImg(String goodId, CommonsMultipartFile[] files) throws IOException {
         for(CommonsMultipartFile file:files){
             //获得文件相关属性
             InputStream is = file.getInputStream(); //文件输入流
@@ -131,6 +187,9 @@ public class CommodityServiceImpl implements CommodityService {
             String imgId=UUIDUtils.getUUID();//图片ID
             Img img=new Img(imgId,fileType,fileSize,is);
             if(1!=imgMapper.insert(img)){
+                if(is!=null){
+                    is.close();
+                }
                 return false;
             }
             is.close();
@@ -143,14 +202,20 @@ public class CommodityServiceImpl implements CommodityService {
         return true;
     }
 
-    //删除商品的图片
+    /**
+     * 删除商品的某张展示图像
+     *
+     * @param imgId 图片id
+     * @return 删除结果
+     */
     @Override
     public boolean deleteCommodityImg(String imgId) {
         //先从goodImg中抹除
         int line=goodImgMapper.deleteByImgId(imgId);
         //再从img表中抹除
         if(1==line){
-            Img img=new Img();img.setImgId(imgId);
+            Img img=new Img();
+            img.setImgId(imgId);
             if(1==imgMapper.delete(img)){
                 return true;
             }
@@ -158,13 +223,25 @@ public class CommodityServiceImpl implements CommodityService {
         return false;
     }
 
-    //删除商品
+    /**
+     * 删除商品
+     *
+     * @param goodId 物品id
+     * @return 删除结果
+     */
     @Override
     public boolean deleteCommodity(String goodId) {
         return goodMapper.delete(goodId) == 1;
     }
 
-    //更新商品详情图片
+    /**
+     * 更新商品的详情图片
+     *
+     * @param goodId     物品id
+     * @param detailsImg 详情图片
+     * @return 更新结果
+     * @throws IOException
+     */
     @Override
     @Transactional
     public boolean updateDetailsImg(String goodId, CommonsMultipartFile detailsImg) throws IOException {
@@ -188,23 +265,4 @@ public class CommodityServiceImpl implements CommodityService {
             return 1 == imgMapper.update(img);
         }
     }
-
-
-    //转换商品图片地址 由imgId到URL的转换
-    private void formatURIForCommodity(Commodity commodity){
-        //展示图
-        List<String> imgs=commodity.getImgsURL();
-        for(int i=0;i<imgs.size();i++){
-            imgs.set(i,ImageDistribution.formatURLFromImgId(imgs.get(i)));
-        }
-        //详情图id=>URL
-        commodity.setDetailsImg(ImageDistribution.formatURLFromImgId(commodity.getDetailsImg()));
-    }
-
-    private void formatURIForCommodity(List<Commodity> commodities){
-        for(Commodity commodity:commodities){
-            formatURIForCommodity(commodity);
-        }
-    }
-
 }

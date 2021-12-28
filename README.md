@@ -64,7 +64,7 @@
 ```
 
 ## 相关技术
-Spring、SpringMVC、Mybatis 、MySQL
+Spring、SpringMVC、Mybatis 、MySQL、Docker、Vuejs、Nuxtjs  
 
 
 ## API 文档

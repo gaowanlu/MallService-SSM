@@ -7,7 +7,18 @@ import java.util.Map;
 import java.util.List;
 
 public interface ImageService {
+    /**
+     * 获得图片 by imgId
+     * @param imgId 图片id
+     * @return <key,Object>
+     */
     Map<String,Object> selectImgById(String imgId);
-    /*存储图片*/
+
+    /**
+     * 图片存储
+     * @param files 文件列表
+     * @return UUID imgId 列表
+     * @throws IOException
+     */
     List<String> storeImg(CommonsMultipartFile files[]) throws IOException;
 }

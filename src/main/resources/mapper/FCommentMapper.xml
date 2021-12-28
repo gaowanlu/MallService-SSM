@@ -3,6 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.linkway.core.mapper.FCommentMapper">
+    <resultMap id="CommentAll" type="site.linkway.core.entity.po.Comment">
+        <!--association关联属性  property属性名 javaType属性类型 column在多的一方的表中的列名-->
+        <association property="childCount"  column="{id=commentId}" javaType="java.lang.Long" select="countSComment"/>
+    </resultMap>
+
     <select id="commentListByGoodId" resultMap="CommentAll">
         SELECT fComment.fCommentId as commentId,
                content,
@@ -16,11 +21,6 @@
         ORDER BY fComment.time
         LIMIT #{num},#{size}
     </select>
-
-    <resultMap id="CommentAll" type="site.linkway.core.entity.po.Comment">
-        <!--association关联属性  property属性名 javaType属性类型 column在多的一方的表中的列名-->
-        <association property="childCount"  column="{id=commentId}" javaType="java.lang.Long" select="countSComment"/>
-    </resultMap>
 
     <select id="countSComment" resultType="java.lang.Long">
         SELECT COUNT(*) from sComment where fCommentId=#{id}

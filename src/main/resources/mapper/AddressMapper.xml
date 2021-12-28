@@ -3,18 +3,21 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.linkway.core.mapper.AddressMapper">
+    <select id="select" parameterType="site.linkway.core.entity.po.Address" resultType="site.linkway.core.entity.po.Address">
+        SELECT * FROM address WHERE userId=#{userId}
+    </select>
+
     <insert id="insert" parameterType="site.linkway.core.entity.po.Address">
         INSERT INTO address(addressId,userId,phone,address,name)
         VALUES (#{addressId},#{userId},#{phone},#{address},#{name})
     </insert>
+
     <delete id="delete" parameterType="site.linkway.core.entity.po.Address">
         DELETE FROM address WHERE userId=#{userId} and addressId=#{addressId}
     </delete>
+
     <update id="update" parameterType="site.linkway.core.entity.po.Address">
         UPDATE address SET phone=#{phone},address=#{address},name=#{name}
         WHERE addressId = #{addressId} and userId=#{userId}
     </update>
-    <select id="select" parameterType="site.linkway.core.entity.po.Address" resultType="site.linkway.core.entity.po.Address">
-        SELECT * FROM address WHERE userId=#{userId}
-    </select>
 </mapper>

@@ -16,12 +16,19 @@ import java.util.Map;
 
 @Service
 public class ImageServiceImpl implements ImageService{
+    //构造器注入
     @Autowired
     public ImageServiceImpl(ImgMapper imgMapper) {
         this.imgMapper = imgMapper;
     }
     private ImgMapper imgMapper;
 
+    /**
+     * 获得图片 by imgId
+     *
+     * @param imgId 图片id
+     * @return <key,Object>
+     */
     @Override
     public Map<String, Object> selectImgById(String imgId) {
         Map<String,Object> result=new HashMap<>();
@@ -34,6 +41,13 @@ public class ImageServiceImpl implements ImageService{
         return result;
     }
 
+    /**
+     * 图片存储
+     *
+     * @param files 文件列表
+     * @return UUID imgId 列表
+     * @throws IOException
+     */
     @Override
     public List<String> storeImg(CommonsMultipartFile[] files) throws IOException {
         List<String> result=new ArrayList<>();

@@ -35,14 +35,16 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     GoodImgMapper goodImgMapper;
 
-    /*添加新订单
-    * 存在的问题:
-    * 1、当用户提交的商品数量超过库存量时
-    * 2、当选物品已经下架时
-    * */
+    /**
+     * 添加新订单
+     *
+     * @param email     用户邮箱
+     * @param postOrder 提交订单信息
+     * @return orderId or null
+     */
     @Override
     @Transactional
-    public String insert( String email, PostOrder postOrder) {
+    public String insert(String email, PostOrder postOrder) {
         User user=new User();user.setEmail(email);
         user=userMapper.select(user);/*根据邮箱获得用户*/
         List<OrderGoodItem> orderItemList=postOrder.getGoods();/*获取所购买商品的id与数量*/
@@ -71,9 +73,18 @@ public class OrderServiceImpl implements OrderService{
         return orderId;//添加订单成功
     }
 
-    /*用户更改订单状态*/
+    /**
+     * 更新订单状态
+     *
+     * @param email   用户邮箱
+     * @param orderId 订单id
+     * @param status  订单状态
+     * @param admin   是否为管理员操作
+     * @return “true” or 原因
+     */
     @Override
-    public String updateStatus(String email,String orderId,String status,boolean admin){
+    @Transactional
+    public String updateStatus(String email, String orderId, String status, boolean admin) {
         String result="true";
         User user=new User();user.setEmail(email);
         user=userMapper.select(user);/*根据邮箱获得用户*/
@@ -114,25 +125,12 @@ public class OrderServiceImpl implements OrderService{
         return result;
     }
 
-    /*根据order获取其OrderItem*/
-    private OrderItem getOrderItem(Order order){
-        OrderItem orderItem=new OrderItem();
-        orderItem.setOrder(order);//将order装入orderItem
-        /*获取此订单内的商品详情*/
-        List<OrderItemGood> orderGoods = new ArrayList<>();
-        orderGoods = orderGoodMapper.orderItemGoodByOrderId(order.getOrderId());
-        /*获取订单中物品的相关图片地址*/
-        for (OrderItemGood orderItemGood : orderGoods) {
-            List<String> URLs = goodImgMapper.selectImgIdByGoodId(orderItemGood.goodId);
-            //转换URL
-            URLs = ImageDistribution.formatURLFromImgId(URLs);
-            orderItemGood.setImgsURL(URLs);
-        }
-        orderItem.setOrderGoods(orderGoods);
-        return orderItem;
-    }
-
-    /*获得指定用户的订单*/
+    /**
+     * 得到指定用户的所有订单
+     *
+     * @param email 用户邮箱
+     * @return 订单项列表
+     */
     @Override
     public List<OrderItem> selectByEmail(String email) {
         /*检索出此用户的所有订单以及订单的所有详情*/
@@ -149,9 +147,16 @@ public class OrderServiceImpl implements OrderService{
         return orderItemList;
     }
 
-    /*根据OrderId获得订单详情*/
+    /**
+     * 获得订单详情
+     *
+     * @param email   邮箱
+     * @param orderId 订单id
+     * @return 订单项
+     */
     @Override
-    public OrderItem selectByOrderId(String email,String orderId) {
+    @Transactional
+    public OrderItem selectByOrderId(String email, String orderId) {
         String userId = userMapper.selectIdByEmail(email);
         /*根据用户指定订单id检索出订单详情*/
         Order order = new Order();
@@ -161,7 +166,13 @@ public class OrderServiceImpl implements OrderService{
         return orderItem;
     }
 
-    /*删除历史已经确认收货的订单 即status为已签收*/
+    /**
+     * 删除已签收的订单
+     *
+     * @param orderId 订单id
+     * @param email   邮箱
+     * @return “true” or 原因
+     */
     @Override
     public String delete(String orderId, String email) {
         String userId=userMapper.selectIdByEmail(email);
@@ -176,7 +187,12 @@ public class OrderServiceImpl implements OrderService{
         return "删除失败";
     }
 
-    /*根据提供的订单相关属性 查询出order列表*/
+    /**
+     * 根据订单相关属性、查询订单列表
+     *
+     * @param postOrderSearch
+     * @return 订单列表
+     */
     @Override
     public OrderList orderSearch(PostOrderSearch postOrderSearch) {
         /*将postOrderSearch属性展开供mapper使用*/
@@ -204,12 +220,17 @@ public class OrderServiceImpl implements OrderService{
         return orderList;
     }
 
-    /*订单发货、成功返回 "true" 否则返回失败原因*/
+    /**
+     * 发货处理
+     *
+     * @param orderId
+     * @param logisticsNumber
+     * @param logisticsName
+     * @return “true” or 原因
+     */
     @Override
     @Transactional
-    public String orderShip(@NonNull String orderId,
-                            @NonNull String logisticsNumber,
-                            @NonNull String logisticsName) {
+    public String orderShip(String orderId, String logisticsNumber, String logisticsName) {
         /*根据提供的orderId寻找订单*/
         Order order=new Order();order.setOrderId(orderId);
         order=orderMapper.select(order);
@@ -234,10 +255,15 @@ public class OrderServiceImpl implements OrderService{
         return 1==orderMapper.update(order)?"true":"更新订单失败 未知错误";
     }
 
-    /*订单退款处理、成功返回 "true" 否则返回失败原因 */
+    /**
+     * 退款处理
+     *
+     * @param orderId 订单号
+     * @return “true” or 原因
+     */
     @Override
     @Transactional
-    public String orderRefund(@NonNull String orderId) {
+    public String orderRefund(String orderId) {
         /*根据提供的orderId寻找订单*/
         Order order=new Order();order.setOrderId(orderId);
         order=orderMapper.select(order);
@@ -266,5 +292,28 @@ public class OrderServiceImpl implements OrderService{
             return "返回金额失败";
         }
         return "true";
+    }
+
+
+    /**
+     * 根据order获取其OrderItem
+     * @param order 订单
+     * @return 订单项
+     */
+    private OrderItem getOrderItem(Order order){
+        OrderItem orderItem=new OrderItem();
+        orderItem.setOrder(order);//将order装入orderItem
+        /*获取此订单内的商品详情*/
+        List<OrderItemGood> orderGoods = new ArrayList<>();
+        orderGoods = orderGoodMapper.orderItemGoodByOrderId(order.getOrderId());
+        /*获取订单中物品的相关图片地址*/
+        for (OrderItemGood orderItemGood : orderGoods) {
+            List<String> URLs = goodImgMapper.selectImgIdByGoodId(orderItemGood.goodId);
+            //转换URL
+            URLs = ImageDistribution.formatURLFromImgId(URLs);
+            orderItemGood.setImgsURL(URLs);
+        }
+        orderItem.setOrderGoods(orderGoods);
+        return orderItem;
     }
 }

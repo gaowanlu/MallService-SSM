@@ -33,9 +33,15 @@ public class ResizeImg {
 //            ex.printStackTrace();
 //        }
     }
-    /*
-     * 图片按比率缩放
-     * size为文件大小
+
+    /**
+     * 缩放图片 发送给客户端
+     * @param resp HttpServletResponse
+     * @param ins 文件输入流
+     * @param size 缩放大小 图片文件大小限制
+     * @param fileSize 文件大小
+     * @param imgType 图片类型
+     * @throws Exception
      */
     public static void zoomImage(HttpServletResponse resp, InputStream ins, Integer size, long fileSize, String imgType) throws Exception {
         //System.out.println("originSize:"+fileSize);

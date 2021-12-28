@@ -11,13 +11,22 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
 
-/*管理员权限拦截器
-* /api/admin/**
-* */
+/**
+ * 管理员身份拦截器
+ */
 public class AdminInterceptor implements HandlerInterceptor {
     private ObjectMapper mapper = new ObjectMapper();
 
     //在请求处理的方法之前执行
+
+    /**
+     * 管理员身份判断 拦截路由 /api/admin/**
+     * @param httpServletRequest
+     * @param httpServletResponse
+     * @param o
+     * @return
+     * @throws Exception
+     */
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         /*如果身份错误将会 返回json信息*/
         ResultMessage resultMessage=new ResultMessage(false,"非管理员权限");

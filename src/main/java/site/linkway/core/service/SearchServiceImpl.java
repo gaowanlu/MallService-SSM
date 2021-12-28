@@ -14,6 +14,12 @@ public class SearchServiceImpl implements SearchService{
     @Autowired
     GoodMapper goodMapper;
 
+    /**
+     * 商品搜索
+     *
+     * @param postSearch 搜索条件
+     * @return 商品搜索结果
+     */
     @Override
     public CommoditySearchResult commoditySearch(PostSearch postSearch) {
         CommoditySearchResult commoditySearchResult=new CommoditySearchResult();
@@ -57,5 +63,6 @@ public class SearchServiceImpl implements SearchService{
         commoditySearchResult.setPageCount(pageCount);
         return commoditySearchResult;
     }
+
 
 }
