@@ -130,7 +130,7 @@ public class Admin {
     }
 
     /**
-     *
+     * 更新商品的文字内容部分
      * @param price 价格
      * @param name 名称
      * @param profile 简介
@@ -197,7 +197,7 @@ public class Admin {
 
     /**
      *
-     * 商品图片增加
+     * 商品图片追加增加
      *
      * @param goodId 商品id
      * @param file 文件
@@ -215,7 +215,7 @@ public class Admin {
 
 
     /**
-     * 商品图片删除
+     * 商品展示图片删除
      * @param imgId 图片id
      * @return StatusResult
      * @throws JsonProcessingException
