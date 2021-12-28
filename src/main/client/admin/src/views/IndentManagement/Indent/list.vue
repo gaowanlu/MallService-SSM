@@ -34,12 +34,12 @@
         <template slot-scope="scope">
           <el-table
             ref="orderGoodsTable"
-            :data="scope.row.goods_list"
+            :data="scope.row.orderGoods"
             style="width: 100%;">
             <el-table-column label="商品">
               <template slot-scope="props">
                 <div class="drawing">
-                  <el-image :src="props.row.img" :preview-src-list="[props.row.img]" style="width:45px;height:45px;"/>
+                  <el-image :src="props.row.imgsURL[0]" :preview-src-list="[props.row.imgsURL[0]]" style="width:45px;height:45px;"/>
                   <div class="right">
                     <div style="width:300px;">
                       <router-link :to="{ path: '/commodityManagement/good/goodDetail', query: { id: props.row.good_id }}" target="_blank"> {{ props.row.name }}</router-link>
@@ -55,54 +55,49 @@
             </el-table-column>
             <el-table-column label="数量">
               <template slot-scope="props">
-                <div>{{ props.row.number }}件</div>
+                <div>{{ props.row.num }}件</div>
               </template>
             </el-table-column>
           </el-table>
         </template>
       </el-table-column>
-      <el-table-column label="编号" width="80" sortable="custom" prop="id">
-        <template slot-scope="scope">
-          <span>{{ scope.row.id }}</span>
-        </template>
-      </el-table-column>
       <el-table-column label="订单编号">
         <template slot-scope="scope">
-          <span>{{ scope.row.identification }}</span>
+          <span>{{ scope.row.order.orderId }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="订单状态" sortable="custom" prop="state">
+      <el-table-column label="订单状态" sortable="custom">
         <template slot-scope="scope">
-          <span>{{ scope.row.state_show }}</span>
+          <span>{{ scope.row.order.status }}</span>
         </template>
       </el-table-column>
       <el-table-column label="订单总额">
         <template slot-scope="scope">
-          <span>{{ scope.row.total ? scope.row.total : 0 | 1000 }}</span>
+          <span>{{ scope.row.order.priceCount | 1000 }}</span>
         </template>
       </el-table-column>
       <el-table-column label="运费">
         <template slot-scope="scope">
-          <span v-if="scope.row.carriage">{{ scope.row.carriage | 1000 }}</span>
-          <span v-else>免运费</span>
+          <!-- <span v-if="scope.row.carriage">{{ scope.row.carriage | 1000 }}</span> -->
+          <span>免运费</span>
         </template>
       </el-table-column>
       <el-table-column label="收货人">
         <template slot-scope="scope">
-          <span>{{ scope.row.good_location ? scope.row.good_location.name : '' }}</span>
+          <span>{{ scope.row.order.name }}</span>
         </template>
       </el-table-column>
       <el-table-column label="手机号">
         <template slot-scope="scope">
-          <span>{{ scope.row.good_location ? scope.row.good_location.cellphone : '' }}</span>
+          <span>{{ scope.row.order.phone }}</span>
         </template>
       </el-table-column>
       <el-table-column label="地址">
         <template slot-scope="scope">
-          <span>{{ scope.row.good_location ? scope.row.good_location.location : '' }}</span>
+          <span>{{ scope.row.order.address }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="快递公司">
+      <!-- <el-table-column label="快递公司">
         <template slot-scope="scope">
           <span>{{ scope.row.dhl ? scope.row.dhl.name : '' }}</span>
         </template>
@@ -116,20 +111,20 @@
         <template slot-scope="scope">
           <span>{{ scope.row.remark }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column label="订单时间" sortable="custom" prop="created_at">
         <template slot-scope="scope">
-          <span>{{ scope.row.created_at }}</span>
+          <span>{{ scope.row.order.time }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" class-name="small-padding fixed-width" width="120">
         <template slot-scope="scope">
-          <router-link v-permission="$store.jurisdiction.IndentDetail" :to="{ path: 'indentDetail', query: { id: scope.row.id }}">
+          <router-link :to="{ path: 'indentDetail', query: { id: scope.row.order.orderId }}">
             <el-tooltip class="item" effect="dark" content="订单详情" placement="top-start">
               <el-button type="warning" icon="el-icon-tickets" circle/>
             </el-tooltip>
           </router-link>
-          <router-link v-permission="$store.jurisdiction.IndentShipment" v-if="scope.row.state === 2" :to="{ path: 'indentShipment', query: { id: scope.row.id }}">
+          <router-link v-if="scope.row.order.status === '待发货'" :to="{ path: 'indentShipment', query: { id: scope.row.order.orderId }}">
             <el-tooltip class="item" effect="dark" content="发货" placement="top-start">
               <el-button type="primary" icon="el-icon-truck" circle/>
             </el-tooltip>
@@ -221,10 +216,15 @@ export default {
       dialogStatus: '',
       dialogFormVisible: false,
       listQuery: {
-        page: 1,
-        limit: 10,
-        sort: '-id',
-        activeIndex: '0'
+        orderId: '',
+        email: '',
+        status: '',
+        time: {
+          min: '1970-01-01 00:00:00',
+          max: '2099-12-31 23:59:59'
+        },
+        pageSize: 20,
+        pageNow: 1
       },
       temp: {}
     }
@@ -236,8 +236,8 @@ export default {
     getList() {
       this.listLoading = true
       getList(this.listQuery).then(response => {
-        this.list = response.data.data
-        this.total = response.data.total
+        this.list = response.data.orderItems
+        this.total = response.data.pageCount
         this.listLoading = false
       })
     },

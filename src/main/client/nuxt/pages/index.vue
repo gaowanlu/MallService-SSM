@@ -60,14 +60,6 @@
               </NuxtLink>
             </div>
           </div>
-          <el-carousel class="banner" height="460px" arrow="never">
-            <el-carousel-item v-for="(item, index) in bannerList" :key="index">
-              <NuxtLink v-if="item.url" :to="item.url.split('pages/').join('')">
-                <el-image class="image" :src="item.resources.img" />
-              </NuxtLink>
-              <el-image v-else class="image" :src="item.resources.img" />
-            </el-carousel-item>
-          </el-carousel>
         </div>
       </div>
     </div> -->
@@ -99,7 +91,7 @@
           class="more"
           :to="{
             path: '/product/list',
-            query: { pid: fitem.goodTypeId, title: fitem.name }
+            query: { name: fitem.name }
           }"
           >查看更多>></NuxtLink
         >

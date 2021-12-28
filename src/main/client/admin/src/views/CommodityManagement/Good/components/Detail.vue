@@ -12,16 +12,17 @@
       <el-form-item label="图片列表" prop="resource">
         <el-upload
           :limit="5"
-          :value="ruleForm.imgsURL"
-          :on-change="handleChange"
           :on-success="handleAvatarSuccessList"
           :on-remove="handleRemove"
           :before-upload="beforeAvatarUploadList"
           :data="imgData"
-          :auto-upload="false"
+          :auto-upload="true"
+          :file-list="files"
+          :http-request="uploadImage"
           action=""
           multiple
-          list-type="picture-card">
+          list-type="picture-card"
+        >
           <i slot="default" class="el-icon-plus"/>
         </el-upload>
         <div class="el-upload__tip">最多可上传5张，每张不能大于2M</div>
@@ -176,6 +177,8 @@ import 'video.js/dist/video-js.css'
 import { videoPlayer } from 'vue-video-player'
 import { getList as getCateList } from '@/api/category'
 import { getList } from '@/api/good'
+import { createFormData, getImgIdFromUrl } from '../../../../utils'
+import { uploadImage } from '../../../../api/admin'
 
 export default {
   name: 'GoodDetail',
@@ -254,14 +257,15 @@ export default {
         stock: 0,
         goodTypeId: 1,
         onSale: 0,
-        file: [],
         goodId: '',
-        details: '',
-        imgsURL: []
+        detail: '',
+        imgsURL: [],
+        file: []
       },
       imgProgress: false,
       dialogStatus: 'create',
       imgProgressPercent: 0,
+      files: [],
       rules: {
         name: [
           { required: true, message: '请输入商品名称', trigger: 'blur' }
@@ -298,6 +302,12 @@ export default {
       }).then(response => {
         const data = response.data.commodities[0]
         Object.assign(this.ruleForm, data)
+        data.imgsURL.forEach(x => {
+          this.files.push({
+            url: x
+          })
+          this.ruleForm.file.push(getImgIdFromUrl(x))
+        })
         this.dialogStatus = 'update'
       }).finally(() => {
         this.loading = false
@@ -337,16 +347,7 @@ export default {
       this.formLoading = true
       this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
-          const formData = new FormData()
-          for (const key in this.ruleForm) {
-            if (key === 'file') {
-              this.ruleForm[key].forEach(file => {
-                formData.append('file', file.raw)
-              })
-            } else {
-              formData.append(key, this.ruleForm[key])
-            }
-          }
+          const formData = createFormData(this.ruleForm)
           create(formData).then(() => {
             this.$notify({
               title: this.$t('hint.succeed'),
@@ -368,16 +369,7 @@ export default {
       this.formLoading = true
       this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
-          const formData = new FormData()
-          for (const key in this.ruleForm) {
-            if (key === 'file') {
-              this.ruleForm[key].forEach(file => {
-                formData.append('file', file.raw)
-              })
-            } else {
-              formData.append(key, this.ruleForm[key])
-            }
-          }
+          const formData = createFormData(this.ruleForm)
           edit(formData).then(() => {
             this.$notify({
               title: this.$t('hint.succeed'),
@@ -395,9 +387,17 @@ export default {
         }
       })
     },
+    uploadImage({ file }) {
+      const formData = createFormData({ file })
+      return uploadImage(formData).then(response => {
+        const url = response.data.imgURL[0]
+        const id = response.data.imgId[0]
+        this.files = [...this.files, { url }]
+        this.ruleForm.file = [...this.ruleForm.file, id]
+      })
+    },
     // 上传成功
     handleAvatarSuccess(res, file) {
-      this.ruleForm.img = file.response
       this.imgProgress = false
       this.imgProgressPercent = 0
     },
@@ -441,8 +441,7 @@ export default {
       return isLt2M
     },
     // 图片列表上传成功
-    handleAvatarSuccessList(res, file, fileList) {
-      this.ruleForm.imgList = fileList
+    handleAvatarSuccessList() {
       this.imgProgress = false
       this.imgProgressPercent = 0
     },
@@ -452,9 +451,7 @@ export default {
     },
     handleRemove(file, fileList) {
       this.ruleForm.imgList = fileList
-    },
-    handleChange(file, fileList) {
-      this.ruleForm.file = fileList
+      this.ruleForm.file = fileList.map(f => getImgIdFromUrl(f.url))
     },
     // 添加销售规格
     addAttribute(res) {

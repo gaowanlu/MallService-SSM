@@ -32,10 +32,12 @@ export const mutations = {
     removeToken("expires_in");
     removeToken("refresh_token");
     removeToken("token_type");
+    removeToken("JSESSIONID");
     state.hasLogin = false;
     state.userInfo = {};
   },
   loginCheck(state) {
+    console.log(state)
     if (!state.hasLogin) {
       store.set("route", {
         path: $nuxt.$route.path,

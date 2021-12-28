@@ -1,4 +1,10 @@
 import moment from 'moment'
+
+export function getImgIdFromUrl(url) {
+  const imgIdRe = /(?<=imgId=)[\w\d]*/
+  return imgIdRe.exec(url)[0]
+}
+
 export function createFormData(data) {
   const formData = new FormData()
   for (const key of Object.keys(data)) {

@@ -6,17 +6,17 @@
         <address-list class="address-box-list" :select="true" @selectedAddress="selectedAddress"/>
         <div class="title">确认订单信息</div>
         <el-table
-          :data="ruleForm.indentCommodity"
+          :data="ruleForm.goods"
           ref="table"
           class="table">
           <el-table-column
             align="center"
             width="100">
             <template slot-scope="scope">
-              <NuxtLink :to="{ path: '/product/detail', query: { id: scope.row.good_id }}">
+              <NuxtLink :to="{ path: '/product/detail', query: { id: scope.row.goodId }}">
                 <el-image
                   class="image"
-                  :src="scope.row.img | smallImage(80)"
+                  :src="scope.row.imgsURL[0]"
                   fit="cover"/>
               </NuxtLink>
             </template>
@@ -24,9 +24,8 @@
           <el-table-column
             label="商品名称">
             <template slot-scope="scope">
-              <NuxtLink :to="{ path: '/product/detail', query: { id: scope.row.good_id }}">
+              <NuxtLink :to="{ path: '/product/detail', query: { id: scope.row.goodId }}">
                 <p>{{scope.row.name}}</p>
-                <p class="specification">{{scope.row.specification}}</p>
               </NuxtLink>
             </template>
           </el-table-column>
@@ -43,7 +42,7 @@
             width="150"
             align="center">
             <template slot-scope="scope">
-              {{scope.row.number}}
+              {{scope.row.num }}
             </template>
           </el-table-column>
           <el-table-column
@@ -51,7 +50,7 @@
             width="150"
             align="center">
             <template slot-scope="scope">
-              {{(scope.row.price * scope.row.number) | thousands}}
+              {{(scope.row.price * scope.row.num) | thousands}}
             </template>
           </el-table-column>
         </el-table>
@@ -61,7 +60,7 @@
               type="textarea"
               :autosize="{ minRows: 2, maxRows: 4}"
               placeholder="请输入备注信息"
-              v-model="ruleForm.remark"
+              v-model="ruleForm.mark"
               maxlength="200"
               show-word-limit>
             </el-input>
@@ -70,7 +69,7 @@
         <div class="count-detail">
           <div class="bill-item">
             <div class="bill-name">商品件数：</div>
-            <div class="bill-money">{{ruleForm.indentCommodity.length}}件</div>
+            <div class="bill-money">{{ruleForm.goods.length}}件</div>
           </div>
           <div class="bill-item">
             <div class="bill-name">商品总价：</div>
@@ -78,12 +77,13 @@
           </div>
           <div class="bill-item">
             <div class="bill-name">运费：</div>
-            <div class="bill-money">{{ruleForm.carriage | thousands}}元</div>
+            <div class="bill-money">{{0 | thousands}}元</div>
+            <!-- <div class="bill-money">{{ruleForm.carriage | thousands}}元</div> -->
           </div>
           <div class="bill-item" style="margin-top:10px;">
             <div class="bill-name">
               <div class="name">应付总额：</div>
-              <div class="price">{{(ruleForm.carriage+total) | thousands}}</div>
+              <div class="price">{{total | thousands}}</div>
               <div class="unit">元</div>
             </div>
           </div>

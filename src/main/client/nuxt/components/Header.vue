@@ -80,31 +80,28 @@
                           class="image"
                           :to="{
                             path: '/product/detail',
-                            query: { id: item.good_id }
+                            query: { id: item.goodId }
                           }"
                         >
-                          <el-image :src="item.img" fit="scale-down" />
+                          <el-image :src="item.imgsURL[0]" fit="scale-down" />
                         </NuxtLink>
                         <NuxtLink
                           :to="{
                             path: '/product/detail',
-                            query: { id: item.good_id }
+                            query: { id: item.goodId }
                           }"
                           class="title"
                         >
                           {{ item.name }}
                         </NuxtLink>
                         <div class="price">
-                          {{ item.price }}元 × {{ item.number }}
+                          {{ item.price }}元 × {{ item.num }}
                         </div>
                         <div class="close">
                           <i
                             class="el-icon-delete"
                             @click="deleteCart(index)"
                           ></i>
-                        </div>
-                        <div class="invalid" v-if="item.invalid">
-                          商品已失效
                         </div>
                       </div>
                     </div>

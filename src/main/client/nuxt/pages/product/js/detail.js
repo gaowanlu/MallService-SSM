@@ -1,6 +1,6 @@
 const store = require("store");
 import { detail } from "@/api/good";
-import { addShoppingCart } from "@/api/goodIndent";
+import { updateCart } from "@/api/goodIndent";
 import {
   create as collectCreate,
   destroy as collectDestroy,
@@ -96,18 +96,14 @@ export default {
       this.specificationDefaultDisplay = data;
     },
     buy() {
-      console.log($nuxt.$store.state)
       if (!$nuxt.$store.state.hasLogin) {
         $nuxt.$store.commit("loginCheck");
         return false;
       }
       const cartMap = new Map()
       cartMap.set(this.goodDetail.goodId, {
-        price: this.goodDetail.price * this.cartGood.number,
+        ...this.goodDetail,
         number: this.cartGood.number,
-        name: this.goodDetail.name,
-        goodId: this.goodDetail.goodId,
-        img: this.goodDetail.imgsURL[0]
       });
       store.set(process.env.CACHE_PR + "OrderList", [...cartMap.values()]);
       this.$router.replace("/indent/create");
@@ -164,9 +160,11 @@ export default {
         });
       }
       store.set(process.env.CACHE_PR + "CartList", [...cartMap.values()]);
-      addShoppingCart({
-        goodId: this.goodDetail.goodId,
-        num: this.cartGood.number
+      updateCart([...cartMap.values()].map(o => ({
+        goodId: o.goodId,
+        num: o.number
+      }))).then(() => {
+        this.$message.success("加入购物车成功");
       });
     }
   }

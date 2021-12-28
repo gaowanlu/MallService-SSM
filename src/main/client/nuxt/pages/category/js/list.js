@@ -10,19 +10,8 @@ export default {
       let [ goodCategoryData ] = await Promise.all([
         getGoodCategory({tree: true})
       ]);
-      for(let item of goodCategoryData){
-        if(item.children){
-          item.level = 3;
-          for(let item2 of item.children){
-            if(item2.resources){
-              item.level = 2
-            }
-            break
-          }
-        }
-      }
       return {
-        goodCategory: goodCategoryData
+        goodCategory: goodCategoryData.types
       }
     } catch(err) {
       ctx.$errorHandler(err)

@@ -48,3 +48,14 @@ export function getAuthGroupList(query) {
     params: query
   })
 }
+
+export function uploadImage(data) {
+  return request({
+    url: 'admin/img/upload',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    },
+    data
+  })
+}
