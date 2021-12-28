@@ -3,7 +3,7 @@ import { Message, MessageBox } from "element-ui";
 import store from "@/store";
 import { getToken } from "@/plugins/auth";
 const service = axios.create({
-  baseURL: process.env.API_URL,
+  baseURL: '/api',
   timeout: 50000,
   proxy: process.env.NODE_ENV === 'development' ? {
     host: 'localhost',
@@ -47,14 +47,13 @@ service.interceptors.response.use(
     // console.log('err' + error) // for debug
     // console.log("error.response.data", error.response.data);
 
+    console.log({error})
+
     if (
-      error.response.data.status_code === 500 &&
-      (error.response.data.message.indexOf("The refresh token is invalid") !==
-        -1 ||
-        error.response.data.message.indexOf("Unauthenticated") !== -1)
+      error.response.status === 403 && !error.response.data.result
     ) {
       $nuxt.$store.commit("logout");
-      location.reload();
+      // location.reload();
     } else {
       Message({
         message: error.response.data.message || '未知错误',

@@ -15,62 +15,118 @@
           <div class="state">交易状态</div>
           <div class="operation">交易操作</div>
         </div>
-        <div class="li" v-for="(item, index) in goodIndentList" :key="index">
+        <div class="li" v-for="(item, index) in orderList" :key="index">
           <div class="top">
-            <div class="time">{{item.created_at}}</div>
-            <div class="odd">订单号: <span>{{item.identification}}</span></div>
-            <div class="delete"v-if="item.state===4 || item.state===5 || item.state===6 || item.state===7" @click="deleteOrder(item)"><i class="el-icon-delete"></i></div>
+            <div class="time">{{ item.order.time }}</div>
+            <div class="odd">
+              订单号: <span>{{ item.order.orderId }}</span>
+            </div>
+            <div
+              class="delete"
+              v-if="
+                item.state === 4 ||
+                  item.state === 5 ||
+                  item.state === 6 ||
+                  item.state === 7
+              "
+              @click="deleteOrder(item)"
+            >
+              <i class="el-icon-delete"></i>
+            </div>
           </div>
           <div class="details">
             <div class="good">
-              <div class="good-li"  v-for="(item2, index2) in item.goods_list" :key="index2">
-                <NuxtLink :to="{ path: '/product/detail', query: { id: item2.good_id }}">
-                  <el-image
-                    class="image"
-                    :src="item2.img | smallImage(80)"
-                    fit="cover"/>
+              <div
+                class="good-li"
+                v-for="(good, goodIndex) in item.orderGoods"
+                :key="goodIndex"
+              >
+                <NuxtLink
+                  :to="{ path: '/product/detail', query: { id: good.good_id } }"
+                >
+                  <el-image class="image" :src="good.imgsURL[0]" fit="cover" />
                 </NuxtLink>
                 <div class="good-name">
-                  <NuxtLink :to="{ path: '/product/detail', query: { id: item2.good_id }}">{{item2.name}}</NuxtLink>
-                  <div class="price">￥{{item2.price}} x {{item2.number}}</div>
-                  <div class="specification">{{item2.specification}}</div>
+                  <NuxtLink
+                    :to="{
+                      path: '/product/detail',
+                      query: { id: good.good_id }
+                    }"
+                    >{{ good.name }}</NuxtLink
+                  >
+                  <div class="price">￥{{ good.price }} x {{ good.num }}</div>
                 </div>
               </div>
             </div>
             <div class="total">
               <div>
-                <div>￥{{item.total | thousands}}</div>
-                <div class="freight">(含运费：￥{{item.carriage?item.carriage: 0 | thousands}})</div>
+                <div>￥{{ item.order.priceCount | thousands }}</div>
+                <div class="freight">(含运费：￥{{ 0 | thousands }})</div>
               </div>
             </div>
             <div class="state">
               <div>
-                <div>{{item.state_show}}</div>
-                <NuxtLink :to="{ path: '/user/indent/detail', query: { id: item.id }}">订单详情</NuxtLink>
+                <div>{{ item.order.status }}</div>
+                <NuxtLink
+                  :to="{ path: '/user/indent/detail', query: { id: item.order.orderId } }"
+                  >订单详情</NuxtLink
+                >
               </div>
             </div>
             <div class="operation">
               <div>
-                <NuxtLink :to="{ path: '/money/pay', query: { id: item.id }}" v-if="item.state === 1"><div class="button"><el-button type="danger" size="mini" round>立即付款</el-button></div></NuxtLink>
-                <div v-if="item.state === 3" class="button"><el-button :loading="buttonLoading" type="danger" size="mini" round @click="confirmReceipt(item)">确认收货</el-button></div>
-                <div v-if="item.state === 1" class="button"><el-button :loading="buttonLoading" size="mini" round @click="cancelOrder(item)">取消订单</el-button></div>
+                <NuxtLink
+                  :to="{ path: '/money/pay', query: { id: item.order.orderId } }"
+                  v-if="item.order.status === '待付款'"
+                  ><div class="button">
+                    <el-button type="danger" size="mini" round
+                      >立即付款</el-button
+                    >
+                  </div></NuxtLink
+                >
+                <div v-if="item.order.status === '已发货'" class="button">
+                  <el-button
+                    :loading="buttonLoading"
+                    type="danger"
+                    size="mini"
+                    round
+                    @click="confirmReceipt(item)"
+                    >确认收货</el-button
+                  >
+                </div>
+                <div v-if="item.order.status === '待发货'" class="button">
+                  <el-button
+                    :loading="buttonLoading"
+                    size="mini"
+                    round
+                    @click="cancelOrder(item)"
+                    >取消订单</el-button
+                  >
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="operation">
-        <pagination v-if="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" class="pagination" @pagination="getList"/>
+        <pagination
+          v-if="total > 0"
+          :total="total"
+          :page.sync="listQuery.page"
+          :limit.sync="listQuery.limit"
+          class="pagination"
+          @pagination="getList"
+        />
       </div>
     </div>
   </div>
 </template>
 
-<style lang='scss' scoped>
-  @import "./scss/list";
+<style lang="scss" scoped>
+@import "./scss/list";
 </style>
 
 <script>
-import js from './js/list'
-export default js
+import js from "./js/list";
+export default js;
 </script>

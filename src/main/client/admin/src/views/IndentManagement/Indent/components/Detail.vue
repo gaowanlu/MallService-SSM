@@ -8,19 +8,19 @@
         <el-col :span="1"/>
       </el-row>
       <el-row type="flex" style="line-height: 35px;font-size: 14px;">
-        <el-col :span="10">下单时间：{{ list.created_at }}</el-col>
-        <el-col :span="10">买家信息：{{ list.good_location ? list.good_location.name : '' }}</el-col>
+        <el-col :span="10">下单时间：{{ list.order.time }}</el-col>
+        <el-col :span="10">买家信息：{{ list.order.name }}</el-col>
         <el-col :span="2" style="color: rgba(0, 0, 0, 0.447)">状态</el-col>
         <el-col :span="2" style="color: rgba(0, 0, 0, 0.447)">订单金额</el-col>
       </el-row>
       <el-row type="flex" style="line-height: 35px;font-size: 14px;">
         <el-col :span="10">备注：{{ list.remark ? list.remark : '无' }}</el-col>
-        <el-col :span="10">联系方式：{{ list.good_location ? list.good_location.cellphone : '' }}</el-col>
-        <el-col :span="2" style="font-weight: bold;font-size: 18px;">{{ list.state_show }}</el-col>
-        <el-col :span="2" style="font-weight: bold;font-size: 18px;">¥ {{ list.total | 1000 }}</el-col>
+        <el-col :span="10">联系方式：{{ list.order.phone }}</el-col>
+        <el-col :span="2" style="font-weight: bold;font-size: 18px;">{{ list.order.status }}</el-col>
+        <el-col :span="2" style="font-weight: bold;font-size: 18px;">¥ {{ list.order.priceCount | 1000 }}</el-col>
       </el-row>
       <el-row type="flex" style="line-height: 35px;font-size: 14px;">
-        <el-col v-if="list.good_location" :span="14">收货地址：{{ list.good_location.location }} ({{ list.good_location.address }})</el-col>
+        <el-col :span="14">收货地址：{{ list.order.address }}</el-col>
       </el-row>
     </el-card>
     <!-- 订单进度 -->
@@ -29,8 +29,8 @@
         <span>订单进度</span>
       </div>
       <el-steps :active="order_progress" align-center>
-        <el-step :description="list.created_at" title="买家下单"/>
-        <el-step :description="list.pay_time !== '1970-01-01 08:00:00' ? list.pay_time : ''" title="买家付款"/>
+        <el-step :description="list.order.time" title="买家下单"/>
+        <el-step :description="list.order.time" title="买家付款"/>
         <el-step :description="list.shipping_time !== '1970-01-01 08:00:00' ? list.shipping_time : ''" title="商家发货"/>
         <el-step :description="list.confirm_time !== '1970-01-01 08:00:00' ? list.confirm_time : ''" title="交易完成"/>
       </el-steps>
@@ -39,10 +39,9 @@
     <el-card shadow="always" style="margin-top: 25px">
       <div slot="header" class="clearfix">
         <span>商品信息</span>
-        <el-link :underline="false" type="primary" class="invoice" @click="dialogInvoiceVisible = true">送货单</el-link>
       </div>
       <el-table
-        :data="list.goods_list"
+        :data="list.orderGoods"
         :summary-method="getSummaries"
         border
         show-summary
@@ -53,17 +52,15 @@
           width="50"/>
         <el-table-column align="center" width="80">
           <template slot-scope="scope">
-            <el-image :src="scope.row.img" :preview-src-list="[scope.row.img]" style="width:45px;height:45px;"/>
+            <el-image
+              :src="scope.row.imgsURL[0]"
+              :preview-src-list="scope.row.imgsURL"
+              style="width:45px;height:45px;"/>
           </template>
         </el-table-column>
         <el-table-column label="商品" align="left">
           <template slot-scope="scope">
             <router-link :to="{ path: '/commodityManagement/good/goodDetail', query: { id: scope.row.good_id }}" target="_blank"> {{ scope.row.name }}</router-link>
-          </template>
-        </el-table-column>
-        <el-table-column label="规格">
-          <template slot-scope="scope">
-            <span>{{ scope.row.specification }}</span>
           </template>
         </el-table-column>
         <el-table-column label="单价（元）" align="center">
@@ -73,58 +70,12 @@
         </el-table-column>
         <el-table-column label="数量（件）" align="center">
           <template slot-scope="scope">
-            <span>{{ scope.row.number }}</span>
+            <span>{{ scope.row.num }}</span>
           </template>
         </el-table-column>
         <el-table-column label="金额（元）" align="center">
           <template slot-scope="scope">
-            <span>{{ scope.row.price * scope.row.number }}</span>
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-card>
-    <!-- 在线支付记录 -->
-    <el-card shadow="always" style="margin-top: 25px">
-      <div slot="header" class="clearfix">
-        <span>在线支付记录</span>
-      </div>
-      <el-table
-        :data="list.payment_log_all"
-        border
-        style="width: 100%">
-        <el-table-column label="订单描述" align="left">
-          <template slot-scope="scope">
-            <span>{{ scope.row.name }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="商户订单号" align="left">
-          <template slot-scope="scope">
-            <span>{{ scope.row.number }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="第三方订单号" align="left">
-          <template slot-scope="scope">
-            <span>{{ scope.row.transaction_id }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="支付类型" align="center">
-          <template slot-scope="scope">
-            <span>{{ scope.row.type_show }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作金额（元）" align="center">
-          <template slot-scope="scope">
-            <span>{{ scope.row.money_show | 1000 }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="平台" align="center">
-          <template slot-scope="scope">
-            <span>{{ scope.row.platform_show }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="状态" align="center">
-          <template slot-scope="scope">
-            <span>{{ scope.row.state_show }}</span>
+            <span>{{ scope.row.price * scope.row.num }}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -227,74 +178,6 @@
         <el-button :loading="shipmentLoading" type="primary" @click="refundData()">{{ $t('usuel.confirm') }}</el-button>
       </div>
     </el-dialog>
-    <!-- 送货单-->
-    <el-dialog v-if="list.good_location" :visible.sync="dialogInvoiceVisible" :close-on-click-modal="false" center fullscreen class="delivery">
-      <div ref="print">
-        <div class="text-center title">{{ name }}</div>
-        <div class="text-center name">送货单</div>
-        <div class="message">
-          <div><span>客户姓名：</span>{{ list.good_location.name }}</div>
-          <div><span>订单号：</span>{{ list.identification }}</div>
-          <div><span>客户下单日期：</span>{{ list.created_at }}</div>
-        </div>
-        <div class="location"><span>送货地址：</span>{{ list.good_location.location }} ({{ list.good_location.address }})</div>
-        <div class="message">
-          <div><span>收货人：</span>{{ list.good_location.name }}</div>
-          <div><span>联系电话：</span>{{ list.good_location.cellphone }}</div>
-          <div><span/></div>
-        </div>
-        <div class="location"><span>备注：</span>{{ list.remark ? list.remark : '' }}</div>
-        <el-table
-          :data="list.goods_list"
-          :summary-method="getSummaries"
-          border
-          show-summary
-          style="width: 100%">
-          <el-table-column
-            type="index"
-            label="编号"
-            width="50"/>
-          <el-table-column label="商品编码" align="left">
-            <template slot-scope="scope">
-              <span>{{ scope.row.identification }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="货号" align="left">
-            <template slot-scope="scope">
-              <span>{{ scope.row.articleNumber }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="商品名称" align="left">
-            <template slot-scope="scope">
-              <span>{{ scope.row.name }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="规格">
-            <template slot-scope="scope">
-              <span>{{ scope.row.specification }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="单价（元）" align="center">
-            <template slot-scope="scope">
-              <span>{{ scope.row.price }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="数量（件）" align="center">
-            <template slot-scope="scope">
-              <span>{{ scope.row.number }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="金额（元）" align="center">
-            <template slot-scope="scope">
-              <span>{{ scope.row.price * scope.row.number }}</span>
-            </template>
-          </el-table-column>
-        </el-table>
-      </div>
-      <div class="operation">
-        <el-button type="primary" @click="print()">打印</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 <style lang="scss" scoped>
@@ -388,7 +271,7 @@
 </style>
 <script>
 import { detail, shipment, refund, query, dhl, receiving } from '@/api/indent'
-import { getList } from '@/api/dhl'
+// import { getList } from '@/api/dhl'
 import printJS from 'print-js'
 export default {
   name: 'IndentListDetails',
@@ -446,63 +329,14 @@ export default {
   },
   created() {
     this.getList()
-    this.getDhl()
   },
   methods: {
     getList() {
       this.listLoading = true
       detail(this.id).then(response => {
-        for (var k in response.data.goods_list) {
-          switch (response.data.state) {
-            case 1:
-              this.order_progress = 1
-              break
-            case 2:
-              this.order_progress = 2
-              break
-            case 3:
-              this.order_progress = 3
-              break
-            case 5:
-              this.order_progress = 4
-              break
-          }
-          response.data.goods_list[k].identification = response.data.goods_list[k].good.identification
-          response.data.goods_list[k].articleNumber = response.data.goods_list[k].good.number
-          if (response.data.goods_list[k].good_sku) {
-            response.data.goods_list[k].good_sku.product_sku.forEach(item => {
-              if (response.data.goods_list[k].specification) {
-                response.data.goods_list[k].specification += item.key + ':' + item.value + ';'
-              } else {
-                response.data.goods_list[k].specification = item.key + ':' + item.value + ';'
-              }
-            })
-            response.data.goods_list[k].specification = response.data.goods_list[k].specification.substr(0, response.data.goods_list[k].specification.length - 1)
-          }
-        }
-        this.receivingTemp.new_receiving_time = response.data.receiving_time
-        this.receivingTemp.id = response.data.id
-        this.list = response.data
-        this.refundTemp.refund_money = this.list.total
-        // 同步支付信息
-        const that = this
-        this.list.payment_log_all.forEach(function(element) {
-          if (element.state === 0) {
-            that.queryNumber(element)
-          }
-        })
+        this.list = response.data.orderItems[0]
+        this.order_progress = this.list.order.status === '待发货' ? 2 : 2
         this.listLoading = false
-      })
-    },
-    getDhl() {
-      getList().then(response => {
-        this.dhl = response.data
-        for (const item of this.dhl) {
-          if (item.is_default === 1) {
-            this.temp.dhl_id = item.id
-            break
-          }
-        }
       })
     },
     shipmentSubmit() {
@@ -607,30 +441,31 @@ export default {
     getSummaries(param) {
       const { columns, data } = param
       const sums = []
+      console.log({ columns })
       columns.forEach((column, index) => {
         if (index === 0) {
           sums[index] = '总价'
           return
         } else if (index === 1 || index === 2 || index === 3) {
           return
-        } else if (index === 6) {
+        } else if (index === 4) {
           if (data.length > 0) {
             sums[index] = data.reduce((prev, curr) => {
-              const value = Number(curr['number'])
+              const value = Number(curr['num'])
               if (!isNaN(value)) {
-                return prev + curr['number']
+                return prev + curr['num']
               } else {
                 return prev
               }
             }, 0)
             sums[index] += ' 件'
           }
-        } else if (index === 7) {
+        } else if (index === 5) {
           if (data.length > 0) {
             sums[index] = data.reduce((prev, curr) => {
               const value = Number(curr['price'])
               if (!isNaN(value)) {
-                return prev + curr['number'] * curr['price'] * 100
+                return prev + curr['num'] * curr['price'] * 100
               } else {
                 return prev
               }
@@ -673,7 +508,6 @@ export default {
       printJS({
         printable: list,
         header: `<div style="text-align: center;font-size: 26px;font-weight: bold;line-height: 50px;">${this.name}</div>
-        <div style="text-align: center;font-size: 20px;font-weight: bold;padding-bottom: 50px;">送货单</div>
         <div style="display: flex;">
           <div style="line-height: 30px;flex:1;"><span>客户姓名：</span>${this.list.good_location.name}</div>
           <div style="line-height: 30px;flex:1;"><span>订单号：</span>${this.list.identification}</div>

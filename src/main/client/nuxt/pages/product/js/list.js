@@ -1,4 +1,4 @@
-import {getList as getGoodList} from '@/api/good'
+import { getList as getGoodList } from "@/api/good";
 export default {
   data() {
     return {
@@ -6,75 +6,80 @@ export default {
       listQuery: {},
       loading: false,
       total: 0,
-      title: ''
-    }
+      title: ""
+    };
   },
-  async asyncData (ctx) {
+  async asyncData(ctx) {
     try {
       const { query } = ctx;
-      const listQuery={
-        limit: 20,
-        page: 1,
-        sort: '',
-        category_id: query.pid,
-        title: query.pid ? '': query.title
+      const listQuery = {
+        pageNow: 1,
+        pageSize: 10,
+        keyword: query.keyword ? query.keyword : '',
+        searchType: query.name ? query.name : '',
+        price: {
+          min: 0,
+          max: 0
+        },
+        goodId: ""
       };
-      let [goodData] = await Promise.all([
-        getGoodList(listQuery)
-      ])
+      let [goodData] = await Promise.all([getGoodList(listQuery)]);
       return {
-        goodList: goodData.data,
-        total: goodData.total,
+        goodList: goodData.commodities,
+        total: goodData.commodities.length,
         listQuery: listQuery,
-        title: query.title ? query.title : '全部商品'
-      }
-    } catch(err) {
-      ctx.$errorHandler(err)
+        title: query.name ? query.name : "全部商品"
+      };
+    } catch (err) {
+      ctx.$errorHandler(err);
     }
   },
-  head () {
+  head() {
     return {
-      title: this.title + (this.listQuery.pid ? '-商品分类-': '-搜索结果-') + process.env.APP_NAME
-    }
+      title:
+        this.title +
+        (this.listQuery.pid ? "-商品分类-" : "-搜索结果-") +
+        process.env.APP_NAME
+    };
   },
   methods: {
-    getList(){
+    getList() {
       this.loading = true;
-      Promise.all([
-        getGoodList(this.listQuery)
-      ]).then(([goodData]) => {
-        this.goodList = goodData.data;
-        this.total = goodData.total;
-        this.loading = false;
-      }).catch((error) => {
-        this.loading = false;
-      })
+      Promise.all([getGoodList(this.listQuery)])
+        .then(([goodData]) => {
+          this.goodList = goodData.data;
+          this.total = goodData.total;
+          this.loading = false;
+        })
+        .catch(error => {
+          this.loading = false;
+        });
     },
     //筛选点击
-    tabClick(index){
-      if(index){
-        if(index === 'sales'){
-          this.listQuery.sort = '-sales'
-        }else{
-          if(this.listQuery.sort !== '+order_price'){
-            this.listQuery.sort = '+order_price'
-          }else{
-            this.listQuery.sort = '-order_price'
+    tabClick(index) {
+      if (index) {
+        if (index === "sales") {
+          this.listQuery.sort = "-sales";
+        } else {
+          if (this.listQuery.sort !== "+order_price") {
+            this.listQuery.sort = "+order_price";
+          } else {
+            this.listQuery.sort = "-order_price";
           }
         }
-      }else{
-        this.listQuery.sort = ''
+      } else {
+        this.listQuery.sort = "";
       }
       this.listQuery.page = 1;
       this.getList();
     },
     handleSizeChange(val) {
       this.listQuery.limit = val;
-      this.getList()
+      this.getList();
     },
     handleCurrentChange(val) {
       this.listQuery.page = val;
-      this.getList()
+      this.getList();
     }
   }
-}
+};

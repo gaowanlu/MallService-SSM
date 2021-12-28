@@ -1,18 +1,8 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.title" placeholder="分类名称" style="width: 200px;" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-cascader
-        v-model="listQuery.pid"
-        :options="options"
-        :props="{ checkStrictly: true }"
-        filterable
-        clearable
-        style="top:-4px"/>
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">{{ $t('usuel.search') }}</el-button>
-      <el-button v-permission="$store.jurisdiction.CategoryCreate" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate()">{{ $t('usuel.add') }}</el-button>
+      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate()">{{ $t('usuel.add') }}</el-button>
     </div>
-
     <el-table
       v-loading="listLoading"
       :key="tableKey"
@@ -24,17 +14,7 @@
       @sort-change="sortChange">
       <el-table-column :label="$t('usuel.id')" align="center" width="65" sortable="custom" prop="id">
         <template slot-scope="scope">
-          <span>{{ scope.row.id }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="类目图标" align="center">
-        <template slot-scope="scope">
-          <el-image
-            v-if="scope.row.resources"
-            :src="scope.row.resources.img | smallImage(300)"
-            fit="scale-down"
-            style="width: 80px;"/>
-          <span v-else>无</span>
+          <span>{{ scope.row.goodTypeId }}</span>
         </template>
       </el-table-column>
       <el-table-column label="类目名称" align="center">
@@ -42,28 +22,12 @@
           <span>{{ scope.row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="排序" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.sort }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="状态" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.state_show }}</span>
-        </template>
-      </el-table-column>
       <el-table-column :label="$t('table.actions')" align="center" class-name="small-padding fixed-width" width="220">
         <template slot-scope="scope">
-          <el-tooltip v-permission="$store.jurisdiction.CategoryCreate" class="item" effect="dark" content="复制" placement="top-start">
-            <el-button type="success" icon="el-icon-document-copy" circle @click="handleCreate(scope.row)"/>
-          </el-tooltip>
-          <el-tooltip v-permission="$store.jurisdiction.CategoryCreate" class="item" effect="dark" content="添加子类" placement="top-start">
-            <el-button type="success" icon="el-icon-folder-add" circle @click="handleSonCreate(scope.row)"/>
-          </el-tooltip>
-          <el-tooltip v-permission="$store.jurisdiction.CategoryEdit" class="item" effect="dark" content="编辑" placement="top-start">
+          <el-tooltip content="编辑" placement="top-start">
             <el-button type="primary" icon="el-icon-edit" circle @click="handleUpdate(scope.row)"/>
           </el-tooltip>
-          <el-tooltip v-permission="$store.jurisdiction.CategoryDestroy" class="item" effect="dark" content="删除" placement="top-start">
+          <el-tooltip content="删除" placement="top-start">
             <el-button :loading="formLoading" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </el-tooltip>
         </template>
@@ -78,85 +42,6 @@
       <el-form ref="dataForm" :rules="adminRules" :model="temp" label-position="left" label-width="120px" style="width:90%;">
         <el-form-item label="类目名称" prop="name" style="width:400px;">
           <el-input v-model="temp.name" maxlength="30" clearable/>
-        </el-form-item>
-        <el-form-item label="上级类目" prop="pid">
-          <el-cascader
-            v-model="temp.pid"
-            :options="options"
-            :props="{ checkStrictly: true }"
-            filterable
-            clearable
-            style="top:-4px"/>
-        </el-form-item>
-        <el-form-item label="排序" prop="sort" style="width:200px;">
-          <el-input v-model="temp.sort" clearable/>
-        </el-form-item>
-        <el-form-item prop="sort">
-          <el-alert
-            title="排序值越小越靠前"
-            type="warning"/>
-        </el-form-item>
-        <el-form-item label="类目图标" prop="logo">
-          <el-upload
-            :show-file-list="false"
-            :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload"
-            :on-progress="handleProgress"
-            :action="actionurl"
-            :headers="imgHeaders"
-            :data="imgData"
-            class="avatar-uploader">
-            <span v-if="imgProgress">
-              <el-progress :percentage="imgProgressPercent" type="circle" class="progress-img"/>
-            </span>
-            <span v-else>
-              <el-image
-                v-if="temp.logo"
-                :src="temp.logo"
-                fit="scale-down"
-                class="avatar"/>
-              <i v-else class="el-icon-plus avatar-uploader-icon"/>
-            </span>
-            <div slot="tip" class="el-upload__tip">只能上传jpg/png/gif文件，且不超过500kb，尺寸推荐120*120</div>
-          </el-upload>
-        </el-form-item>
-        <el-form-item label="是否显示" prop="state">
-          <el-radio-group v-model="temp.state">
-            <el-radio :label="0">是</el-radio>
-            <el-radio :label="1">否</el-radio>
-          </el-radio-group>
-          <el-alert
-            title="如有子类，选择隐藏，将不会显示子类"
-            type="warning"/>
-        </el-form-item>
-        <el-form-item label="是否首页推荐" prop="is_recommend">
-          <el-radio-group v-model="temp.is_recommend">
-            <el-radio :label="1">是</el-radio>
-            <el-radio :label="0">否</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="规格" prop="specification">
-          <el-transfer
-            :filter-method="filterMethod"
-            :titles="['未选择', '已选择']"
-            :data="data"
-            v-model="temp.specification"
-            filterable
-            filter-placeholder="请输入规格名称"/>
-          <el-alert
-            title="添加分类规格后，在选择该分类时，自动获取所选规格"
-            type="warning"/>
-        </el-form-item>
-        <el-form-item label="品牌" prop="brand">
-          <el-transfer
-            :titles="['未选择', '已选择']"
-            :data="dataBrand"
-            v-model="temp.brand"
-            filterable
-            filter-placeholder="请输入品牌名称"/>
-          <el-alert
-            title="关联品牌后，该分类下将显示该品牌"
-            type="warning"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -247,26 +132,13 @@ export default {
       },
       imgProgress: false,
       temp: {
-        title: '',
-        api: '',
-        state: 0,
-        pid: [],
-        attribute: [],
-        brand: [],
-        sort: 5,
-        is_recommend: 0
+        name: ''
       },
       dialogFormVisible: false,
       dialogStatus: '',
       adminRules: {
         name: [
           { required: true, message: '类目名称必须填写', trigger: 'blur' }
-        ],
-        sort: [
-          { required: true, message: '排序必须填写', trigger: 'blur' }
-        ],
-        state: [
-          { required: true, message: '状态必须填写', trigger: 'blur' }
         ]
       },
       downloadLoading: false
@@ -278,26 +150,9 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      getList(this.listQuery).then(response => {
-        this.list = response.data.paginate.data
-        this.options = response.data.options
-        this.total = response.data.paginate.total
+      getList().then(response => {
+        this.list = response.data.types
         this.listLoading = false
-        const that = this
-        that.data = []
-        response.data.specification.forEach((res, index) => {
-          that.data.push({
-            label: res.label,
-            key: res.id
-          })
-        })
-        that.dataBrand = []
-        response.data.brand.forEach((res, index) => {
-          that.dataBrand.push({
-            label: res.name,
-            key: res.id
-          })
-        })
       })
     },
     handleFilter() {
@@ -376,9 +231,6 @@ export default {
       this.formLoading = true
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          if (this.temp.pid.length > 0) {
-            this.temp.pid = this.temp.pid.pop()
-          }
           edit(this.temp).then(() => {
             this.getList()
             this.dialogFormVisible = false

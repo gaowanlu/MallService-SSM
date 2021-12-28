@@ -61,10 +61,10 @@
           <el-divider></el-divider>
           <div class="shipping-address"></div>
           <div class="operation">
-            <el-button type="danger" plain @click="buy"
+            <el-button type="danger" :disabled="goodDetail.stock === 0" plain @click="buy"
               >立即购买</el-button
             >
-            <el-button type="danger" @click="addCart">加入购物车</el-button>
+            <el-button type="danger" :disabled="goodDetail.stock === 0" @click="addCart">加入购物车</el-button>
             <el-button
               type="info"
               :class="{ 'product-detail-on': collect }"

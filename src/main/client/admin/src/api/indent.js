@@ -2,16 +2,28 @@ import request from '@/utils/request'
 import Qs from 'qs'
 export function getList(query) {
   return request({
-    url: 'indent',
-    method: 'GET',
-    params: query
+    url: 'admin/order/search',
+    method: 'POST',
+    data: query
   })
 }
 
 export function detail(id) {
+  const data = {
+    'orderId': id,
+    'email': '',
+    'status': '',
+    'time': {
+      'max': '2099-12-31 23:59:59',
+      'min': '1970-01-01 00:00:00'
+    },
+    'pageSize': 20,
+    'pageNow': 1
+  }
   return request({
-    url: 'indent/' + id,
-    method: 'GET'
+    url: 'admin/order/search',
+    method: 'POST',
+    data
   })
 }
 

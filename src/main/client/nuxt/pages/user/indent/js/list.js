@@ -12,6 +12,7 @@ export default {
       buttonLoading: false,
       loading: false,
       goodIndentList: [],
+      orderList: [],
       total: 0,
       listQuery: {
         limit: 10,
@@ -22,33 +23,16 @@ export default {
     }
   },
   mounted() {
-    if($nuxt.$route.query.index){
-      this.listQuery.index = $nuxt.$route.query.index
-    }
     this.getList()
   },
   methods: {
     async getList(){
       this.loading = true;
       await Promise.all([
-        getList(this.listQuery)
-      ]).then(([goodIndent]) => {
-        this.goodIndentList = goodIndent.data;
-        goodIndent.data.forEach(item=>{
-          item.goods_list.forEach(items=>{
-            if(items.good_sku){
-              items.good_sku.product_sku.forEach(item2=>{
-                if(items.specification){
-                  items.specification+= item2.value + ';'
-                }else{
-                  items.specification = item2.value + ';'
-                }
-              })
-              items.specification = items.specification.substr(0,items.specification.length-1)
-            }
-          })
-        })
-        this.total = goodIndent.total;
+        getList()
+      ]).then(data => {
+        this.orderList = data[0].orderItems;
+        this.total = data.count;
         this.loading = false
       }).catch((error) => {
         this.loading = false
@@ -66,7 +50,7 @@ export default {
         type: 'warning'
       }).then(() => {
         this.buttonLoading = true
-        cancel(item.id).then(response => {
+        cancel(item.order.orderId).then(response => {
           this.buttonLoading = false;
           this.$message({
             message: '取消成功',

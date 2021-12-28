@@ -8,11 +8,14 @@ export function unifiedPayment(data) {
     data
   })
 }
-export function balancePay(data) {
-  data = Qs.parse(data)
+export function balancePay(orderId) {
+  const data = Qs.stringify({
+    orderId,
+    status: '待发货'
+  })
   return request({
-    url: 'balancePay',
-    method: 'POST',
+    url: 'user/order/update',
+    method: 'PUT',
     data
   })
 }

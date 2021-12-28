@@ -1,4 +1,4 @@
-import { addShoppingCart, synchronizationInventory } from "@/api/goodIndent";
+import { updateCart, getCartList } from "@/api/goodIndent";
 export default {
   data() {
     const validateRemark = (rule, value, callback) => {
@@ -44,7 +44,7 @@ export default {
     this.setNavActive($nuxt.$route.path);
     this.userInfo();
     if (this.$store.state.hasLogin) {
-      // this.getShoppingCart();
+      this.getShoppingCart();
     }
     this.searchRuleForm.keyword = $nuxt.$store.state.setSearchKeyword;
   },
@@ -56,41 +56,18 @@ export default {
         ? Object.values(this.store.get(process.env.CACHE_PR + "CartList"))
         : [];
       let total = 0;
-      synchronizationInventory()
+      getCartList()
         .then(response => {
           this.cartLoading = false;
-          this.cartOriginalList = response.carts;
           cartList = Object.values(response.carts);
-          for (const k in cartList) {
-            cartList[k].checked = true;
-            cartList[k].loaded = "loaded";
-            if (cartList[k].good_sku) {
-              cartList[k].good_sku.skus.forEach(item => {
-                if (cartList[k].specification) {
-                  cartList[k].specification += item.v + ";";
-                } else {
-                  cartList[k].specification = item.v + ";";
-                }
-              });
-              cartList[k].specification = cartList[k].specification.substr(
-                0,
-                cartList[k].specification.length - 1
-              );
-            }
-            if (
-              cartList[k].good.is_delete === 1 ||
-              cartList[k].good.is_show !== 1
-            ) {
-              cartList[k].invalid = true;
-            }
-            total += cartList[k].price * cartList[k].number;
-          }
           this.shoppingCart = cartList;
+          total = cartList.reduce((sum, cur) => sum + cur.num * cur.price, 0)
           $nuxt.$store.commit(
             "setShoppingCartNumber",
             Object.values(cartList).length
           );
           this.shoppingTotal = Number(total.toFixed(2));
+          this.shoppingCartNumber = cartList.reduce((count, cur) => count + cur.num, 0);
         })
         .catch(() => {
           this.cartLoading = false;
@@ -140,17 +117,14 @@ export default {
     },
     // 删除商品
     deleteCart(index) {
-      if (this.shoppingCart[index].good_sku_id) {
-        delete this.cartOriginalList[this.shoppingCart[index].good_sku_id];
-      } else {
-        delete this.cartOriginalList[
-          "good_" + this.shoppingCart[index].good_id
-        ];
-      }
-
       this.shoppingCart.splice(index, 1);
-      this.store.set(process.env.CACHE_PR + "CartList", this.cartOriginalList);
-      addShoppingCart(this.cartOriginalList);
+      const cartList = this.shoppingCart.map(o => ({
+          goodId: o.goodId,
+          num: o.number
+        })
+      );
+      this.store.set(process.env.CACHE_PR + "CartList", cartList);
+      updateCart(cartList);
       this.getShoppingCart();
     },
     // 搜索
@@ -160,7 +134,7 @@ export default {
           $nuxt.$store.commit("setSearchKeyword", this.searchRuleForm.keyword);
           this.$router.push({
             path: `/product/list`,
-            query: { title: this.searchRuleForm.keyword }
+            query: { keyword: this.searchRuleForm.keyword }
           });
         }
       });

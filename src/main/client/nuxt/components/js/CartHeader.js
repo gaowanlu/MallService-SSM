@@ -10,8 +10,8 @@ export default {
   },
   methods: {
     userInfo(){
-      if(this.$store.state.hasLogin){
-        this.user = this.store.get(process.env.CACHE_PR + 'UserInfo')
+      if ($nuxt.$store.state.hasLogin) {
+        this.user = $nuxt.store.get(process.env.CACHE_PR + "UserInfo");
       }
     },
     userMenu(){

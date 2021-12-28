@@ -1,67 +1,82 @@
-import request from '@/plugins/request'
-import Qs from 'qs'
-export function getList(query) {
+import request from "@/plugins/request";
+import Qs from "qs";
+export function getList() {
   return request({
-    url: 'goodIndent',
-    method: 'GET',
-    params: query
-  })
+    url: "user/order",
+    method: "GET"
+  });
 }
-export function detail(id) {
+export function detail(orderId) {
+  const data = Qs.stringify({
+    orderId
+  });
   return request({
-    url: 'goodIndent/detail/' + id,
-    method: 'GET'
-  })
+    url: "user/order/detail",
+    method: "POST",
+    data
+  });
 }
 export function quantity() {
   return request({
-    url: 'goodIndent/quantity',
-    method: 'GET'
-  })
+    url: "goodIndent/quantity",
+    method: "GET"
+  });
 }
 export function pay(id) {
   return request({
-    url: 'goodIndent/pay/' + id,
-    method: 'GET'
-  })
+    url: "goodIndent/pay/" + id,
+    method: "GET"
+  });
 }
 export function create(data) {
-  data = Qs.parse(data)
   return request({
-    url: 'goodIndent',
-    method: 'POST',
+    url: "user/order",
+    method: "POST",
     data
-  })
+  });
 }
 export function addShoppingCart(data) {
-  data = Qs.stringify(data)
+  data = Qs.stringify(data);
   return request({
-    url: 'user/cart',
-    method: 'POST',
+    url: "user/cart",
+    method: "POST",
     data
-  })
+  });
 }
-export function synchronizationInventory() {
+export function updateCart(data) {
+  // data = Qs.stringify(data)
   return request({
-    url: 'user/cart',
-    method: 'GET'
-  })
+    url: "user/cart",
+    method: "PUT",
+    data
+  });
+}
+export function getCartList() {
+  return request({
+    url: "user/cart",
+    method: "GET"
+  });
 }
 export function cancel(id) {
+  const data = Qs.stringify({
+    orderId: id,
+    status: "退款中"
+  });
   return request({
-    url: 'goodIndent/cancel/' + id,
-    method: 'POST'
-  })
+    url: "user/order/update",
+    method: "POST",
+    data
+  });
 }
 export function destroy(id) {
   return request({
-    url: 'goodIndent/destroy/' + id,
-    method: 'POST'
-  })
+    url: "goodIndent/destroy/" + id,
+    method: "POST"
+  });
 }
 export function receipt(id) {
   return request({
-    url: 'goodIndent/receipt/' + id,
-    method: 'POST'
-  })
+    url: "goodIndent/receipt/" + id,
+    method: "POST"
+  });
 }
