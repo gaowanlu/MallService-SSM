@@ -30,17 +30,15 @@ public class CommodityTypeServiceImpl implements CommodityTypeService{
                 GoodType goodType = goodTypeMapper.selectByName(postCommodityType.getName());
                 result = Integer.toString(goodType.getGoodTypeId());
             }
+            //更新
+        }else if (0 == postCommodityType.getOperator()) {
+            int line = goodTypeMapper.update(postCommodityType.getGoodTypeId(), postCommodityType.getName());
+            if (1 == line) {
+                result = "true";
+            }
         }
-        if (result == null) {//更新
-            if (0 == postCommodityType.getOperator()) {
-                int line = goodTypeMapper.update(postCommodityType.getGoodTypeId(), postCommodityType.getName());
-                if (1 == line) {
-                    result = "true";
-                }
-            }
-            if (result == null) {
-                result = "false";
-            }
+        if (result == null) {
+            result = "false";
         }
         return result;
     }

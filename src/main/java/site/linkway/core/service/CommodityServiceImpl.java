@@ -140,6 +140,9 @@ public class CommodityServiceImpl implements CommodityService {
                 String imgId=UUIDUtils.getUUID();//图片ID
                 Img img=new Img(imgId,fileType,fileSize,is);
                 if(1!=imgMapper.insert(img)){
+                    if(is!=null){
+                        is.close();
+                    }
                     return "false";
                 }
                 is.close();//更新good的detailImgId
@@ -184,6 +187,9 @@ public class CommodityServiceImpl implements CommodityService {
             String imgId=UUIDUtils.getUUID();//图片ID
             Img img=new Img(imgId,fileType,fileSize,is);
             if(1!=imgMapper.insert(img)){
+                if(is!=null){
+                    is.close();
+                }
                 return false;
             }
             is.close();
@@ -197,7 +203,7 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     /**
-     * 删除商品的某张图像
+     * 删除商品的某张展示图像
      *
      * @param imgId 图片id
      * @return 删除结果
@@ -208,7 +214,8 @@ public class CommodityServiceImpl implements CommodityService {
         int line=goodImgMapper.deleteByImgId(imgId);
         //再从img表中抹除
         if(1==line){
-            Img img=new Img();img.setImgId(imgId);
+            Img img=new Img();
+            img.setImgId(imgId);
             if(1==imgMapper.delete(img)){
                 return true;
             }

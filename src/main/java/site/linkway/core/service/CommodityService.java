@@ -57,7 +57,7 @@ public interface CommodityService {
     boolean addCommodityImg(String goodId, CommonsMultipartFile files[]) throws IOException;
 
     /**
-     * 删除商品的某张图像
+     * 删除商品的某张展示图像
      * @param imgId 图片id
      * @return 删除结果
      */
